@@ -1,0 +1,102 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+
+
+.logo{
+    height: 200px;
+    width:200px;
+    margin: 60px auto 20px;
+}
+.pl-10{
+    padding-left: 10px;
+}
+.mt-5{
+    margin-top: 5px;
+}
+.mt-10{
+    margin-top: 10px;
+}
+.mt-20per{
+    margin-top: 20%;
+}
+.m-30{
+    margin: 30px;
+}
+.fs-10{
+    font-size: 10px;
+
+}
+.fs-22{
+    font-size: 22px;
+}
+.fs-23{
+    font-size: 23px;
+}
+.green_text{
+    color: #72ca2f;
+}
+.grey_text{
+    color: #636363;
+}
+.grow{
+    flex-grow: 1;
+}
+.button{
+    --background: #72ca2f;
+    color: white;
+    height: 44px;
+    --border-radius: 2px !important;
+    font-size: 13px;   
+    letter-spacing: 0;
+}
+.select_box{
+    height: 42px;
+    width: 86%;
+    border: 1px solid #72ca2f;
+    border-radius: 4px;
+    color: #72ca2f;
+    font-size: 20px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    margin: auto;
+}
+.select_option{
+    position: absolute;
+    text-align: left;
+    width: 100%;
+    padding: 5px 15px;
+    background-color: white;
+    height: 60%;
+    overflow: scroll;
+    z-index: 100;
+}
+ion-input{
+    border: 1px solid #72ca2f;
+    height: 36px !important;   
+}

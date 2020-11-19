@@ -1,0 +1,7 @@
+{
+  "name": "tmaster",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
