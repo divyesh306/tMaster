@@ -1,12 +1,12 @@
 <ion-content>
   <div class="ion-text-center mt-20per">
     <ion-label class="fs-22 grey_text">Verify your mobile number</ion-label>
-    <div class="fs-10 grey_text m-30">Tokmay App will send SMS message to verify your <br> Phone Number, Enter your country code and <br> phone number.</div>
+    <div class="fs-11 grey_text m-30">Tokmay App will send SMS message to verify your <br> Phone Number, Enter your country code and <br> phone number.</div>
     <div class="select_box" (click)="selectOption()">
       <ion-label class="grow no_wrap">{{selectedCountry}}</ion-label>
       <img src="../../assets/right-arrow.svg" alt="">
     </div>
-    <div class="select_option" *ngIf="selectOpen">
+    <!-- <div class="select_option" *ngIf="selectOpen">
 				<p value="US" (click)="optionSelected('United States')">United States</p>
 				<p value="UM" (click)="optionSelected('United States Minor Outlying Islands')">United States Minor Outlying Islands</p>
 				<p value="UY" (click)="optionSelected('Uruguay')">Uruguay</p>
@@ -21,7 +21,7 @@
 				<p value="YE" (click)="optionSelected('Yemen')">Yemen</p>
 				<p value="ZM" (click)="optionSelected('Zambia')">Zambia</p>
 				<p value="ZW" (click)="optionSelected('Zimbabwe')">Zimbabwe</p>
-    </div>
+    </div> -->
     <ion-row>
       <ion-col size="3">
         <ion-input></ion-input>
@@ -30,6 +30,11 @@
         <ion-input></ion-input>
       </ion-col>
     </ion-row>
-    <ion-button class="button">NEXT</ion-button>
+    <ion-button class="green_button" (click)="next()">NEXT</ion-button>
+    <!-- <ion-list *ngIf="selectBoxOpen">
+      <ion-item *ngFor="let item of countries" class="ion-text-center" lines="none">
+        <ion-label>{{item}}</ion-label>
+      </ion-item>
+    </ion-list> -->
   </div>
 </ion-content>

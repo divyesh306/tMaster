@@ -26,55 +26,116 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 
-
-.logo{
+.logo {
     height: 200px;
-    width:200px;
+    width: 200px;
     margin: 60px auto 20px;
 }
-.pl-10{
-    padding-left: 10px;
-}
-.mt-5{
-    margin-top: 5px;
-}
-.mt-10{
-    margin-top: 10px;
-}
-.mt-20per{
-    margin-top: 20%;
-}
-.m-30{
-    margin: 30px;
-}
-.fs-10{
-    font-size: 10px;
-
-}
-.fs-22{
+ion-title {
+    color: white;
     font-size: 22px;
 }
-.fs-23{
-    font-size: 23px;
+.pl-10 {
+    padding-left: 10px;
 }
-.green_text{
+.m-0 {
+    margin: 0 !important;
+}
+.mt-5 {
+    margin-top: 5px;
+}
+.mt-10 {
+    margin-top: 10px;
+}
+.mt-10per {
+    margin-top: 10%;
+}
+.mt-20per {
+    margin-top: 20%;
+}
+.m-30 {
+    margin: 30px;
+}
+.fs-11 {
+    font-size: 11px;
+
+}
+.fs-12 {
+    font-size: 12px;
+
+}
+.fs-22 {
+    font-size: 22px;
+}
+.fs-25 {
+    font-size: 25px;
+}
+.float_left {
+    float: left;
+}
+.float_right {
+    float: right;
+}
+.green_text {
     color: #72ca2f;
 }
-.grey_text{
+.grey_text {
     color: #636363;
 }
-.grow{
+.row {
+    display: flex;
+    align-items: center;
+}
+.column {
+    display: flex;
+    flex-direction: column;
+}
+.grow {
     flex-grow: 1;
 }
-.button{
+ion-radio {
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+}
+ion-item-divider {
+    height: 1px !important;
+    min-height: 1px !important;
+    width: 85%;
+    margin: 20px auto;
+    --background: #707070;
+}
+ion-avatar {
+    height: 120px;
+    width: 120px;
+    margin: -10px auto 0;
+}
+.green_button {
     --background: #72ca2f;
     color: white;
-    height: 44px;
+    height: 47px;
     --border-radius: 2px !important;
-    font-size: 13px;   
+    font-size: 14px;
     letter-spacing: 0;
 }
-.select_box{
+.grey_button {
+    --background: #979797;
+    color: white;
+    height: 47px;
+    --border-radius: 2px !important;
+    font-size: 14px;
+    letter-spacing: 0;
+}
+.red_button {
+    --background: #ca2f2f;
+    color: white;
+    height: 47px;
+    width: 130px;
+    --border-radius: 2px !important;
+    font-size: 14px;
+    letter-spacing: 0;
+}
+.select_box {
     height: 42px;
     width: 86%;
     border: 1px solid #72ca2f;
@@ -86,7 +147,7 @@
     align-items: center;
     margin: auto;
 }
-.select_option{
+.select_option {
     position: absolute;
     text-align: left;
     width: 100%;
@@ -96,7 +157,29 @@
     overflow: scroll;
     z-index: 100;
 }
-ion-input{
+.cross_icon {
+    height: 40px;
+    width: 40px;
+}
+ion-input {
     border: 1px solid #72ca2f;
-    height: 36px !important;   
+    height: 36px !important;
+}
+ion-input.red_border {
+    border: 1px solid #ca2f2f;
+    height: 36px !important;
+}
+ion-input.p0 {
+    .native-input.sc-ion-input-md {
+        padding: 0 !important;
+    }
+}
+.picker-prefix,
+.picker-suffix,
+.picker-opt.picker-opt-selected {
+    color: #72ca2f;
+}
+.picker-button.sc-ion-picker-md,
+.picker-button.ion-activated.sc-ion-picker-md {
+    color: #72ca2f;
 }

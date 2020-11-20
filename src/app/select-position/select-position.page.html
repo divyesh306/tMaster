@@ -1,0 +1,38 @@
+<ion-content>
+  <div class="ion-text-center mt-20per">
+    <ion-label class="fs-25 green_text">Registration</ion-label>
+    <ion-item-divider></ion-item-divider>
+    <div class="fs-11 grey_text">You can enjoy this app as you are Counselor of Client.. <br> When you can earn coins,
+      spend coinn when you have trouble..</div><br>
+    <div class="fs-11 grey_text">As perform your speciality job, talented, speaking, etc... <br> Freestyle enjoying
+      video chatting.</div><br>
+    <div class="fs-11 grey_text">Your position is alternative changable! Don't be hurry!</div><br><br>
+
+    <ion-label class="fs-25 green_text mt-10">Select Position</ion-label>
+
+
+    <ion-row class="ion-padding row" (click)="positionSelected('Client')">
+      <ion-col size="5" class="ion-no-padding">
+        <img src="../../assets/logo.svg" alt="" class="position_logo">
+      </ion-col>
+      <ion-col size="7" class="ion-no-padding">
+        <div class="column">
+          <ion-label class="fs-25 blue_text">Client</ion-label>
+          <ion-label class="fs-11 grey_text">If you have any trouble in your life</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-label class="fs-25 grey_text">Or</ion-label>
+    <ion-row class="ion-padding row" (click)="positionSelected('Counselor')">
+      <ion-col size="5" class="ion-no-padding">
+        <img src="../../assets/logo.svg" alt="" class="position_logo">
+      </ion-col>
+      <ion-col size="7" class="ion-no-padding">
+        <div class="column">
+          <ion-label class="fs-25 pink_text">Counselor</ion-label>
+          <ion-label class="fs-11 grey_text">If you can resolve anyone's trouble</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

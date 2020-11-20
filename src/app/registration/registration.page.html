@@ -1,0 +1,79 @@
+<div class="ion-text-center mt-13per">
+  <ion-label class="fs-25 green_text">Registration</ion-label>
+  <ion-item-divider></ion-item-divider>
+  <ion-avatar class="p-relative">
+    <img src="../../assets/avatar_img.jpg" alt="">
+    <ion-icon name="camera" class="camera_icon"></ion-icon>
+  </ion-avatar>
+  <ion-label class="fs-12 grey_text">Take your own 3 sec video with face mask</ion-label>
+  <div class="border_div"></div>
+
+  <ion-row class="row content_row">
+    <ion-col size="10" class="ion-text-left column">
+      <ion-label class="fs-11 grey_text">Nickname</ion-label>
+      <ion-label class="fs-12">Nickname</ion-label>
+    </ion-col>
+    <ion-col size="2" class="ion-text-right" (click)="fillForm('User Name')">
+      <ion-icon name="chevron-forward" class="arrow_icon"></ion-icon>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="row content_row">
+    <ion-col size="10" class="ion-text-left column">
+      <ion-label class="fs-11 grey_text">Birth</ion-label>
+      <ion-label class="fs-12">Nickname</ion-label>
+    </ion-col>
+    <ion-col size="2" class="ion-text-right" (click)="fillForm('Birth')">
+      <!-- <ion-datetime displayFormat="MMMM YYYY" value="1994-12-15T13:47:20.789"> </ion-datetime> -->
+      <ion-icon name="chevron-forward" class="arrow_icon"></ion-icon>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="row content_row">
+    <ion-col size="10" class="ion-text-left column">
+      <ion-label class="fs-11 grey_text">Gender</ion-label>
+      <ion-label class="fs-12">Nickname</ion-label>
+    </ion-col>
+    <ion-col size="2" class="ion-text-right" (click)="fillForm('Sex')">
+      <ion-icon name="chevron-forward" class="arrow_icon"></ion-icon>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="row content_row">
+    <ion-col size="10" class="ion-text-left column">
+      <ion-label class="fs-11 grey_text">Job</ion-label>
+      <ion-label class="fs-12">Nickname</ion-label>
+    </ion-col>
+    <ion-col size="2" class="ion-text-right" (click)="fillForm('Job')">
+      <ion-icon name="chevron-forward" class="arrow_icon"></ion-icon>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="row content_row">
+    <ion-col size="10" class="ion-text-left column">
+      <ion-label class="fs-11 grey_text">Minute Rating</ion-label>
+      <ion-label class="fs-12">Nickname</ion-label>
+    </ion-col>
+    <ion-col size="2" class="ion-text-right" (click)="fillForm('Minute Rating')">
+      <ion-icon name="chevron-forward" class="arrow_icon"></ion-icon>
+    </ion-col>
+  </ion-row>
+
+  <div class="border_div"></div>
+
+  <ion-row class="tags_padding row content_row m-0">
+    <ion-col size="10" class="ion-text-left">
+      <ion-label class="fs-11 grey_text">Appeal tags</ion-label><br>
+      <ion-label class="fs-12">#sparetime#participatein#nightlonely</ion-label>
+    </ion-col>
+    <ion-col size="2" class="ion-text-right" (click)="fillForm('Appeal Tag')">
+      <ion-icon name="chevron-forward" class="arrow_icon"></ion-icon>
+    </ion-col>
+  </ion-row>
+
+  <div class="bottom_div">
+    <ion-label class="fs-11 grey_text">Recommended to add many tags that you related</ion-label><br>
+    <ion-button class="green_button" (click)="next()">NEXT</ion-button>
+  </div>
+
+</div>

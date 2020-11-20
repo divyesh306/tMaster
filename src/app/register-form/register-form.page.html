@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="row">
+      <ion-icon name="chevron-back" class="arrow_icon" (click)="goBack()"></ion-icon>
+      <ion-title>{{title}}</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="m-30" *ngIf="title=='User Name'">
+    <ion-label class="fs-11 grey_text float_right mt-10">3/20</ion-label>
+    <ion-input type="text" placeholder="Jes"></ion-input>
+    <ion-button class="green_button" (click)="save()">SAVE</ion-button>
+  </div>
+
+  <div class="m-30" *ngIf="title=='Sex'">
+    <ion-radio-group class="row">
+      <ion-col>
+        <ion-item lines="none">
+          <ion-radio value="Male" color="success"></ion-radio>
+          <ion-label>Male</ion-label>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item lines="none">
+          <ion-radio value="Female" color="success"></ion-radio>
+          <ion-label>Female</ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-radio-group>
+    <div class="fs-11 grey_text ion-text-center mt-10">Gender can not be changed after initial registration. <br>
+    (Please contact us if you want to change)</div>
+    <ion-button class="green_button" (click)="save()">SAVE</ion-button>
+  </div>
+
+  <div class="m-30" *ngIf="title=='Job'">
+    <ion-input type="text" placeholder="Artist"></ion-input>
+    <div class="fs-11 grey_text ion-text-center mt-10">Job can be available to edit on profile page. </div>
+    <ion-button class="green_button" (click)="save()">SAVE</ion-button>
+    </div>
+
+  <div class="m-30" *ngIf="title=='Minute Rating'">
+    <ion-input type="text" placeholder="300"></ion-input>
+    <div class="fs-11 grey_text ion-text-center mt-10">Minute rating is maximum 400 and minimum 0. <br>
+    Rating amount can be available to edit on profile page</div>
+    <ion-button class="green_button" (click)="save()">SAVE</ion-button>
+  </div>
+
+  <div class="m-30" *ngIf="title=='Appeal Tag'">
+    <ion-textarea type="text" placeholder="Tag text here" rows="4"></ion-textarea>
+    <div class="fs-11 grey_text ion-text-center mt-10">Tags can be available to edit on profile page.</div>
+    <ion-button class="green_button" (click)="save()">SAVE</ion-button>
+  </div>
+</ion-content>
