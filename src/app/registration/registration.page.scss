@@ -43,3 +43,26 @@
         margin-top: 10%;
     }
 }
+.h-40{
+    height: 40px !important;
+}
+.label_margin{
+    height: 20px;
+    margin-top: -8px;
+    line-height: 30px;
+}
+.pb-10{
+    padding-bottom: 10px !important;
+}
+// ion-datetime {
+//     visibility: hidden !important;
+//     padding: 0 !important;
+//     height: 0 !important;
+//     min-height: 0 !important;
+// }
+ion-input {
+    border: none !important;
+}
+.item_margin{
+    margin: 8px 16px;
+}

@@ -90,12 +90,18 @@ ion-title {
     display: flex;
     flex-direction: column;
 }
+.align-center {
+    align-items: center;
+}
 .grow {
     flex-grow: 1;
 }
+.scroll {
+    overflow: scroll !important;
+}
 ion-radio {
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     margin-right: 10px;
 }
 ion-item-divider {
@@ -174,6 +180,9 @@ ion-input.p0 {
         padding: 0 !important;
     }
 }
+// ion-item.item-has-focus > ion-label {
+//     color: green !important;
+// }
 .picker-prefix,
 .picker-suffix,
 .picker-opt.picker-opt-selected {
