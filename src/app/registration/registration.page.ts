@@ -19,14 +19,13 @@ from '@angular/router';
     fillForm(option) {
         localStorage.setItem('formTitle', option);
         if(option == 'Birth') {
-            this.isshowing =true
+            this.isshowing =true;
         }
-        else {
-            this.router.navigate(['register-form']);
-        }
+        // else {
+        //     this.router.navigate(['register-form']);
+        // }
     }
     changeDate(dt) {
         console.log(this.datePicker);
-
     }
 }
