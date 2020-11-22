@@ -2,7 +2,8 @@
   <ion-label class="fs-25 green_text">Registration</ion-label>
   <ion-item-divider></ion-item-divider>
   <ion-avatar class="p-relative">
-    <img src="../../assets/avatar_img.jpg" alt="">
+    <img [src]="profileImg" alt="">
+    <ion-input type="file" accept="image/*" class="browse_btn" (change)="changeListener($event)"></ion-input>
     <ion-icon name="camera" class="camera_icon"></ion-icon>
   </ion-avatar>
   <ion-label class="fs-12 grey_text">Take your own 3 sec video with face mask</ion-label>

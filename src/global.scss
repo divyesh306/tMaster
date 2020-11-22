@@ -112,9 +112,13 @@ ion-item-divider {
     --background: #707070;
 }
 ion-avatar {
-    height: 120px;
-    width: 120px;
-    margin: -10px auto 0;
+    height: 110px;
+    width: 110px;
+    margin: -6px auto 10px;
+    img{
+        height: 100%;
+        width: 100%;
+    }
 }
 .green_button {
     --background: #72ca2f;
