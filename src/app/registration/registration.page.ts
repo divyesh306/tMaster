@@ -12,8 +12,10 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 })
 export class RegistrationPage implements OnInit {
     registerForm: FormGroup;
+    isshowing : boolean = false;
+    file : File;
+    profileImg = '../../assets/avatar.jpeg';
     isSubmitted = false;
-    isshowing: boolean = false;
     datePicker = Date.now();
     userData;
 
@@ -30,7 +32,7 @@ export class RegistrationPage implements OnInit {
 
         this.registerForm = this.formBuilder.group({
             nick_name: ['', [Validators.required, Validators.minLength(5)]],
-            date_of_birth: [''],
+            date_of_birth: ['',[Validators.required]],
             phone: [this.userData.phone],
             picture: [this.userData.picture],
             gender: ['', [Validators.required]],
@@ -84,6 +86,19 @@ export class RegistrationPage implements OnInit {
         }, err => {
             console.log("Somthing Went Wrong")
         });;
+    }
+    changeListener(event): void {
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (event : any) => {
+                this.profileImg = event.target.result;
+            } 
+            reader.readAsDataURL(event.target.files[0]); // to trigger onload
+        }
+
+        let fileList: FileList = event.target.files;
+        let file: File = fileList[0];
+        console.log(file);
     }
     fillForm(option) {
         localStorage.setItem('formTitle', option);

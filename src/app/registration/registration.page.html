@@ -3,8 +3,9 @@
   <ion-item-divider></ion-item-divider>
   <form [formGroup]="registerForm" (ngSubmit)="next(userData)">
     <ion-avatar class="p-relative">
-      <img src="../../assets/avatar_img.jpg" alt="">
-      <ion-icon type="file" name="camera" class="camera_icon"></ion-icon>
+      <img [src]="profileImg" alt="">
+      <ion-input type="file" accept="image/*" class="browse_btn" (change)="changeListener($event)"></ion-input>
+      <ion-icon name="camera" class="camera_icon"></ion-icon>
     </ion-avatar>
     <ion-label class="fs-12 grey_text">Take your own 3 sec video with face mask</ion-label>
     <div class="border_div"></div>
@@ -20,13 +21,16 @@
     </span>
     <ion-item class="item_margin">
       <ion-label class="fs-11">Birth</ion-label>
-      <ion-datetime displayFormat="YYYY MMM"  formControlName="date_of_birth" placeholder=""> </ion-datetime>
+      <ion-datetime displayFormat="YYYY MMM" formControlName="date_of_birth" placeholder=""> </ion-datetime>
       <ion-icon name="calendar-outline" class="arrow_icon"></ion-icon>
     </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.date_of_birth.errors?.required">
+      Select Date Of Birth
+    </span>
 
     <ion-item class="item_margin">
       <ion-label class="fs-11 float_left ion-margin-left label_margin" position="stacked">Gender</ion-label>
-      <ion-radio-group class="row pb-10" formControlName="gender"  >
+      <ion-radio-group class="row pb-10" formControlName="gender">
         <ion-item lines="none" class="h-40">
           <ion-radio value="male" color="success"></ion-radio>
           <ion-label>Male</ion-label>
@@ -37,6 +41,9 @@
         </ion-item>
       </ion-radio-group>
     </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.gender.errors?.required">
+      Select Gender
+    </span>
     <ion-item class="item_margin">
       <ion-label position="stacked">Job</ion-label>
       <ion-input placeholder="Job" formControlName="jobs"></ion-input>
