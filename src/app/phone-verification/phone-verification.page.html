@@ -4,39 +4,39 @@
     <ion-item-divider></ion-item-divider>
     <ion-label class="fs-22 light_grey_text">Enter Code</ion-label>
     <div class="fs-11 grey_text m-30">Enter the SMS verification code below that was sent to your mobile phone</div>
-  
+
     <ion-row class="p-30 row">
       <ion-col>
-        <ion-input class="p0" *ngIf="!wrongCode"></ion-input>
-        <ion-input class="red_border p0" *ngIf="wrongCode"></ion-input>
+        <ion-input type="tel" #otp1 maxLength="1" class="p0" (keyUp)="inputChnage(otp2)"
+          [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o1"></ion-input>
       </ion-col>
       <ion-col>
-        <ion-input class="p0" *ngIf="!wrongCode"></ion-input>
-        <ion-input class="red_border p0" *ngIf="wrongCode"></ion-input>
+        <ion-input type="tel" #otp2 maxLength="1" class="p0" (keyDown)="inputChnage(otp3)"
+          [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o2"></ion-input>
       </ion-col>
       <ion-col>
-        <ion-input class="p0" *ngIf="!wrongCode"></ion-input>
-        <ion-input class="red_border p0" *ngIf="wrongCode"></ion-input>
+        <ion-input type="tel" #otp3 maxLength="1" class="p0" (keyPress)="inputChnage(otp4)"
+          [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o3"></ion-input>
       </ion-col>
       <ion-col>
-        <ion-input class="p0" *ngIf="!wrongCode"></ion-input>
-        <ion-input class="red_border p0" *ngIf="wrongCode"></ion-input>
+        <ion-input type="tel" #otp4 maxLength="1" class="p0" (keyPress)="inputChnage(otp5)"
+          [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o4"></ion-input>
       </ion-col>
       <ion-col>
-        <ion-input class="p0" *ngIf="!wrongCode"></ion-input>
-        <ion-input class="red_border p0" *ngIf="wrongCode"></ion-input>
+        <ion-input type="tel" #otp5 maxLength="1" class="p0" (keyPress)="inputChnage(otp6)"
+          [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o5"></ion-input>
       </ion-col>
       <ion-col>
-        <ion-input class="p0" (ionChange)="inputChnage()" *ngIf="!wrongCode"></ion-input>
-        <ion-input class="red_border p0" *ngIf="wrongCode"></ion-input>
+        <ion-input type="tel" #otp6 maxLength="1" class="p0" (ionChange)="confirm(verificationCode)"
+          [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o6"></ion-input>
       </ion-col>
       <ion-icon name="close-circle-outline" class="cross_icon" *ngIf="wrongCode"></ion-icon>
-     </ion-row>
+    </ion-row>
 
     <ion-row class="ion-padding mt-10 buttons">
       <ion-button class="grey_button" (click)="resend()">Resend COde</ion-button>
-      <ion-button class="grey_button" *ngIf="!wrongCode" (click)="confirm()">Confirm</ion-button>
-      <ion-button class="red_button" *ngIf="wrongCode" (click)="confirm()">Confirm</ion-button>
+      <ion-button class="green_button" [ngClass]="{'red_button' : wrongCode}" (click)="confirm(verificationCode)">
+        Confirm</ion-button>
     </ion-row>
   </div>
 </ion-content>

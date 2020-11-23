@@ -1,131 +1,78 @@
 <div class="ion-text-center mt-13per scroll">
   <ion-label class="fs-25 green_text">Registration</ion-label>
   <ion-item-divider></ion-item-divider>
-  <ion-avatar class="p-relative">
-    <img src="../../assets/avatar_img.jpg" alt="">
-    <ion-icon name="camera" class="camera_icon"></ion-icon>
-  </ion-avatar>
-  <ion-label class="fs-12 grey_text">Take your own 3 sec video with face mask</ion-label>
-  <div class="border_div"></div>
+  <form [formGroup]="registerForm" (ngSubmit)="next(userData)">
+    <ion-avatar class="p-relative">
+      <img src="../../assets/avatar_img.jpg" alt="">
+      <ion-icon type="file" name="camera" class="camera_icon"></ion-icon>
+    </ion-avatar>
+    <ion-label class="fs-12 grey_text">Take your own 3 sec video with face mask</ion-label>
+    <div class="border_div"></div>
+    <ion-item class="item_margin">
+      <ion-label position="stacked">Nickname</ion-label>
+      <ion-input placeholder="Nickname" formControlName="nick_name"></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.nick_name.errors?.required">
+      Nick Name is required.
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.nick_name.errors?.minlength">
+      Name should be min 5 chars long.
+    </span>
+    <ion-item class="item_margin">
+      <ion-label class="fs-11">Birth</ion-label>
+      <ion-datetime displayFormat="YYYY MMM"  formControlName="date_of_birth" placeholder=""> </ion-datetime>
+      <ion-icon name="calendar-outline" class="arrow_icon"></ion-icon>
+    </ion-item>
 
+    <ion-item class="item_margin">
+      <ion-label class="fs-11 float_left ion-margin-left label_margin" position="stacked">Gender</ion-label>
+      <ion-radio-group class="row pb-10" formControlName="gender"  >
+        <ion-item lines="none" class="h-40">
+          <ion-radio value="male" color="success"></ion-radio>
+          <ion-label>Male</ion-label>
+        </ion-item>
+        <ion-item lines="none" class="h-40">
+          <ion-radio value="female" color="success"></ion-radio>
+          <ion-label>Female</ion-label>
+        </ion-item>
+      </ion-radio-group>
+    </ion-item>
+    <ion-item class="item_margin">
+      <ion-label position="stacked">Job</ion-label>
+      <ion-input placeholder="Job" formControlName="jobs"></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.jobs.errors?.required">
+      Job is required.
+    </span>
 
-  <ion-item class="item_margin">
-    <ion-label position="stacked">Nickname</ion-label>
-    <ion-input placeholder="Nickname"></ion-input>
-  </ion-item>
-  <ion-item class="item_margin">
-    <ion-label class="fs-11">Birth</ion-label>
-    <ion-datetime displayFormat="YYYY MMM" placeholder=""> </ion-datetime>
-    <ion-icon name="calendar-outline" class="arrow_icon"></ion-icon>
-  </ion-item>
-  <!-- <ion-item class="ion-margin"> 
-    <ion-label position="stacked">Birth</ion-label>
-    <ion-datetime displayFormat="YYYY MMM"></ion-datetime>
-  </ion-item> -->
-  <ion-item class="item_margin">
-    <ion-label class="fs-11 float_left ion-margin-left label_margin" position="stacked">Gender</ion-label>
-    <ion-radio-group class="row pb-10">
-      <ion-item lines="none" class="h-40">
-        <ion-radio value="Male" color="success"></ion-radio>
-        <ion-label>Male</ion-label>
-      </ion-item>
-      <ion-item lines="none" class="h-40">
-        <ion-radio value="Female" color="success"></ion-radio>
-        <ion-label>Female</ion-label>
-      </ion-item>
-    </ion-radio-group>
-  </ion-item>
-  <ion-item class="item_margin">
-    <ion-label position="stacked">Job</ion-label>
-    <ion-input placeholder="Job"></ion-input>
-  </ion-item>
+    <ion-item class="item_margin">
+      <ion-label position="stacked">Minute Rating</ion-label>
+      <ion-input type="tel" placeholder="Minute Rating" formControlName="rating"></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.required">
+      Minute Rating is required.
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.pattern">
+      Only Numeric Value is allowed.
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.maxLength">
+      Minute Rating should be Max 3 chars long.
+    </span>
 
-  <ion-item class="item_margin">
-    <ion-label position="stacked">Minute Rating</ion-label>
-    <ion-input placeholder="Minute Rating"></ion-input>
-  </ion-item>
+    <div class="border_div"></div>
 
-  <div class="border_div"></div>
+    <ion-item class="item_margin">
+      <ion-label position="stacked">Appeal tags</ion-label>
+      <ion-textarea placeholder="Tag text here" formControlName="tags" rows="3">
+      </ion-textarea>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.tags.errors?.required">
+      tags is required.
+    </span>
 
-  <ion-item class="item_margin">
-    <ion-label position="stacked">Appeal tags</ion-label>
-    <ion-textarea placeholder="Tag text here" rows="3"></ion-textarea>
-  </ion-item>
-
-  <div class="ion-margin">
-    <ion-label class="fs-11 grey_text float_left">Recommended to add many tags that you related</ion-label><br>
-    <ion-button class="green_button m-30" (click)="next()">NEXT</ion-button>
-  </div>
-
+    <div class="ion-margin">
+      <ion-label class="fs-11 grey_text float_left">Recommended to add many tags that you related</ion-label><br>
+      <ion-button type="submit" class="green_button m-30">NEXT</ion-button>
+    </div>
+  </form>
 </div>
-
-<!-- <ion-row class="row content_row">
-  <ion-col size="10" class="ion-text-left column">
-    <ion-label class="fs-11 grey_text">Nickname</ion-label>
-    <ion-label class="fs-12">Nickname</ion-label>
-  </ion-col>
-  <ion-col size="2" class="ion-text-right" (click)="fillForm('User Name')">
-    <ion-icon name="chevron-forward" class="arrow_icon"></ion-icon>
-  </ion-col>
-</ion-row>
-
-<ion-row class="row content_row">
-  <ion-col size="10" class="ion-text-left column">
-    <ion-label class="fs-11 grey_text">Birth</ion-label>
-    <ion-label class="fs-12">{{datePicker | date:'yyyy/MMM'}}</ion-label>
-  </ion-col>
-  <ion-col size="2" class="ion-text-right" (click)="pick.open()">
-<ion-datetime #pick pickerFormat="YYYY MMM" displayFormat="YYYY MMM" [min]="datePickerMin" [(ngModel)]="datePicker"
-  (ionChange)="changeDate(pick.value)"></ion-datetime>
-<ion-icon name="chevron-forward" class="arrow_icon"></ion-icon>
-</ion-col>
-</ion-row>
-
-<ion-row class="row content_row">
-  <ion-col size="10" class="ion-text-left column">
-    <ion-label class="fs-11 grey_text">Gender</ion-label>
-    <ion-label class="fs-12">Nickname</ion-label>
-  </ion-col>
-  <ion-col size="2" class="ion-text-right" (click)="fillForm('Sex')">
-    <ion-icon name="chevron-forward" class="arrow_icon"></ion-icon>
-  </ion-col>
-</ion-row>
-
-<ion-row class="row content_row">
-  <ion-col size="10" class="ion-text-left column">
-    <ion-label class="fs-11 grey_text">Job</ion-label>
-    <ion-label class="fs-12">Nickname</ion-label>
-  </ion-col>
-  <ion-col size="2" class="ion-text-right" (click)="fillForm('Job')">
-    <ion-icon name="chevron-forward" class="arrow_icon"></ion-icon>
-  </ion-col>
-</ion-row>
-
-<ion-row class="row content_row">
-  <ion-col size="10" class="ion-text-left column">
-    <ion-label class="fs-11 grey_text">Minute Rating</ion-label>
-    <ion-label class="fs-12">Nickname</ion-label>
-  </ion-col>
-  <ion-col size="2" class="ion-text-right" (click)="fillForm('Minute Rating')">
-    <ion-icon name="chevron-forward" class="arrow_icon"></ion-icon>
-  </ion-col>
-</ion-row>
-
-<div class="border_div"></div>
-
-<ion-row class="tags_padding row content_row m-0">
-  <ion-col size="10" class="ion-text-left">
-    <ion-label class="fs-11 grey_text">Appeal tags</ion-label><br>
-    <ion-label class="fs-12">#sparetime#participatein#nightlonely</ion-label>
-  </ion-col>
-  <ion-col size="2" class="ion-text-right" (click)="fillForm('Appeal Tag')">
-    <ion-icon name="chevron-forward" class="arrow_icon"></ion-icon>
-  </ion-col>
-</ion-row>
-
-<div class="bottom_div">
-  <ion-label class="fs-11 grey_text">Recommended to add many tags that you related</ion-label><br>
-  <ion-button class="green_button" (click)="next()">NEXT</ion-button>
-</div>
-
-</div> -->

@@ -23,7 +23,7 @@ const routes: Routes = [
     loadChildren: () => import('./select-position/select-position.module').then( m => m.SelectPositionPageModule)
   },
   {
-    path: 'registration',
+    path: 'registration/:position',
     loadChildren: () => import('./registration/registration.module').then( m => m.RegistrationPageModule)
   },
   {

@@ -13,6 +13,6 @@ export class SelectPositionPage implements OnInit {
   ngOnInit() {
   }
   positionSelected(position){
-    this.router.navigate(['/registration']);
+    this.router.navigate(['/registration/'+position]);
   }
 }
