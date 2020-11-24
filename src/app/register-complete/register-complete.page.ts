@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-complete',
@@ -7,11 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterCompletePage implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
   }
   start(){
-    
+    this.router.navigate(['tabs/hangout']);
   }
 }

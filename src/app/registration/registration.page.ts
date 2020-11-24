@@ -17,8 +17,8 @@ import {Router} from '@angular/router';
             let reader = new FileReader();
             reader.onload = (event : any) => {
                 this.profileImg = event.target.result;
-            } 
-            reader.readAsDataURL(event.target.files[0]); // to trigger onload
+            }
+             reader.readAsDataURL(event.target.files[0]); // to trigger onload
         }
 
         let fileList: FileList = event.target.files;

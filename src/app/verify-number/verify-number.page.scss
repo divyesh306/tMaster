@@ -14,6 +14,10 @@ ion-row {
     margin-top: auto;
     margin-bottom: 0;
 }
+ion-input {
+    border: 1px solid #72ca2f;
+    height: 36px !important;
+}
 ion-list {
     position: absolute;
     bottom: 10px;
