@@ -6,23 +6,23 @@
     <div class="fs-11 grey_text m-30">Enter the SMS verification code below that was sent to your mobile phone</div>
     <ion-row class="p-30 row">
       <ion-col>
-        <ion-input type="tel" #otp1 maxLength="1" class="p0" (keyUp)="inputChnage(otp2)"
+        <ion-input type="tel" #otp1 maxLength="1" class="p0" (keyup)="inputChnage($event,otp2)"
           [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o1"></ion-input>
       </ion-col>
       <ion-col>
-        <ion-input type="tel" #otp2 maxLength="1" class="p0" (keyDown)="inputChnage(otp3)"
+        <ion-input type="tel" #otp2 maxLength="1" class="p0" (keyup)="inputChnage($event,otp3)"
           [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o2"></ion-input>
       </ion-col>
       <ion-col>
-        <ion-input type="tel" #otp3 maxLength="1" class="p0" (keyPress)="inputChnage(otp4)"
+        <ion-input type="tel" #otp3 maxLength="1" class="p0" (keyup)="inputChnage($event,otp4)"
           [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o3"></ion-input>
       </ion-col>
       <ion-col>
-        <ion-input type="tel" #otp4 maxLength="1" class="p0" (keyPress)="inputChnage(otp5)"
+        <ion-input type="tel" #otp4 maxLength="1" class="p0" (keyup)="inputChnage($event,otp5)"
           [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o4"></ion-input>
       </ion-col>
       <ion-col>
-        <ion-input type="tel" #otp5 maxLength="1" class="p0" (keyPress)="inputChnage(otp6)"
+        <ion-input type="tel" #otp5 maxLength="1" class="p0" (keyup)="inputChnage($event,otp6)"
           [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o5"></ion-input>
       </ion-col>
       <ion-col>

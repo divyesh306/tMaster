@@ -16,6 +16,7 @@ import { configService } from '../Service/config.service';
 export class PhoneVerificationPage implements OnInit {
   wrongCode = false;
   verificationCode;
+  otp="";
   constructor(private router: Router, private userService: userService,
     private localStorage: LocalstorageService, private configService: configService) {
     this.verificationCode = {}
@@ -23,9 +24,10 @@ export class PhoneVerificationPage implements OnInit {
 
   ngOnInit() {
   }
-  inputChnage(foucabel) {
-    document.getElementById(foucabel).focus()
-    // foucabel.focus();
+  inputChnage(event,nextInput) {
+   if(event.target.value != null){
+     nextInput.setFocus();
+   }
   }
   verfyOtp(code) {
     var otp = code.o1 + code.o2 + code.o3 + code.o4 + code.o5 + code.o6;
