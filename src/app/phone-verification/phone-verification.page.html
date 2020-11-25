@@ -4,7 +4,6 @@
     <ion-item-divider></ion-item-divider>
     <ion-label class="fs-22 light_grey_text">Enter Code</ion-label>
     <div class="fs-11 grey_text m-30">Enter the SMS verification code below that was sent to your mobile phone</div>
-
     <ion-row class="p-30 row">
       <ion-col>
         <ion-input type="tel" #otp1 maxLength="1" class="p0" (keyUp)="inputChnage(otp2)"
@@ -27,8 +26,8 @@
           [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o5"></ion-input>
       </ion-col>
       <ion-col>
-        <ion-input type="tel" #otp6 maxLength="1" class="p0" (ionChange)="confirm(verificationCode)"
-          [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o6"></ion-input>
+        <ion-input type="tel" #otp6 maxLength="1" class="p0" [ngClass]="{'red_border' : wrongCode}"
+          [(ngModel)]="verificationCode.o6" (ionChange)="confirm(verificationCode)"></ion-input>
       </ion-col>
       <ion-icon name="close-circle-outline" class="cross_icon" *ngIf="wrongCode"></ion-icon>
     </ion-row>

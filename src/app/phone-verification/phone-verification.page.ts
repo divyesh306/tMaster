@@ -68,7 +68,7 @@ export class PhoneVerificationPage implements OnInit {
       }
     }, err => {
       console.log("Somthing Went Wrong")
-    });;
+    });
   }
   confirm(otp) {
     if (!this.verificationCode.o1 || !this.verificationCode.o2 || !this.verificationCode.o3 ||
@@ -77,6 +77,7 @@ export class PhoneVerificationPage implements OnInit {
     }
     else {
       this.verfyOtp(otp);
+      this.router.navigate(['/select-position']);
     }
   }
 }

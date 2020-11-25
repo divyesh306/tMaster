@@ -57,6 +57,7 @@ export class RegistrationPage implements OnInit {
             userdata.username = userdata.nick_name;
             userdata.type = this.userData.type;
             this.signup(userdata);
+            this.router.navigate(['/register-complete']);
         }
         // if (!userData.username || !userData.type || !userData.phone || !userData.date_of_birth || !userData.gender
         //     || !userData.rating || !userData.tags || !userData.jobs || !userData.picture) {
@@ -78,6 +79,7 @@ export class RegistrationPage implements OnInit {
             console.log();
             const res = result['data'].signup;
             console.log("Verify Otp : ", res)
+            
             if (!res.hasError) {
                 this.router.navigate(['/register-complete']);
             } else {

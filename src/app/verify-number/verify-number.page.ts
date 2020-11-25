@@ -1295,6 +1295,7 @@ export class VerifyNumberPage implements OnInit {
       const res = data['data'].send_otp;
       if (!res.hasError) {
         this.localStorage.setphonenumber(phonenumber);
+        // this.router.navigate(['/phone-verification']);
       }
     }, err => {
       console.log("Somthing Went Wrong")
