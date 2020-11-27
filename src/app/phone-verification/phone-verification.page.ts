@@ -2,12 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
-import { Directive, Renderer2, ElementRef } from '@angular/core';
+// import { Directive, Renderer2, ElementRef } from '@angular/core';
 import { configService } from '../Service/config.service';
+import { SmsRetriever } from '@ionic-native/sms-retriever/ngx'
 
-@Directive({
-  selector: '[focuser]' // Attribute selector
-})
 @Component({
   selector: 'app-phone-verification',
   templateUrl: './phone-verification.page.html',
@@ -17,12 +15,33 @@ export class PhoneVerificationPage implements OnInit {
   wrongCode = false;
   verificationCode;
   otp = "";
+  public smsTextmessage: string = '';
+  public appHashString: string = '';
   constructor(private router: Router, private userService: userService,
-    private localStorage: LocalstorageService, private configService: configService) {
+    private localStorage: LocalstorageService, private configService: configService, private smsRetriever: SmsRetriever) {
     this.verificationCode = {}
   }
 
   ngOnInit() {
+    this.getHashCode()
+  }
+
+  getHashCode() {
+    this.smsRetriever.getAppHash()
+      .then((res: any) => {
+        this.appHashString = res;
+        console.log(res);
+      })
+      .catch((error: any) => console.error(error));
+  }
+
+  getSMS() {
+    this.smsRetriever.startWatching()
+      .then((res: any) => {
+        this.smsTextmessage = res.Message;
+        console.log(res);
+      })
+      .catch((error: any) => console.error(error));
   }
   inputChnage(event, nextInput, prvInput) {
     if (event.target.value != null) {
@@ -35,6 +54,7 @@ export class PhoneVerificationPage implements OnInit {
       }
     }
   }
+
   verfyOtp(code) {
     var otp = code.o1 + code.o2 + code.o3 + code.o4 + code.o5 + code.o6;
     let body = {

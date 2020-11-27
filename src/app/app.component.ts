@@ -15,6 +15,12 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar
   ) {
+    if(this.platform.is('cordova')){
+      console.log("I am an cordova Device");
+    }
+    else{
+      console.log("I am an Browser");
+    }
     this.initializeApp();
   }
 
