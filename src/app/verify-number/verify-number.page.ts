@@ -1291,14 +1291,15 @@ export class VerifyNumberPage implements OnInit {
       }
     }
     this.userService.sendApi(body).subscribe(data => {
-      console.log();
       const res = data['data'].send_otp;
+      console.log("res :",);
       if (!res.hasError) {
         this.localStorage.setphonenumber(phonenumber);
         // this.router.navigate(['/phone-verification']);
       }
     }, err => {
-      console.log("Somthing Went Wrong")
+      alert(err.message);
+      console.log("Somthing Went Wrong",err.message);
     });
   }
 }

@@ -16,7 +16,7 @@ import { configService } from '../Service/config.service';
 export class PhoneVerificationPage implements OnInit {
   wrongCode = false;
   verificationCode;
-  otp="";
+  otp = "";
   constructor(private router: Router, private userService: userService,
     private localStorage: LocalstorageService, private configService: configService) {
     this.verificationCode = {}
@@ -24,10 +24,16 @@ export class PhoneVerificationPage implements OnInit {
 
   ngOnInit() {
   }
-  inputChnage(event,nextInput) {
-   if(event.target.value != null){
-     nextInput.setFocus();
-   }
+  inputChnage(event, nextInput, prvInput) {
+    if (event.target.value != null) {
+      if (event.keyCode == 8) {
+        prvInput.setFocus();
+        prvInput.value = null;
+      }
+      else {
+        nextInput.setFocus();
+      }
+    }
   }
   verfyOtp(code) {
     var otp = code.o1 + code.o2 + code.o3 + code.o4 + code.o5 + code.o6;
@@ -51,7 +57,8 @@ export class PhoneVerificationPage implements OnInit {
         this.wrongCode = true;
       }
     }, err => {
-      console.log("Somthing Went Wrong")
+      // console.log("Somthing Went Wrong",err)
+      alert(err.message);
     });
   }
   resend() {
