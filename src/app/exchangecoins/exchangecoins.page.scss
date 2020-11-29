@@ -1,0 +1,42 @@
+ion-toolbar {
+    --background: #253447;
+    padding: 12px 16px !important;
+}
+ion-item-divider{
+    margin:0px auto !important;
+    width: 90%;
+}
+.item-highlight {
+    height: none !important;
+}
+.width{
+    width:100%;
+}
+.icon{
+    width:20px;
+    height: 20px;
+}
+.border{
+    border-width: 0.5px !important;
+    border-style: solid !important;
+    border-radius: 5px !important;
+}
+.border_none{
+    --border-style:none !important;
+}
+.backbutton{
+    --background: white !important;
+    --border-radius: 100px !important;
+    --padding-start: .1em;
+    --padding-end: .1em;
+}
+.menu-icon {
+    color: black;
+    font-size: 35px;
+    border-radius:100px ;
+}
+.coin_img{
+    border-radius: 0px !important;
+    width:50px;
+    height: 50px;
+}

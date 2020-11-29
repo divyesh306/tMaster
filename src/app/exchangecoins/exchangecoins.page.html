@@ -1,0 +1,51 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="row">
+      <ion-button class="backbutton" [routerLink]="['/tabs/profile']">
+        <ion-icon name="chevron-back-outline" class="menu-icon"></ion-icon>
+      </ion-button>
+      <ion-title>Exchange</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item class="border_none">
+    <ion-col size="7">
+      <ion-label>Currently your coins</ion-label>
+    </ion-col>
+    <ion-col size="3">
+      <ion-label>10.000</ion-label>
+    </ion-col>
+    <ion-col size="2">
+      <img src="../../assets/logo.svg" class="coin_img" />
+    </ion-col>
+  </ion-item>
+  <ion-item-divider></ion-item-divider>
+  <ion-item class="border_none">
+    <ion-col size="1">
+      <img src="../../assets/logo.svg" class="icon" />
+    </ion-col>
+    <ion-col size="4">
+      <ion-input class='border' placeholder="Add Coins"></ion-input>
+    </ion-col>
+    <ion-col size="1">=</ion-col>
+    <ion-col size="4">
+      <ion-input class='border' placeholder="Enter Input"></ion-input>
+    </ion-col>
+    <ion-col size="2">
+      JPY
+    </ion-col>
+  </ion-item>
+  <ion-item class="border_none">
+    <ion-col size="5">
+      <ion-item-divider class="width"></ion-item-divider>
+    </ion-col>
+    <ion-col size="2">
+      <img src="../../assets/logo.svg" class="coin_img" />
+    </ion-col>
+    <ion-col size="5">
+      <ion-item-divider class="width"></ion-item-divider>
+    </ion-col>
+  </ion-item>
+
+</ion-content>

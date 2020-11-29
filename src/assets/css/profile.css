@@ -1,0 +1,391 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400;600&display=swap");
+body {
+  font-family: "Source Sans Pro", sans-serif;
+  color: #636363;
+  position: relative;
+  padding-bottom: 74px;
+}
+
+[type=radio]:checked,
+[type=radio]:not(:checked) {
+  position: absolute;
+  opacity: 0;
+}
+
+[type=radio]:checked + label,
+[type=radio]:not(:checked) + label {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 20px;
+  display: inline-block;
+  color: #636363;
+  margin-bottom: 0;
+}
+
+[type=radio]:checked + label:before,
+[type=radio]:not(:checked) + label:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #72CA2F;
+  border-radius: 100%;
+  background: #fff;
+}
+
+[type=radio]:checked + label:after,
+[type=radio]:not(:checked) + label:after {
+  content: "";
+  width: 13px;
+  height: 13px;
+  background: #72CA2F;
+  position: absolute;
+  top: 9.5px;
+  left: 9.5px;
+  border-radius: 100%;
+  transition: all 0.2s ease;
+}
+
+[type=radio]:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+
+[type=radio]:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+[type=radio]:checked + label:before {
+  filter: drop-shadow(0px 0px 6px #72ca2f);
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  background-color: #253447;
+  padding: 20px 15px;
+}
+.heading .title {
+  width: calc(100% - 64px);
+  text-align: center;
+  margin-left: 64px;
+}
+.heading .title h3 {
+  margin-bottom: 0;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 200;
+}
+
+.profile-info {
+  padding: 24px 15px 15px;
+  background: linear-gradient(#df59fb66 0%, #65b3fc66 100%);
+}
+.profile-info .profile-type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+}
+.profile-info .profile-type .counsel-type img {
+  max-width: 32px;
+}
+.profile-info .profile-type .profile-txt {
+  text-align: center;
+  margin: 0 10px;
+}
+.profile-info .profile-type .profile-txt h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  color: #fff;
+}
+.profile-info .profile-type .profile-txt p {
+  margin: 0;
+  font-size: 12px;
+  color: #fff;
+}
+
+.form-content .form-fields {
+  padding: 0 24px;
+  text-align: center;
+}
+.form-content .form-fields label {
+  margin-bottom: 0;
+  font-size: 13px;
+  text-align: center;
+  color: #253447;
+}
+.form-content .form-fields input {
+  border-radius: 4px;
+  background: #fff;
+  border: 0.5px solid #253447;
+  background-image: url("../images/earning-coins-icon.svg");
+  background-repeat: no-repeat;
+  background-position: right 10px top 7px;
+  padding-right: 40px;
+}
+
+.submit-code {
+  margin-bottom: 24px;
+}
+
+.purchase-coin {
+  margin-left: 0 !important;
+}
+
+.purchase-coins {
+  margin: 15px 0;
+}
+.purchase-coins h3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  font-weight: 300;
+  margin-bottom: 0;
+}
+.purchase-coins h3 span img {
+  margin: 0 10px;
+}
+
+.info-coin {
+  text-align: center;
+}
+.info-coin p {
+  margin-bottom: 0;
+  font-size: 13px;
+  color: #A0A0A0;
+  font-weight: 300;
+}
+.info-coin p span {
+  font-weight: bold;
+  color: #72CA2F;
+}
+
+.listing-coin {
+  padding: 0 15px;
+}
+.listing-coin .listing-info {
+  padding: 15px 0;
+  border-bottom: 0.5px solid #A0A0A0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.listing-coin .listing-info:last-child {
+  border-bottom: 0;
+}
+.listing-coin .listing-info h3 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  font-size: 26px;
+  color: #253447;
+  font-weight: 300;
+}
+.listing-coin .listing-info h3 span {
+  margin-right: 10px;
+}
+.listing-coin .listing-info button {
+  width: 104px;
+  height: 32px;
+  border-radius: 2px;
+  background: #72ca2f;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.16);
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: #fff;
+}
+.listing-coin .listing-info p {
+  color: #A0A0A0;
+  font-size: 13px;
+  margin-bottom: 0;
+  font-weight: 300;
+  text-align: center;
+  width: 100%;
+}
+.listing-coin .listing-info h6 {
+  color: #72CA2F;
+  font-size: 13px;
+  margin-bottom: 0;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.current-coins h3 {
+  font-size: 18px !important;
+  font-weight: bold !important;
+  color: #636363 !important;
+}
+.current-coins .total-coins p {
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  color: #636363 !important;
+}
+.current-coins .total-coins p span {
+  margin-left: 5px;
+  display: inline-flex;
+}
+
+.add-coins, .bank-details {
+  padding: 0 15px;
+}
+.add-coins .coins-field, .bank-details .coins-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.add-coins .coins-field .coin-ing, .bank-details .coins-field .coin-ing {
+  margin-right: 8px;
+}
+.add-coins .coins-field .coin-input, .bank-details .coins-field .coin-input {
+  width: 100%;
+}
+.add-coins .coins-field .coin-input input, .bank-details .coins-field .coin-input input {
+  width: 100%;
+  height: 40px;
+  border-radius: 4px;
+  background: #fff;
+  border: 0.5px solid #253447;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16);
+  font-weight: normal;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  color: #a0a0a0;
+}
+.add-coins .coins-field .coin-equal, .add-coins .coins-field .coin-unit, .bank-details .coins-field .coin-equal, .bank-details .coins-field .coin-unit {
+  margin: 0 10px;
+}
+.add-coins .coins-field .coin-equal:last-child, .add-coins .coins-field .coin-unit:last-child, .bank-details .coins-field .coin-equal:last-child, .bank-details .coins-field .coin-unit:last-child {
+  margin-right: 0;
+}
+.add-coins .coins-field .coin-equal p, .add-coins .coins-field .coin-unit p, .bank-details .coins-field .coin-equal p, .bank-details .coins-field .coin-unit p {
+  margin-bottom: 0;
+  font-weight: bold;
+  font-size: 13px;
+  color: #72ca2f;
+}
+
+.coins-divider {
+  text-align: center;
+  margin: 10px 15px;
+  position: relative;
+  padding: 0 0;
+}
+.coins-divider .divider-img {
+  display: flex;
+  justify-content: center;
+}
+.coins-divider .divider-img:before {
+  content: "";
+  display: block;
+  position: absolute;
+  border: 1px solid #A0A0A0;
+  left: 0;
+  top: 50%;
+  width: 40%;
+}
+.coins-divider .divider-img:after {
+  content: "";
+  display: block;
+  position: absolute;
+  border: 1px solid #A0A0A0;
+  right: 0;
+  top: 50%;
+  width: 40%;
+}
+
+.payment-method {
+  padding: 0 15px;
+}
+.payment-method .form-radio-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.payment-method .form-radio-btn .heading-payment {
+  margin-bottom: 0;
+  font-size: 13px;
+  width: 25%;
+}
+.payment-method .form-radio-btn .radio-field {
+  display: flex;
+  align-items: center;
+}
+.payment-method .form-radio-btn .radio-field input {
+  width: auto !important;
+}
+.payment-method .form-radio-btn .radio-field label {
+  font-size: 13px;
+  margin-bottom: 0;
+  line-height: 32px;
+  padding-left: 35px;
+}
+
+.bank-details {
+  padding: 20px 15px;
+}
+.bank-details p {
+  margin-bottom: 0;
+  color: #636363 !important;
+  font-weight: normal !important;
+  font-size: 13px;
+}
+.bank-details .coin-equal p {
+  color: #636363 !important;
+  font-weight: normal !important;
+}
+
+.acoount-number .coin-ing {
+  width: 130px !important;
+}
+
+.apply-btn button {
+  text-align: center;
+  width: 89px;
+  height: 32px;
+  border-radius: 2px;
+  background: #72ca2f;
+  font-size: 13px;
+  color: #fff;
+}
+
+.apply-btn {
+  text-align: center;
+}
+
+.exchange-info {
+  padding: 0 15px;
+  margin-top: 20px;
+}
+.exchange-info p {
+  margin-bottom: 0;
+  color: #636363;
+  font-size: 13px;
+}
+
+.complete-order-info {
+  text-align: center;
+  padding: 0 15px;
+}
+.complete-order-info h3 {
+  color: #636363;
+  margin: 30px 0;
+  font-weight: 300;
+}
+.complete-order-info p {
+  color: #636363;
+  font-size: 13px;
+  font-weight: 300;
+}

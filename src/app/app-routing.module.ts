@@ -33,7 +33,28 @@ const routes: Routes = [
   {
     path: 'register-complete',
     loadChildren: () => import('./register-complete/register-complete.module').then( m => m.RegisterCompletePageModule)
+  },
+  {
+    path: 'buycoins',
+    loadChildren: () => import('./buycoins/buycoins.module').then( m => m.BuycoinsPageModule)
+  },  {
+    path: 'exchangecoins',
+    loadChildren: () => import('./exchangecoins/exchangecoins.module').then( m => m.ExchangecoinsPageModule)
+  },
+  {
+    path: 'setting',
+    loadChildren: () => import('./setting/setting.module').then( m => m.SettingPageModule)
+  },
+  {
+    path: 'blocklist',
+    loadChildren: () => import('./blocklist/blocklist.module').then( m => m.BlocklistPageModule)
+  },
+  {
+    path: 'language',
+    loadChildren: () => import('./language/language.module').then( m => m.LanguagePageModule)
   }
+
+
 ];
 @NgModule({
   imports: [
