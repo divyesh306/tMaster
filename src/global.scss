@@ -25,7 +25,19 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-
+ion-header,ion-content{
+        font-family: "Source Sans Pro", sans-serif;
+        // color: #636363;
+}
+ion-toolbar.dark_toolbar {
+    --background: #253447;
+    padding: 16px !important;
+}
+ion-title {
+    text-align: center;
+    flex-grow: 1;
+    margin-right: 30px;
+}
 .logo {
     height: 200px;
     width: 200px;
@@ -83,7 +95,7 @@ ion-title {
     color: #72ca2f;
 }
 .grey_text {
-    color: #636363;
+    color: #636363 !important;
 }
 .row {
     display: flex;
