@@ -13,9 +13,9 @@
    <img src="../../assets/images/right-carrot.svg" alt="" class="arrow_icon">
   </ion-item>
   <ion-item-divider></ion-item-divider>
-  <ion-item lines="none">
+  <ion-item lines="none" (click)="selectLanguages()">
     <ion-label class="grey_text">Languages</ion-label>
-   <img src="../../assets/images/right-carrot.svg" alt="" class="arrow_icon">
+    <img src="../../assets/images/right-carrot.svg" alt="" class="arrow_icon">
   </ion-item>
   <ion-item-divider></ion-item-divider>
   <ion-item lines="none">
@@ -23,8 +23,13 @@
    <img src="../../assets/images/right-carrot.svg" alt="" class="arrow_icon">
   </ion-item>
   <ion-item-divider></ion-item-divider>
-  <ion-item lines="none">
+  <ion-item lines="none" (click)="bugReport()">
     <ion-label class="grey_text">Bug Report</ion-label>
+   <img src="../../assets/images/right-carrot.svg" alt="" class="arrow_icon">
+  </ion-item>
+  <ion-item-divider></ion-item-divider>
+  <ion-item lines="none" (click)="deleteAccount()">
+    <ion-label class="grey_text">Delete Account</ion-label>
    <img src="../../assets/images/right-carrot.svg" alt="" class="arrow_icon">
   </ion-item>
   <ion-item-divider></ion-item-divider>

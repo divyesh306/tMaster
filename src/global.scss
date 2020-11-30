@@ -36,7 +36,7 @@ ion-toolbar.dark_toolbar {
 ion-title {
     text-align: center;
     flex-grow: 1;
-    margin-right: 30px;
+    margin-right: 30px !important;
 }
 .logo {
     height: 200px;
@@ -52,6 +52,9 @@ ion-title {
 }
 .m-0 {
     margin: 0 !important;
+}
+.m-auto{
+    margin: auto;
 }
 .mt-5 {
     margin-top: 5px;
@@ -90,6 +93,9 @@ ion-title {
 }
 .float_right {
     float: right;
+}
+.white_text{
+    color: white;
 }
 .green_text {
     color: #72ca2f;

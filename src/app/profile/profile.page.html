@@ -1,9 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <div class="row">
-      <ion-input type="text"></ion-input>
       <ion-title>Profile Info</ion-title>
-      <!-- <ion-menu-toggle (click)="toggleMenu()"></ion-menu-toggle> -->
       <ion-icon [routerLink]="['/setting']" name="settings-outline" class="menu-icon"></ion-icon>
     </div>
   </ion-toolbar>
@@ -15,28 +13,27 @@
       <ion-avatar class="p-relative">
         <img [src]="profileImg" alt="">
         <ion-input type="file" accept="image/*" class="browse_btn" (change)="changeListener($event)"></ion-input>
-        <ion-icon name="camera" class="camera_icon"></ion-icon>
+        <img src="../../assets/images/camera.svg" class="camera_icon" alt="">
+        <!-- <ion-icon name="camera" class="camera_icon"></ion-icon> -->
       </ion-avatar>
     </ion-row>
-    <ion-row class="profile_item_margin">
-      <ion-col size="3">
-        <img src="../../assets/logo.svg" alt="" class="tab-img">
-      </ion-col>
-      <ion-col size="6">
-        <ion-label>Counselor</ion-label>
-        <p><small>(As you can receive coins)</small></p>
-      </ion-col>
-      <ion-col size="3">
-        <img src="../../assets/logo.svg" alt="" class="tab-img">
-      </ion-col>
+    <ion-row class="profile_item_margin ion-text-center">
+      <div>
+        <img src="../../assets/images/counselor-tokmay-icon.svg" alt="" class="tab-img">
+      </div>
+      <div class="ion-margin-horizontal">
+        <ion-label class="white_text">Counselor</ion-label>
+        <p class="white_text ion-no-margin"><small>(As you can receive coins)</small></p>
+      </div>
+      <div>
+        <img src="../../assets/images/reset-icon.svg" alt="" class="tab-img">
+      </div>
     </ion-row>
   </ion-grid>
   <ion-grid>
     <ion-row>
       <ion-list class="profile_item_margin">
-        <p class="align">
-          Currently Coins
-        </p>
+        <p class="ion-no-margin ion-text-center grey_text"><small> Currently Coins </small></p>
         <ion-item class="fullborder">
           <ion-thumbnail slot="end" class="coinimg">
             <img src="../../assets/logo.svg" alt="">
@@ -49,32 +46,28 @@
       <ion-button class="grey_button" [routerLink]="['/buycoins']">BUY COINS</ion-button>
       <ion-button class="grey_button" [routerLink]="['/exchangecoins']">EXCHANGE</ion-button>
     </ion-row>
-    <ion-item-divider></ion-item-divider>
   </ion-grid>
-  <ion-grid>
-    <ion-item-divider></ion-item-divider>
-    <ion-row class="profile_item_margin">
-      <ion-item class="profile_item_margin formpadding">
-        <ion-label position="stacked">Nickname</ion-label>
-        <h6>NICK NAME</h6>
-      </ion-item>
-      <ion-item class="profile_item_margin formpadding">
-        <ion-label position="stacked">Job</ion-label>
-        <h6>JOB</h6>
-      </ion-item>
-      <ion-item class="profile_item_margin formpadding">
-        <ion-label position="stacked">Minute Rating</ion-label>
-        <h6>400</h6>
-      </ion-item>
-    </ion-row>
-    <ion-item-divider></ion-item-divider>
+  <ion-grid class="ion-no-padding">
+    <div class="border_div"></div>
+    <ion-item class="item_margin">
+      <ion-label class="grey_text" position="stacked">Nickname</ion-label>
+      <p class="p_margin fs-14">NICK NAME</p>
+    </ion-item>
+    <ion-item class="item_margin">
+      <ion-label class="grey_text" position="stacked">Job</ion-label>
+      <p class="p_margin fs-14">JOB</p>
+    </ion-item>
+    <ion-item class="item_margin">
+      <ion-label class="grey_text" position="stacked">Minute Rating</ion-label>
+      <p class="p_margin fs-14">400</p>
+    </ion-item>
   </ion-grid>
-  <ion-grid>
-    <ion-item-divider></ion-item-divider>
-    <ion-item class="profile_item_margin formpadding">
-      <ion-label position="stacked">Appeal tags</ion-label>
+  <ion-grid class="ion-no-padding">
+    <div class="border_div"></div>
+    <ion-item class="item_margin">
+      <ion-label class="grey_text" position="stacked">Appeal tags</ion-label>
       <h6>#appealTags</h6>
     </ion-item>
-    <ion-item-divider></ion-item-divider>
+    <div class="border_div"></div>
   </ion-grid>
 </ion-content>

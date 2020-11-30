@@ -15,4 +15,13 @@ export class SettingPage implements OnInit {
   blockList(){
     this.router.navigate(['/blocklist']);
   }
+  selectLanguages(){
+    this.router.navigate(['/language']);
+  }
+  bugReport(){
+    this.router.navigate(['/bugreport']);
+  }
+  deleteAccount(){
+    this.router.navigate(['/delete-account']);
+  }
 }
