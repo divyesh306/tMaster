@@ -15,7 +15,7 @@
         "Delete" to delete your account.</small></p>
     <ion-row class="button-spacing">
       <ion-button class="red_button" (click)="delete()">Delete</ion-button>
-      <ion-button class="green_border_button" (click)="cancel()">Cancel</ion-button>
+      <ion-button class="green_border_button" [routerLink]="['/setting']">Cancel</ion-button>
     </ion-row>
   </div>
   <div *ngIf="deleteComplete" class="ion-text-center mt-20per column align-center">
