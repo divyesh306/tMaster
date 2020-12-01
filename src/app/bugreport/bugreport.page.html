@@ -1,0 +1,22 @@
+<ion-header class="navigation-header">
+  <ion-toolbar class="dark_toolbar">
+    <div class="row">
+      <img src="../../assets/images/green-back-arrow.svg" class="arrow_icon" [routerLink]="['/setting']" alt="">
+      <ion-title>Bug Report</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none">
+    <ion-label position="stacked" class="label-color">Email</ion-label>
+    <ion-input type="email" class="mt-5"></ion-input>
+  </ion-item>
+  <ion-item lines="none">
+    <ion-label position="stacked" class="label-color">Comment</ion-label>
+    <ion-textarea type="text" rows="4"></ion-textarea>
+  </ion-item>
+  <div class="ion-text-center mt-10per">
+    <ion-button class="green_button" [routerLink]="['/setting']">Submit</ion-button>
+  </div>
+</ion-content>

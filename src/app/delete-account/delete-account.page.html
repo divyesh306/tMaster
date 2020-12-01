@@ -1,0 +1,25 @@
+<ion-header class="navigation-header">
+  <ion-toolbar class="dark_toolbar">
+    <div class="row">
+      <ion-title>Delete Account</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-text-center mt-20per" *ngIf="!deleteComplete">
+    <p class="grey_text"><small>Are you sure want to delete account? </small></p>
+    <p class="grey_text"><small>If you delete account, you will never <br> exchange your holding coins and <br> recoever
+        account. </small></p>
+    <p class="grey_text"><small>All Datas immediately delete from <br> database, if you sure delete account, <br> tap
+        "Delete" to delete your account.</small></p>
+    <ion-row class="button-spacing">
+      <ion-button class="red_button" (click)="delete()">Delete</ion-button>
+      <ion-button class="green_border_button" (click)="cancel()">Cancel</ion-button>
+    </ion-row>
+  </div>
+  <div *ngIf="deleteComplete" class="ion-text-center mt-20per column align-center">
+    <ion-label class="fs-25 grey_text">Delete Completely!</ion-label>
+    <img src="../../assets/logo.svg" alt="" class="logo">
+  </div>
+</ion-content>

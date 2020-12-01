@@ -37,7 +37,8 @@ const routes: Routes = [
   {
     path: 'buycoins',
     loadChildren: () => import('./buycoins/buycoins.module').then( m => m.BuycoinsPageModule)
-  },  {
+  },
+  {
     path: 'exchangecoins',
     loadChildren: () => import('./exchangecoins/exchangecoins.module').then( m => m.ExchangecoinsPageModule)
   },
@@ -52,8 +53,16 @@ const routes: Routes = [
   {
     path: 'language',
     loadChildren: () => import('./language/language.module').then( m => m.LanguagePageModule)
-  }
-
+  },
+  {
+    path: 'bugreport',
+    loadChildren: () => import('./bugreport/bugreport.module').then( m => m.BugreportPageModule)
+  },
+  {
+    path: 'delete-account',
+    loadChildren: () => import('./delete-account/delete-account.module').then( m => m.DeleteAccountPageModule)
+  },
+ 
 
 ];
 @NgModule({

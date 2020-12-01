@@ -1,0 +1,70 @@
+ion-toolbar {
+    --background: #253447;
+    padding: 12px 16px !important;
+}
+ion-input {
+    background: white;
+    border-radius: 5px;
+    height: 40px;
+}
+.menu-icon {
+    margin: 0px -14px 0 8px;
+    height: 46px;
+}
+.letstalk-row {
+    margin: 7px;
+    justify-content: space-between;
+}
+.sort_popular{
+    height: 30px;
+    background: #72ca2f;
+}
+.sort_option{
+    width: 100%;
+    z-index: 100;
+    position: absolute;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    background: #253447;
+}
+.video-box {
+    padding: 10px 10px 0 0;
+    height: 190px;
+    img{
+        height: 100%;
+    }
+}
+.video-box:nth-child(3) {
+    padding-right: 0;
+}
+.arrow_icon {
+    height: 10px;
+    margin-right: 10px;
+}
+.round_arrow{
+    font-size: 25px;
+    text-align: right !important;
+}
+.minute-rating{
+    background: #5c99d1; //#db68e3
+    border-radius: 2px;
+    color: white;
+    font-size: 12px;
+    position: absolute;
+    bottom: 30px;
+    right: 15px;
+}
+.name-age{
+    font-size: 9px;
+    color: white;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.age-label{
+    position: relative;
+    right: -30px;
+}

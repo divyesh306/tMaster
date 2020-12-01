@@ -1,9 +1,25 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>language</ion-title>
+<ion-header class="navigation-header">
+  <ion-toolbar class="dark_toolbar">
+    <div class="row">
+      <img src="../../assets/images/green-back-arrow.svg" class="arrow_icon" [routerLink]="['/setting']" alt="">
+      <ion-title>Languages</ion-title>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
 
+<ion-content>
+  <div class="ion-text-center mt-10">
+    <ion-radio-group class="column">
+      <ion-item lines="none" class="mr-11">
+        <ion-radio color="success" value="Japanese"></ion-radio>
+        <ion-label>日本語</ion-label>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-radio color="success" value="English"></ion-radio>
+        <ion-label>English</ion-label>
+      </ion-item>
+    </ion-radio-group>
+  </div>
 </ion-content>
