@@ -20,6 +20,22 @@ const routes: Routes = [
         loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
+        path: 'videolist-category',
+        loadChildren: () => import('../videolist-category/videolist-category.module').then( m => m.VideolistCategoryPageModule)
+      },
+      {
+        path: 'video-detail',
+        loadChildren: () => import('../video-detail/video-detail.module').then( m => m.VideoDetailPageModule)
+      },
+      {
+        path: 'letstalknow',
+        loadChildren: () => import('../letstalknow/letstalknow.module').then( m => m.LetstalknowPageModule)
+      },
+      {
+        path: 'chat-window',
+        loadChildren: () => import('../chat-window/chat-window.module').then( m => m.ChatWindowPageModule)
+      },    
+      {
         path: '',
         redirectTo: 'tabs/hangout',
         pathMatch: 'full'

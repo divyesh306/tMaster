@@ -1,0 +1,20 @@
+ion-title {
+    margin-right: 0 !important;
+}
+.green_border_button {
+    height: 38px;
+    width: 100px;
+    border: 1px solid #72ca2f;
+    --background: white;
+    color: #72ca2f;
+    font-size: 14px;
+}
+.red_button {
+    height: 38px;
+    width: 100px;
+    margin-right: 12px;
+}
+.button-spacing {
+    margin-top: 20%;
+    justify-content: center;
+}

@@ -1,33 +1,36 @@
 <ion-header class="navigation-header">
-  <ion-toolbar>
-    <div class="heading">
-      <ion-button class="backbutton" [routerLink]="['/tabs/profile']">
-        <ion-icon name="chevron-back-outline" class="menu-icon"></ion-icon>
-      </ion-button>
-      <ion-title>Setting</ion-title>
+  <ion-toolbar class="dark_toolbar">
+    <div class="row">
+      <img src="../../assets/images/green-back-arrow.svg"  class="arrow_icon" [routerLink]="['/tabs/profile']" alt="">
+      <ion-title>Settings</ion-title>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item class="fields-info">
-    <ion-label>Block List</ion-label>
-    <ion-icon name="chevron-forward-outline" class="carrot-arrow"></ion-icon>
+  <ion-item lines="none" class="mt-5" (click)="blockList()">
+    <ion-label class="grey_text">Block List</ion-label>
+   <img src="../../assets/images/right-carrot.svg" alt="" class="arrow_icon">
   </ion-item>
   <ion-item-divider></ion-item-divider>
-  <ion-item class="fields-info">
-    <ion-label>Languages</ion-label>
-    <ion-icon name="chevron-forward-outline" class="carrot-arrow"></ion-icon>
+  <ion-item lines="none" (click)="selectLanguages()">
+    <ion-label class="grey_text">Languages</ion-label>
+    <img src="../../assets/images/right-carrot.svg" alt="" class="arrow_icon">
   </ion-item>
   <ion-item-divider></ion-item-divider>
-  <ion-item class="fields-info">
-    <ion-label>Terms of Service</ion-label>
-    <ion-icon name="chevron-forward-outline" class="carrot-arrow"></ion-icon>
+  <ion-item lines="none">
+    <ion-label class="grey_text">Terms of Service</ion-label>
+   <img src="../../assets/images/right-carrot.svg" alt="" class="arrow_icon">
   </ion-item>
   <ion-item-divider></ion-item-divider>
-  <ion-item class="fields-info">
-    <ion-label>Bug Report</ion-label>
-    <ion-icon name="chevron-forward-outline" class="carrot-arrow"></ion-icon>
+  <ion-item lines="none" (click)="bugReport()">
+    <ion-label class="grey_text">Bug Report</ion-label>
+   <img src="../../assets/images/right-carrot.svg" alt="" class="arrow_icon">
+  </ion-item>
+  <ion-item-divider></ion-item-divider>
+  <ion-item lines="none" (click)="deleteAccount()">
+    <ion-label class="grey_text">Delete Account</ion-label>
+   <img src="../../assets/images/right-carrot.svg" alt="" class="arrow_icon">
   </ion-item>
   <ion-item-divider></ion-item-divider>
 </ion-content>
