@@ -19,4 +19,5 @@ export class LetstalknowPage implements OnInit {
   selectOption(){
     this.openSelectOption=!this.openSelectOption;
   }
+  videoDetails(){}
 }
