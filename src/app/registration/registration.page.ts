@@ -64,19 +64,10 @@ export class RegistrationPage implements OnInit {
         } else {
             // console.log(this.registerForm.value)
             var userdata = this.registerForm.value;
-            userdata.username = userdata.nick_name;
             userdata.type = this.userData.type;
             this.signup(userdata);
             this.router.navigate(['/register-complete']);
         }
-        // if (!userData.username || !userData.type || !userData.phone || !userData.date_of_birth || !userData.gender
-        //     || !userData.rating || !userData.tags || !userData.jobs || !userData.picture) {
-        //     alert("Please Fillup All form");
-        // }
-        // else {
-        //     userData.nick_name = userData.username;
-        //     this.signup(userData);
-        // }
     }
     signup(signuserData) {
         let body = {
