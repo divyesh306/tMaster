@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="dark_toolbar">
     <div class="row">
       <ion-input type="text"></ion-input>
       <img src="../../assets/images/menu-icon.svg" alt="" (click)="toggleMenu()" menuToggle class="menu-icon">
@@ -17,12 +17,51 @@
   </div>
 
   <ion-row class="tabs">
-    <ion-button fill="clear" [ngClass]="activeTab=='Tag' ? 'active_tab' : 'tab'" (click)="selectTab('Tag')">Tag</ion-button>
-    <ion-button fill="clear" [ngClass]="activeTab=='People' ? 'active_tab' : 'tab'" (click)="selectTab('People')">People</ion-button>
-    <ion-button fill="clear" [ngClass]="activeTab=='Job' ? 'active_tab' : 'tab'" (click)="selectTab('Job')">Job</ion-button>
+    <ion-button fill="clear" [ngClass]="activeTab=='Tag' ? 'active_tab' : 'tab'" (click)="selectTab('Tag')">Tag
+    </ion-button>
+    <ion-button fill="clear" [ngClass]="activeTab=='People' ? 'active_tab' : 'tab'" (click)="selectTab('People')">People
+    </ion-button>
+    <ion-button fill="clear" [ngClass]="activeTab=='Job' ? 'active_tab' : 'tab'" (click)="selectTab('Job')">Job
+    </ion-button>
   </ion-row>
 
-  <ion-row  *ngIf="activeTab=='People'">
+  <ion-list *ngIf="activeTab=='Tag'">
+    <ion-row class="ion-margin-horizontal align-center">
+      <ion-col size="1.5">
+        <img src="../../assets/images/hashtag-icon.svg" alt="">
+      </ion-col>
+      <ion-col size="7.5">
+        <p class="fs-12 font-bold grey_text">#helpme</p>
+      </ion-col>
+      <ion-col size="3" class="ion-text-right">
+        <ion-label class="fs-12 grey_text font-bold"> 1928 Hits</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-margin-horizontal align-center">
+      <ion-col size="1.5">
+        <img src="../../assets/images/hashtag-icon.svg" alt="">
+      </ion-col>
+      <ion-col size="7.5">
+        <p class="fs-12 font-bold grey_text">#supportyou</p>
+      </ion-col>
+      <ion-col size="3" class="ion-text-right">
+        <ion-label class="fs-12 grey_text font-bold"> 1900 Hits</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-margin-horizontal align-center">
+      <ion-col size="1.5">
+        <img src="../../assets/images/hashtag-icon.svg" alt="">
+      </ion-col>
+      <ion-col size="7.5">
+        <p class="fs-12 font-bold grey_text">#urgently</p>
+      </ion-col>
+      <ion-col size="3" class="ion-text-right">
+        <ion-label class="fs-12 grey_text font-bold"> 1829 Hits</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+
+  <ion-row *ngIf="activeTab=='People'">
     <ion-col size="4" class="video-box">
       <img src="../../assets/user-2.svg" alt="">
       <ion-label class="minute-rating">M/300</ion-label>
@@ -96,4 +135,41 @@
       </div>
     </ion-col>
   </ion-row>
+
+  <ion-list *ngIf="activeTab=='Job'">
+    <ion-row class="ion-margin-horizontal align-center">
+      <ion-col size="1.5">
+        <img src="../../assets/images/categories-1.svg" alt="">
+      </ion-col>
+      <ion-col size="7.5">
+        <p class="fs-12 font-bold grey_text">Medic</p>
+      </ion-col>
+      <ion-col size="3" class="ion-text-right">
+        <ion-label class="fs-12 grey_text font-bold"> 1928 Hits</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-margin-horizontal align-center">
+      <ion-col size="1.5">
+        <img src="../../assets/images/categories-1.svg" alt="">
+      </ion-col>
+      <ion-col size="7.5">
+        <p class="fs-12 font-bold grey_text">Teacher</p>
+      </ion-col>
+      <ion-col size="3" class="ion-text-right">
+        <ion-label class="fs-12 grey_text font-bold"> 1900 Hits</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-margin-horizontal align-center">
+      <ion-col size="1.5">
+        <img src="../../assets/images/categories-1.svg" alt="">
+      </ion-col>
+      <ion-col size="7.5">
+        <p class="fs-12 font-bold grey_text">Author</p>
+      </ion-col>
+      <ion-col size="3" class="ion-text-right">
+        <ion-label class="fs-12 grey_text font-bold"> 1829 Hits</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+
 </ion-content>

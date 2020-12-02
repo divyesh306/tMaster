@@ -1,9 +1,18 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>message</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar class="dark_toolbar">
+    <ion-title class="m-0">Message</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-row class="sort_popular row ion-text-center" (click)="selectOption()">
+    <ion-label class="white_text grow">Sort by popular</ion-label>
+    <img src="../../assets/images/white-arrow.svg" alt="" class="arrow_icon">
+  </ion-row>
 
+  <div class="sort_option" *ngIf="openSelectOption">
+    <p class="white_text"><small>Latest</small></p>
+    <p class="white_text ion-no-margin"><small>Low to High</small></p>
+    <p class="white_text"><small>High to Low</small></p>
+  </div>
 </ion-content>

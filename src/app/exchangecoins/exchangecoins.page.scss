@@ -1,42 +1,57 @@
-ion-toolbar {
-    --background: #253447;
-    padding: 12px 16px !important;
-}
-ion-item-divider{
-    margin:0px auto !important;
+ion-item-divider {
+    margin: 0 auto !important;
     width: 90%;
+}
+
+.arrow_icon {
+    height: 35px;
 }
 .item-highlight {
     height: none !important;
 }
-.width{
-    width:100%;
+.h-40 {
+    height: 40px;
 }
-.icon{
-    width:20px;
+.icon {
+    width: 20px;
     height: 20px;
 }
-.border{
-    border-width: 0.5px !important;
-    border-style: solid !important;
+.ml-6 {
+    margin-left: 6px;
+}
+.pl-12{
+    padding-left: 12px;
+}
+.border {
+    border: 1px solid #253447 !important;
     border-radius: 5px !important;
+    padding-left: 10px !important;
 }
-.border_none{
-    --border-style:none !important;
+.border_none {
+    --border-style: none !important;
 }
-.backbutton{
+.backbutton {
     --background: white !important;
     --border-radius: 100px !important;
-    --padding-start: .1em;
-    --padding-end: .1em;
+    --padding-start: 0.1em;
+    --padding-end: 0.1em;
 }
 .menu-icon {
     color: black;
     font-size: 35px;
-    border-radius:100px ;
+    border-radius: 100px;
 }
-.coin_img{
-    border-radius: 0px !important;
-    width:50px;
-    height: 50px;
+.green_button {
+    height: 40px;
+    width: 110px;
+    font-size: 15px;
+    margin: 10px auto !important;
+}
+.coin_img {
+    border-radius: 0 !important;
+    width: 30px;
+    height: 30px;
+}
+.item-native {
+    padding: 0 !important;
 }
