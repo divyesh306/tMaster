@@ -9,33 +9,21 @@
 
 <ion-content>
   <div class="row letstalk-row">
-    <img src="../../assets/images/back-arrow.svg" class="round_arrow" alt="" (click)="goBack()">
-    <div class="row">
-      <img src="../../assets/images/hashtag-icon.svg" alt="">
-      <div class="ion-text-center column">
-        <ion-label class="fs-13 font-bold">#letstalknow</ion-label>
-        <ion-label class="fs-11 grey_text">Popular Tag</ion-label>
-      </div>
-    </div>
-    <div class="row" [routerLink]="['/tabs/search-result']">
-      <ion-label class="fs-11">19900</ion-label>
-      <ion-icon name="chevron-forward-sharp" class="grey_text"></ion-icon>
+    <img src="../../assets/images/browse-screen-search.svg" alt="">
+    <div class="ion-text-center column">
+      <ion-label class="fs-12 font-bold">letstalknow</ion-label>
+      <ion-label class="fs-12 grey_text">Search Result</ion-label>
     </div>
   </div>
 
-  <ion-row class="sort_popular row ion-text-center" (click)="selectOption()">
-    <ion-label class="white_text grow">Sort by popular</ion-label>
-    <img src="../../assets/images/white-arrow.svg" alt="" class="arrow_icon">
+  <ion-row class="tabs">
+    <ion-button fill="clear" [ngClass]="activeTab=='Tag' ? 'active_tab' : 'tab'" (click)="selectTab('Tag')">Tag</ion-button>
+    <ion-button fill="clear" [ngClass]="activeTab=='People' ? 'active_tab' : 'tab'" (click)="selectTab('People')">People</ion-button>
+    <ion-button fill="clear" [ngClass]="activeTab=='Job' ? 'active_tab' : 'tab'" (click)="selectTab('Job')">Job</ion-button>
   </ion-row>
 
-  <div class="sort_option" *ngIf="openSelectOption">
-    <p class="white_text"><small>Latest</small></p>
-    <p class="white_text ion-no-margin"><small>Low to High</small></p>
-    <p class="white_text"><small>High to Low</small></p>
-  </div>
-
-  <ion-row>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
+  <ion-row  *ngIf="activeTab=='People'">
+    <ion-col size="4" class="video-box">
       <img src="../../assets/user-2.svg" alt="">
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
@@ -43,7 +31,7 @@
         <ion-label class="age-label"> 21 Age</ion-label>
       </div>
     </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
+    <ion-col size="4" class="video-box">
       <img src="../../assets/user-5.svg" alt="">
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
@@ -51,7 +39,7 @@
         <ion-label class="age-label"> 21 Age</ion-label>
       </div>
     </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
+    <ion-col size="4" class="video-box">
       <img src="../../assets/user-4.svg" alt="">
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
@@ -59,7 +47,7 @@
         <ion-label class="age-label"> 21 Age</ion-label>
       </div>
     </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
+    <ion-col size="4" class="video-box">
       <img src="../../assets/user-2.svg" alt="">
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
@@ -67,7 +55,7 @@
         <ion-label class="age-label"> 21 Age</ion-label>
       </div>
     </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
+    <ion-col size="4" class="video-box">
       <img src="../../assets/user-5.svg" alt="">
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
@@ -75,7 +63,7 @@
         <ion-label class="age-label"> 21 Age</ion-label>
       </div>
     </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
+    <ion-col size="4" class="video-box">
       <img src="../../assets/user-4.svg" alt="">
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
@@ -83,7 +71,7 @@
         <ion-label class="age-label"> 21 Age</ion-label>
       </div>
     </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
+    <ion-col size="4" class="video-box">
       <img src="../../assets/user-3.svg" alt="">
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
@@ -91,7 +79,7 @@
         <ion-label class="age-label"> 21 Age</ion-label>
       </div>
     </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
+    <ion-col size="4" class="video-box">
       <img src="../../assets/user-2.svg" alt="">
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
@@ -99,7 +87,7 @@
         <ion-label class="age-label"> 21 Age</ion-label>
       </div>
     </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
+    <ion-col size="4" class="video-box">
       <img src="../../assets/user-3.svg" alt="">
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
@@ -108,5 +96,4 @@
       </div>
     </ion-col>
   </ion-row>
-
 </ion-content>

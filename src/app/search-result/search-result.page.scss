@@ -1,0 +1,70 @@
+ion-toolbar {
+    --background: #253447;
+    padding: 12px 16px !important;
+}
+ion-input {
+    background: white;
+    border-radius: 5px;
+    height: 40px;
+}
+.menu-icon {
+    margin: 0px -14px 0 8px;
+    height: 46px;
+}
+.letstalk-row {
+    box-shadow: 1px 0px 9px -1px #636363;
+    justify-content: center;
+    margin-left: -10px;
+}
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 10px;
+}
+.tab {
+    color: #919191;
+    border-bottom: 2px solid #919191;
+    width: 28%;
+    text-transform: capitalize;
+}
+.active_tab {
+    color: #72ca2f;
+    font-weight: bold;
+    border-bottom: 4px solid #72ca2f;
+    width: 28%;
+    text-transform: capitalize;
+}
+
+.video-box {
+    padding: 10px 10px 0 0;
+    height: 190px;
+    img{
+        height: 100%;
+    }
+}
+.video-box:nth-child(3) {
+    padding-right: 0;
+}
+
+.minute-rating{
+    background: #5c99d1; //#db68e3
+    border-radius: 2px;
+    color: white;
+    font-size: 12px;
+    position: absolute;
+    bottom: 30px;
+    right: 15px;
+}
+.name-age{
+    font-size: 9px;
+    color: white;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.age-label{
+    position: relative;
+    right: -30px;
+}
