@@ -1282,15 +1282,14 @@ export class VerifyNumberPage implements OnInit {
   }
   sendOtp(phonenumber) {
     phonenumber = this.countrycode + phonenumber;
-    let body = {
-      query: 'mutation send_otp($data:SendOtpInputType!){send_otp(data:$data){hasError,message,userErrors,data}}',
-      variables: {
-        data: {
-          phone: phonenumber
-        }
+    const mutation = {
+      name: 'send_otp',
+      inputtype: 'SendOtpInputType',
+      data: {
+        phone: phonenumber
       }
     }
-    this.userService.sendApi(body).subscribe(data => {
+    this.userService.sendApi(mutation).subscribe(data => {
       const res = data['data'].send_otp;
       console.log("res :",);
       if (!res.hasError) {
@@ -1299,7 +1298,7 @@ export class VerifyNumberPage implements OnInit {
       }
     }, err => {
       alert(err.message);
-      console.log("Somthing Went Wrong",err.message);
+      console.log("Somthing Went Wrong", err.message);
     });
   }
 }

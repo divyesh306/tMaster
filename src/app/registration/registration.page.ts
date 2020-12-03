@@ -30,7 +30,7 @@ export class RegistrationPage implements OnInit {
             this.userData.type = params['position'];
             console.log('Url Id: ', this.userData);
         })
-        this.startVedio();
+        // this.startVedio();
 
         this.registerForm = this.formBuilder.group({
             nick_name: ['', [Validators.required, Validators.minLength(5)]],
@@ -70,13 +70,12 @@ export class RegistrationPage implements OnInit {
         }
     }
     signup(signuserData) {
-        let body = {
-            query: 'mutation signup($data:UserRegisterInputType!){signup(data:$data){hasError,message,userErrors,data}}',
-            variables: {
-                data: signuserData
-            }
+        const mutation = {
+            name: 'signup',
+            inputtype:'UserRegisterInputType',
+            data:signuserData
         }
-        this.userService.sendApi(body).subscribe(result => {
+        this.userService.sendApi(mutation).subscribe(result => {
             console.log();
             const res = result['data'].signup;
             console.log("Verify Otp : ", res)

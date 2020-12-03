@@ -57,21 +57,27 @@ export class PhoneVerificationPage implements OnInit {
 
   verfyOtp(code) {
     var otp = code.o1 + code.o2 + code.o3 + code.o4 + code.o5 + code.o6;
-    let body = {
-      query: 'mutation verify_otp($data:VerifyOtpInputType!){verify_otp(data:$data){hasError,message,data}}',
-      variables: {
-        data: {
-          phone: this.localStorage.getphonenumber(),
-          otp: otp
-        }
+    const mutation = {
+      name: 'verify_otp',
+      inputtype: 'VerifyOtpInputType',
+      data: {
+        phone: this.localStorage.getphonenumber(),
+        otp: otp
       }
     }
-    this.userService.sendApi(body).subscribe(result => {
+    this.userService.sendApi(mutation).subscribe(result => {
       console.log();
       const res = result['data'].verify_otp;
       console.log("Verify Otp : ", res)
       if (!res.hasError) {
-        this.router.navigate(['/select-position']);
+        if (res.data['is_register']) {
+          this.router.navigate(['/tabs/hangout']);
+          const token = res.data['token'];
+          const user = res.data['user'];
+        }
+        else {
+          this.router.navigate(['/select-position']);
+        }
       } else {
         this.configService.sendTost("danger", "OTP Not Verify", "bottom");
         this.wrongCode = true;
@@ -82,15 +88,14 @@ export class PhoneVerificationPage implements OnInit {
     });
   }
   resend() {
-    let body = {
-      query: 'mutation send_otp($data:SendOtpInputType!){send_otp(data:$data){hasError,message,userErrors,data}}',
-      variables: {
-        data: {
-          phone: this.localStorage.getphonenumber()
-        }
+    const mutation = {
+      name: 'send_otp',
+      inputtype: 'SendOtpInputType',
+      data: {
+        phone: this.localStorage.getphonenumber()
       }
     }
-    this.userService.sendApi(body).subscribe(data => {
+    this.userService.sendApi(mutation).subscribe(data => {
       const res = data['data'].send_otp;
       if (!res.hasError) {
         this.configService.sendTost("dark", "Otp Resend Successfully", "bottom");
@@ -106,7 +111,6 @@ export class PhoneVerificationPage implements OnInit {
     }
     else {
       this.verfyOtp(otp);
-      this.router.navigate(['/select-position']);
     }
   }
 }

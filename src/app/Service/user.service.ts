@@ -13,7 +13,13 @@ export class userService {
     constructor(public _configservice: configService, public http: HttpClient) {
         this.server_url = this._configservice.getServerUrl();
     }
-    sendApi(mobilenumber) {
-        return this.http.post(this.server_url + "open", mobilenumber)
+    sendApi(mutationdata) {
+        let body = {
+            query: 'mutation ' + mutationdata.name + '($data:' + mutationdata.inputtype + '!){' + mutationdata.name + '(data:$data){hasError,message,data}}',
+            variables: {
+                data: mutationdata.data
+            }
+        }
+        return this.http.post(this.server_url + "open", body)
     }
 }
