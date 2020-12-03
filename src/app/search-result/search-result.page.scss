@@ -1,8 +1,4 @@
-ion-toolbar {
-    --background: #253447;
-    padding: 12px 16px !important;
-}
-ion-input {
+iion-input {
     background: white;
     border-radius: 5px;
     height: 40px;
@@ -19,7 +15,7 @@ ion-input {
 .tabs {
     display: flex;
     justify-content: space-around;
-    margin: 20px 10px;
+    margin: 20px 10px 4px;
 }
 .tab {
     color: #919191;

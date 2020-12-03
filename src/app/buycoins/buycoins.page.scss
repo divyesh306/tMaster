@@ -1,7 +1,4 @@
-ion-toolbar {
-    --background: #253447;
-    padding: 12px 16px !important;
-}
+
 ion-item-divider{
     margin:0px auto !important;
 }
@@ -19,16 +16,17 @@ ion-note{
     width:100%;
     font-size:12px;
     text-align:center;
-    small{        
+    padding-top: 5px;
+      small{        
         width:100%;
         font-size: 9px;
         text-align:center;
     }
 }
-.width{
-    width:100%;
+.arrow_icon{
+    height: 35px;
 }
-img{
+.coin_img{
     margin-top: 10px;
     height: 30px !important;
 }
@@ -52,21 +50,18 @@ img{
     height: 50px;
 }
 
-.margin-left{
-    // margin-left: 5px;
-    font-size: 18px;
+.justify-center{
+    justify-content: center;
 }
-
-.greenbutton{
-    --background:green !important;
-    color:white;
-    width: 100px;
+.green_button{
     height: 35px;
-    h2{
-        font-size: 18px;
-        margin-top: 0px;
-        margin-bottom: 0px;
-    }
+    width: 120px;
+    font-size: 15px;
+    font-weight: bold;
+}
+.coin-label{
+    font-size: 22px;
+    color: #515050;
 }
 
 .note{
