@@ -54,7 +54,7 @@ ion-title {
     margin: 0 !important;
 }
 .m-auto{
-    margin: auto;
+    margin: auto !important;
 }
 .mt-5 {
     margin-top: 5px;
@@ -66,7 +66,7 @@ ion-title {
     margin-top: 10%;
 }
 .mt-20per {
-    margin-top: 20%;
+    margin-top: 20% !important;
 }
 .m-30 {
     margin: 30px;
@@ -79,11 +79,11 @@ ion-title {
 
 }
 .fs-12 {
-    font-size: 12px;
+    font-size: 12px !important;
 
 }
 .fs-22 {
-    font-size: 22px;
+    font-size: 22px !important;
 }
 .fs-25 {
     font-size: 25px;

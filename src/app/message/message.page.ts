@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./message.page.scss'],
 })
 export class MessagePage implements OnInit {
-
+  openSelectOption=false;
   constructor() { }
 
   ngOnInit() {
   }
-
+  selectOption(){
+    this.openSelectOption=!this.openSelectOption;
+  }
 }
