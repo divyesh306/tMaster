@@ -4,8 +4,8 @@
   <form [formGroup]="registerForm" (ngSubmit)="next(userData)">
     <ion-avatar class="p-relative">
       <img [src]="profileImg" alt="">
-      <ion-input type="file" accept="image/*" class="browse_btn" (change)="changeListener($event)"></ion-input>
-      <ion-icon name="camera" class="camera_icon"></ion-icon>
+      <!-- <ion-input type="file" accept="image/*" class="browse_btn" (change)="changeListener($event)"></ion-input> -->
+      <ion-icon name="camera" class="camera_icon" (click)="startVedio()"></ion-icon>
     </ion-avatar>
     <ion-label class="fs-12 grey_text">Take your own 3 sec video with face mask</ion-label>
     <div class="border_div"></div>

@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
+import { configService } from '../Service/config.service';
 
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture/ngx';
+import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import { VideoPlayer } from '@ionic-native/video-player/ngx';
 
 @Component({
     selector: 'app-registration',
@@ -22,7 +24,8 @@ export class RegistrationPage implements OnInit {
 
     constructor(private router: Router, private activatedRoute: ActivatedRoute,
         private localStorage: LocalstorageService, private userService: userService,
-        public formBuilder: FormBuilder, private mediaCapture: MediaCapture) {
+        public formBuilder: FormBuilder, private mediaCapture: MediaCapture,
+        private configService: configService, private videoPlayer: VideoPlayer,) {
         this.userData = {};
         this.userData.picture = "https://www.flaticon.com/svg/static/icons/svg/147/147144.svg";
         this.userData.phone = this.localStorage.getphonenumber();
@@ -30,8 +33,6 @@ export class RegistrationPage implements OnInit {
             this.userData.type = params['position'];
             console.log('Url Id: ', this.userData);
         })
-        // this.startVedio();
-
         this.registerForm = this.formBuilder.group({
             nick_name: ['', [Validators.required, Validators.minLength(5)]],
             date_of_birth: ['', [Validators.required]],
@@ -49,10 +50,19 @@ export class RegistrationPage implements OnInit {
     }
     ngOnInit() { }
     startVedio() {
-        let options: CaptureImageOptions = { limit: 3 }
-        this.mediaCapture.captureImage(options)
+        let options: CaptureVideoOptions = { duration: 3, quality: 1 }
+        this.mediaCapture.captureVideo(options)
             .then(
-                (data: MediaFile[]) => console.log(data),
+                (data: MediaFile[]) => {
+                    console.log("video : ", JSON.stringify(data)),
+                        this.configService.sendTost("danger", data[0].fullPath, "bottom");
+                    this.videoPlayer.play(data[0].fullPath).then(() => {
+                        this.configService.sendTost("danger", "Vedio Complete", "bottom");
+                        
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                },
                 (err: CaptureError) => console.error(err)
             );
     }
@@ -72,8 +82,8 @@ export class RegistrationPage implements OnInit {
     signup(signuserData) {
         const mutation = {
             name: 'signup',
-            inputtype:'UserRegisterInputType',
-            data:signuserData
+            inputtype: 'UserRegisterInputType',
+            data: signuserData
         }
         this.userService.sendApi(mutation).subscribe(result => {
             console.log();
