@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ChatWindowPageRoutingModule } from './chat-window-routing.module';
 
 import { ChatWindowPage } from './chat-window.page';
+import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ChatWindowPage } from './chat-window.page';
     IonicModule,
     ChatWindowPageRoutingModule
   ],
-  declarations: [ChatWindowPage]
+  declarations: [ChatWindowPage,VideoNoticeComponent],
+  entryComponents:[VideoNoticeComponent]
 })
 export class ChatWindowPageModule {}

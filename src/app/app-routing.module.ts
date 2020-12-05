@@ -62,6 +62,10 @@ const routes: Routes = [
     path: 'delete-account',
     loadChildren: () => import('./delete-account/delete-account.module').then( m => m.DeleteAccountPageModule)
   },
+  {
+    path: 'chat-window',
+    loadChildren: () => import('./chat-window/chat-window.module').then( m => m.ChatWindowPageModule)
+  },      
 ];
 @NgModule({
   imports: [

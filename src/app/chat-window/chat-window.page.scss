@@ -1,0 +1,99 @@
+.back-arrow {
+    color: white;
+    font-size: 30px;
+}
+.online-tag {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    ion-icon {
+        font-size: 25px;
+    }
+}
+.fs-10 {
+    font-size: 10px;
+}
+.background {
+    background: #6d97c1;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+.sender-style {
+    display: flex;
+    align-items: flex-end;
+    justify-content: end;
+    ion-label {
+        width: 48px;
+        text-align: right;
+        margin-right: 4px;
+    }
+}
+.sender {
+    background: #72ca2f;
+    color: white;
+    padding: 10px;
+    max-width: 75%;
+    float: right;
+    margin-right: 4px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+ion-avatar {
+    height: 50px;
+    width: 50px;
+    margin: 0 8px;
+}
+.receiver-style {
+    display: flex;
+    align-items: flex-end;
+    justify-content: start;
+}
+.receiver {
+    background: white;
+    color: #253447;
+    max-width: 72%;
+    padding: 10px;
+    float: left;
+    border-radius: 6px;
+    font-size: 13px;
+}
+.bottom-icon {
+    position: fixed;
+    border: beige;
+    bottom: 0;
+    align-items: center;
+    background: white;
+    width: 100%;
+    padding: 6px;
+    ion-icon {
+        color: #253447;
+        font-size: 25px;
+    }
+    ion-input {
+        border: 1px solid #253447;
+        border-radius: 6px;
+        height: 34px;
+    }
+}
+.coin-box {
+    background: #6d8596;
+    position: absolute;
+    bottom: 56px;
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+.coin-padding {
+    padding: 10px 0;
+}
+.c-icon {
+    border: 1px solid #253447;
+    color: #253447;
+    border-radius: 50%;
+    padding: 2px 5px;
+    width: 26px;
+    height: 26px;
+}
