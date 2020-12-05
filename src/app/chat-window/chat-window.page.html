@@ -1,8 +1,8 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="dark_toolbar">
     <div class="row">
-      <ion-icon name="chevron-back-outline" class="back-arrow"></ion-icon>
-      <ion-title class="m-0 grow">Mikachan</ion-title>
+      <ion-icon name="chevron-back-outline" class="back-arrow" [routerLink]="['/tabs/message']"></ion-icon>
+      <ion-title class="m-0 grow" (click)="presentActionSheet()">Mikachan</ion-title>
       <div class="online-tag">
         <ion-icon name="cloud-done-outline"></ion-icon>
         <ion-label class="fs-10">Online</ion-label>
@@ -29,8 +29,16 @@
       <ion-label class="fs-10 white_text">10:28am</ion-label>
     </div>
   </div>
+  <div *ngIf="fileOption" class="fileupload">
+    <div class="upload_icon">
+      <ion-icon name="camera-outline"></ion-icon>
+    </div>
+    <div class="upload_icon">
+      <ion-icon name="share-outline"></ion-icon>
+    </div>
+  </div>
   <ion-row class="bottom-icon">
-    <ion-col size="1.5">
+    <ion-col size="1.5" (click)="openFileOption()">
       <ion-icon name="folder-outline"></ion-icon>
     </ion-col>
     <ion-col size="1.5" (click)="openCoinModal()">
