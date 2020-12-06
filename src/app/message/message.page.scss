@@ -1,8 +1,8 @@
-.sort_popular{
+.sort_popular {
     height: 30px;
     background: #72ca2f;
 }
-.sort_option{
+.sort_option {
     width: 100%;
     z-index: 100;
     position: absolute;
@@ -14,4 +14,42 @@
 .arrow_icon {
     height: 10px;
     margin-right: 10px;
+}
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 10px 4px;
+}
+.tab {
+    color: #919191;
+    border-bottom: 2px solid #919191;
+    width: 28%;
+    text-transform: capitalize;
+}
+.active_tab {
+    color: #72ca2f;
+    font-weight: bold;
+    border-bottom: 4px solid #72ca2f;
+    width: 28%;
+    text-transform: capitalize;
+}
+ion-row {
+    padding: 0 5px;
+    align-items: center !important;
+}
+ion-item-divider {
+    margin: 3px auto 6px;
+    width: 94%;
+}
+.ml-25 {
+    margin-left: 25px;
+}
+.margin-min {
+    margin-top: -5px;
+}
+.p-margin {
+    margin: -15px 0 0 20px !important;
+}
+.p0 {
+    padding: 0;
 }

@@ -1,0 +1,85 @@
+.background {
+    height: 100%;
+    width: 100%;
+}
+.user_details {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 16px 10px;
+}
+.user_details:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: .4;
+}
+
+.end_call {
+    position: absolute;
+    top: 55px;
+    width: 100%;
+    padding: 10px;
+}
+.gift-icons {
+    position: absolute;
+    right: 5px;
+    bottom: 52px;
+    display: flex;
+    flex-direction: column;
+    img {
+        padding: 10px;
+    }
+}
+.chat {
+    position: absolute;
+    left: 14px;
+    bottom: 60px;
+    .sender {
+        background: #72ca2f;
+        color: white;
+        padding: 10px;
+        width: auto;
+        max-width: 85%;
+        margin: 8px 0;
+        border-radius: 0 25px 25px;
+        font-size: 13px;
+        display: flex;
+    }
+    .receiver {
+        background: white;
+        color: #253447;
+        width: auto;
+        max-width: 85%;
+        padding: 10px;
+        border-radius: 25px 0 25px 25px;
+        font-size: 13px;
+        display: flex;
+    }
+}
+.logo-icon {
+    height: 20px;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    ion-input {
+        border: 1px solid white;
+        border-radius: 50px;
+        color: white;
+        height: 40px;
+        margin-left: 10px;
+    }
+    .send-icon {
+        border: 1px solid white;
+        border-radius: 50%;
+        height: 40px;
+        padding: 5px;
+        margin-right: 8px;
+    }
+}

@@ -32,10 +32,6 @@ const routes: Routes = [
         loadChildren: () => import('../letstalknow/letstalknow.module').then( m => m.LetstalknowPageModule)
       },
       {
-        path: 'chat-window',
-        loadChildren: () => import('../chat-window/chat-window.module').then( m => m.ChatWindowPageModule)
-      },      
-      {
         path: 'search-result',
         loadChildren: () => import('../search-result/search-result.module').then( m => m.SearchResultPageModule)
       },    

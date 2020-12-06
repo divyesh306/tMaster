@@ -1,0 +1,26 @@
+<ion-content class="ion-padding ion-text-center">
+  <div *ngIf="!wantToVideoChat">
+    <ion-label class="grey_text">Notice!</ion-label>
+    <p class="grey_text"><small>Are you going to video chat with user?
+        If you want to video chat with partner user, both user has
+        to open same page.</small></p>
+
+    <ion-button class="green_button" (click)="acceptNotice()">OK</ion-button>
+  </div>
+
+  <div *ngIf="wantToVideoChat">
+    <ion-label class="grey_text">Notice!</ion-label>
+    <p class="grey_text"><small>Are you going to video chat with user?<br>
+        This user sets a rate of 300 coins per minute for video chatting with you.
+        <br>
+        Do you agree and wish to start chatting?
+      </small></p>
+    <ion-label class="small-text"> (if your coins are over the video chat wil be suddenly disconnected
+      and you wil have to buy new coins)</ion-label>
+
+    <ion-row class="row-spacing">
+      <ion-button class="green_button" (click)="start()">START</ion-button>
+      <ion-button class="green_border_button" (click)="cancel()">CANCEL</ion-button>
+    </ion-row>
+  </div>
+</ion-content>

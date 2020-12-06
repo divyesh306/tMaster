@@ -1,9 +1,97 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>chat-window</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar class="dark_toolbar">
+    <div class="row">
+      <ion-icon name="chevron-back-outline" class="back-arrow" [routerLink]="['/tabs/message']"></ion-icon>
+      <ion-title class="m-0 grow" (click)="presentActionSheet()">Mikachan</ion-title>
+      <div class="online-tag">
+        <ion-icon name="cloud-done-outline"></ion-icon>
+        <ion-label class="fs-10">Online</ion-label>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <!-- <img src="../../assets/images/" alt="" class="background"> -->
+  <div class="background ion-padding">
+    <div class="sender-style">
+      <ion-label class="fs-10 white_text">Read 10:25am</ion-label>
+      <div class="sender">Hey! Are you available for a meeting at 2 30pm tomorrow?
+        Or maybe today at 5:45pm?</div>
+    </div>
+    <br>
+    <div class="receiver-style">
+      <div class="row">
+        <ion-avatar>
+          <img src="../../assets/avatar_img.jpg" alt=""></ion-avatar>
+        <div class="receiver">Today at 5:45pm wil be just fine!</div>
+      </div>
+      <ion-label class="fs-10 white_text">10:28am</ion-label>
+    </div>
+  </div>
+  <div *ngIf="fileOption" class="fileupload">
+    <div class="upload_icon">
+      <ion-icon name="camera-outline"></ion-icon>
+    </div>
+    <div class="upload_icon">
+      <ion-icon name="share-outline"></ion-icon>
+    </div>
+  </div>
+  <ion-row class="bottom-icon">
+    <ion-col size="1.5" (click)="openFileOption()">
+      <ion-icon name="folder-outline"></ion-icon>
+    </ion-col>
+    <ion-col size="1.5" (click)="openCoinModal()">
+      <h5 class="ion-no-margin c-icon">C</h5>
+    </ion-col>
+    <ion-col size="6">
+      <ion-input type="text" placeholder="Aa"></ion-input>
+    </ion-col>
+    <ion-col size="1.5" (click)="videoCall()">
+      <ion-icon name="videocam-outline"></ion-icon>
+    </ion-col>
+    <ion-col size="1.5">
+      <ion-icon name="mic-outline"></ion-icon>
+    </ion-col>
+  </ion-row>
 
+  <div *ngIf="openModal" class="coin-box">
+    <ion-icon name="close-outline" class="row back-arrow" (click)=closeCoinModal()></ion-icon>
+    <ion-row>
+      <ion-col class="column">
+        <img src="../../assets/images/client-tokmay-icon.svg" alt="">
+        <small>50 Coins</small>
+      </ion-col>
+      <ion-col class="column">
+        <img src="../../assets/images/client-tokmay-icon.svg" alt="">
+        <small>100 Coins</small>
+      </ion-col>
+      <ion-col class="column">
+        <img src="../../assets/images/client-tokmay-icon.svg" alt="">
+        <small>300 Coins</small>
+      </ion-col>
+      <ion-col class="column">
+        <img src="../../assets/images/client-tokmay-icon.svg" alt="">
+        <small>500 Coins</small>
+      </ion-col>
+    </ion-row>
+    <ion-row class="coin-padding">
+      <ion-col class="column">
+        <img src="../../assets/images/client-tokmay-icon.svg" alt="">
+        <small>1,000 Coins</small>
+      </ion-col>
+      <ion-col class="column">
+        <img src="../../assets/images/client-tokmay-icon.svg" alt="">
+        <small>3,000 Coins</small>
+      </ion-col>
+      <ion-col class="column">
+        <img src="../../assets/images/client-tokmay-icon.svg" alt="">
+        <small>5,000 Coins</small>
+      </ion-col>
+      <ion-col class="column">
+        <img src="../../assets/images/client-tokmay-icon.svg" alt="">
+        <small>10.000 Coins</small>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-content>

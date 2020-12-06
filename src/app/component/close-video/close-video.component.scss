@@ -1,0 +1,19 @@
+.background {
+    --background: transparent !important;
+}
+.green_border_button {
+    height: 35px;
+    width: 100px;
+    border: 1px solid #72ca2f;
+    --background: white;
+    color: #72ca2f;
+    font-size: 14px;
+}
+.green_button {
+    height: 35px;
+    width: 100px;
+}
+.row-spacing {
+    justify-content: space-evenly;
+    margin-top: 10px;
+}
