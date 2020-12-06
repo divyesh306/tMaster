@@ -6,7 +6,8 @@ import { configService } from '../Service/config.service';
 
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
-import { VideoPlayer } from '@ionic-native/video-player/ngx';
+import { VideoPlayer, VideoOptions } from '@ionic-native/video-player/ngx';
+import { ModalController } from '@ionic/angular';
 
 @Component({
     selector: 'app-registration',
@@ -15,6 +16,7 @@ import { VideoPlayer } from '@ionic-native/video-player/ngx';
 })
 export class RegistrationPage implements OnInit {
     registerForm: FormGroup;
+    options: VideoOptions;
     isshowing: boolean = false;
     file: File;
     profileImg = '../../assets/avatar.jpeg';
@@ -25,7 +27,7 @@ export class RegistrationPage implements OnInit {
     constructor(private router: Router, private activatedRoute: ActivatedRoute,
         private localStorage: LocalstorageService, private userService: userService,
         public formBuilder: FormBuilder, private mediaCapture: MediaCapture,
-        private configService: configService, private videoPlayer: VideoPlayer,) {
+        private configService: configService, private videoPlayer: VideoPlayer, public modalCtrl: ModalController) {
         this.userData = {};
         this.userData.picture = "https://www.flaticon.com/svg/static/icons/svg/147/147144.svg";
         this.userData.phone = this.localStorage.getphonenumber();
@@ -33,6 +35,10 @@ export class RegistrationPage implements OnInit {
             this.userData.type = params['position'];
             console.log('Url Id: ', this.userData);
         })
+        this.options = {
+            scalingMode: 0,
+            volume: 0.5
+        };
         this.registerForm = this.formBuilder.group({
             nick_name: ['', [Validators.required, Validators.minLength(5)]],
             date_of_birth: ['', [Validators.required]],
@@ -54,13 +60,13 @@ export class RegistrationPage implements OnInit {
         this.mediaCapture.captureVideo(options)
             .then(
                 (data: MediaFile[]) => {
-                    console.log("video : ", JSON.stringify(data)),
-                        this.configService.sendTost("danger", data[0].fullPath, "bottom");
+                    console.log("video : ", JSON.stringify(data));
+                    alert(data[0].fullPath);
+                    // this.configService.sendTost("danger", data[0].fullPath, "bottom");
                     this.videoPlayer.play(data[0].fullPath).then(() => {
                         this.configService.sendTost("danger", "Vedio Complete", "bottom");
-                        
                     }).catch(err => {
-                        console.log(err);
+                        alert(err);
                     });
                 },
                 (err: CaptureError) => console.error(err)
