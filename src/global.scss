@@ -142,6 +142,16 @@ ion-avatar {
         width: 100%;
     }
 }
+.custom-popover {
+    --background: transparent !important;
+    --box-shadow: none !important;
+}
+
+// .popover-content.sc-ion-popover-md,
+// .popover-content.sc-ion-popover-ios {
+//     --background: transparent !important;
+//     box-shadow: none !important;
+// }
 .green_button {
     --background: #72ca2f;
     color: white;
@@ -215,7 +225,8 @@ ion-input.p0 {
 .picker-button.ion-activated.sc-ion-picker-md {
     color: #72ca2f;
 }
-.popover-content.sc-ion-popover-md,.popover-content.sc-ion-popover-ios  {
+.popover-content.sc-ion-popover-md,
+.popover-content.sc-ion-popover-ios {
     width: 86% !important;
     margin: auto !important;
     left: 0 !important;

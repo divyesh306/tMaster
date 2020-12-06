@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
 @Component({
@@ -8,6 +8,7 @@ import { PopoverController } from '@ionic/angular';
 })
 export class VideoNoticeComponent implements OnInit {
   wantToVideoChat=false;
+  @Input() onClick=()=>{};
   constructor(private popoverCtrl:PopoverController) { }
 
   ngOnInit() {}
@@ -16,6 +17,7 @@ export class VideoNoticeComponent implements OnInit {
   }
   start(){
     this.popoverCtrl.dismiss();
+    this.onClick();
   }
   cancel(){
     this.popoverCtrl.dismiss();

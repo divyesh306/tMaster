@@ -65,7 +65,11 @@ const routes: Routes = [
   {
     path: 'chat-window',
     loadChildren: () => import('./chat-window/chat-window.module').then( m => m.ChatWindowPageModule)
-  },      
+  },   {
+    path: 'video-chat',
+    loadChildren: () => import('./video-chat/video-chat.module').then( m => m.VideoChatPageModule)
+  },
+     
 ];
 @NgModule({
   imports: [

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ActionSheetController, PopoverController } from '@ionic/angular';
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
 
@@ -10,7 +11,8 @@ import { VideoNoticeComponent } from '../component/video-notice/video-notice.com
 export class ChatWindowPage implements OnInit {
   openModal=false;
   fileOption=false;
-  constructor(public popoverController: PopoverController,
+  constructor(public router:Router,
+    public popoverController: PopoverController,
     public actionSheetController: ActionSheetController) { }
 
   ngOnInit() {
@@ -27,9 +29,13 @@ export class ChatWindowPage implements OnInit {
   async videoCall(ev:any){
       const popover = await this.popoverController.create({
         component: VideoNoticeComponent,
-        cssClass: 'my-custom-class',
         event: ev,
-        translucent: true
+        translucent: true,
+        componentProps:{
+          onClick:()=>{
+            this.router.navigate(['/video-chat']);
+          }
+        }
       });
       return await popover.present();
   }

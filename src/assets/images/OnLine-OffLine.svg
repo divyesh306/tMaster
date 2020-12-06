@@ -1,0 +1,10 @@
+<svg id="OnLine_OffLine" data-name="OnLine/OffLine" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="Group_834" data-name="Group 834" transform="translate(-96 -576)">
+    <circle id="Ellipse_23" data-name="Ellipse 23" cx="20" cy="20" r="20" transform="translate(96 576)" fill="rgba(255,255,255,0)"/>
+    <g id="Group_834-2" data-name="Group 834" transform="translate(106.417 589.333)">
+      <path id="Path_36" data-name="Path 36" d="M133,626.5l2.5,2.5,5.833-5" transform="translate(-128 -617.333)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <path id="Path_37" data-name="Path 37" d="M136.625,614.25a3.551,3.551,0,0,0-.706.071,5.417,5.417,0,1,0-10.671,0,3.542,3.542,0,1,0-.706,7.013h12.083a3.542,3.542,0,1,0,0-7.083Z" transform="translate(-121 -608)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    </g>
+  </g>
+  <text id="OnLine" transform="translate(0 32)" fill="#fff" font-size="6" font-family="Helvetica"><tspan x="10.326" y="5">OnLine</tspan></text>
+</svg>

@@ -1,0 +1,59 @@
+<ion-content>
+  <img src="../../assets/images/chat-background-image.svg" alt="" class="background">
+  <ion-row class="user_details">
+    <ion-col class="ion-text-left column">
+      <ion-label class="white_text"><b>Mikachan</b></ion-label>
+      <small class="white_text">TIME: 2:21</small>
+    </ion-col>
+    <ion-col class="ion-text-right column">
+      <ion-label class="white_text"><b>10,000</b> coins</ion-label>
+      <small class="white_text"><b>BUY COINS</b></small>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="end_call">
+    <ion-col>
+      <!-- <img [src]="closeEye ? '../../assets/images/hide-icon.svg' : '../../assets/images/eye-icon.svg'" alt=""> -->
+      <img src="../../assets/images/hide-icon.svg" alt="" (click)="changeBeautifyOption()">
+    </ion-col>
+    <ion-col class="ion-text-right">
+      <img src="../../assets/images/end-call.svg" alt="" (click)="endCall()">
+    </ion-col>
+  </ion-row>
+
+  <div class="chat">
+    <div class="sender">
+      <p class="ion-no-margin">Hey! Are you available for a meeting?</p>
+    </div>
+    <div class="receiver">
+      <p class="ion-no-margin">Today at 5 45pm?</p>
+    </div>
+    <div class="sender">
+      <p class="ion-no-margin">Too early</p>
+    </div>
+    <div class="receiver">
+      <p class="ion-no-margin">Then maybe tomorrow at 5 45pm?</p><img src="../../assets/logo.svg" alt="" class="logo-icon">
+    </div>
+  </div>
+
+  <div class="gift-icons" *ngIf="closeEye">
+    <img src="../../assets/images/gift-logo.png" alt="">
+    <img src="../../assets/images/gift-icon.svg" alt="">
+    <img src="../../assets/images/say-frnd.svg" alt="">
+  </div>
+
+  <div class="gift-icons" *ngIf="!closeEye">
+    <img src="../../assets/images/gift-logo.png" alt="">
+    <img src="../../assets/images/gift-icon.svg" alt="">
+    <img src="../../assets/images/say-frnd.svg" alt="">
+  </div>
+
+  <ion-row class="footer">
+    <ion-col size="10">
+      <ion-input placeholder="That's perfect!"></ion-input>
+    </ion-col>
+    <ion-col size="2" class="ion-text-right">
+      <img src="../../assets/images/enter-icon.svg" alt="" class="send-icon">
+    </ion-col>
+  </ion-row>
+</ion-content>

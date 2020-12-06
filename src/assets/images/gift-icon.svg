@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <g id="Group_907" data-name="Group 907" transform="translate(-312 -496)">
+    <g id="Group_887" data-name="Group 887" transform="translate(-552 16)">
+      <circle id="Ellipse_50" data-name="Ellipse 50" cx="18" cy="18" r="18" transform="translate(864 480)" fill="#ffe3ff"/>
+    </g>
+    <g id="Group_905" data-name="Group 905" transform="translate(320.281 504)">
+      <rect id="Rectangle_71" data-name="Rectangle 71" width="19.439" height="4.165" transform="translate(0 3.801)" fill="none" stroke="#253447" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line id="Line_37" data-name="Line 37" y2="12.034" transform="translate(7.868 7.966)" fill="none" stroke="#253447" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line id="Line_38" data-name="Line 38" y2="12.034" transform="translate(11.571 7.966)" fill="none" stroke="#253447" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line id="Line_39" data-name="Line 39" y2="4.165" transform="translate(6.942 3.801)" fill="none" stroke="#253447" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line id="Line_40" data-name="Line 40" y2="4.165" transform="translate(12.496 3.801)" fill="none" stroke="#253447" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <path id="Path_175" data-name="Path 175" d="M911.986,499.8a3.568,3.568,0,0,1,2.777-3.7C917.812,495.267,918.72,499.985,911.986,499.8Z" transform="translate(-902.267 -496)" fill="none" stroke="#253447" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <path id="Path_176" data-name="Path 176" d="M902.26,499.8a3.568,3.568,0,0,0-2.777-3.7C896.435,495.267,895.527,499.985,902.26,499.8Z" transform="translate(-892.085 -496)" fill="none" stroke="#253447" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <path id="Path_177" data-name="Path 177" d="M885.341,521.492v10.182a1.851,1.851,0,0,0,1.851,1.851h12.959A1.851,1.851,0,0,0,902,531.674V521.492Z" transform="translate(-883.952 -513.526)" fill="none" stroke="#253447" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    </g>
+  </g>
+</svg>
