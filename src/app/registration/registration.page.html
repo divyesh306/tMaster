@@ -54,7 +54,7 @@
 
     <ion-item class="item_margin">
       <ion-label position="stacked">Minute Rating</ion-label>
-      <ion-input type="tel" placeholder="Minute Rating" formControlName="rating"></ion-input>
+      <ion-input type="tel" placeholder="Minute Rating" max=400 formControlName="rating"></ion-input>
     </ion-item>
     <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.required">
       Minute Rating is required.
@@ -62,9 +62,12 @@
     <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.pattern">
       Only Numeric Value is allowed.
     </span>
-    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.maxLength">
-      Minute Rating should be Max 3 chars long.
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.max">
+      Set your rate below 400
     </span>
+    <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.maxLength">
+      Minute Rating should be Max 3 chars long.
+    </span> -->
 
     <div class="border_div"></div>
 
