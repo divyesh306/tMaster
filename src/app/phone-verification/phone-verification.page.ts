@@ -79,7 +79,7 @@ export class PhoneVerificationPage implements OnInit {
           this.router.navigate(['/select-position']);
         }
       } else {
-        this.configService.sendTost("danger", "OTP Not Verify", "bottom");
+        this.configService.sendToast("danger", "OTP Not Verify", "bottom");
         this.wrongCode = true;
       }
     }, err => {
@@ -98,7 +98,7 @@ export class PhoneVerificationPage implements OnInit {
     this.userService.sendApi(mutation).subscribe(data => {
       const res = data['data'].send_otp;
       if (!res.hasError) {
-        this.configService.sendTost("dark", "Otp Resend Successfully", "bottom");
+        this.configService.sendToast("dark", "Otp Resend Successfully", "bottom");
       }
     }, err => {
       console.log("Somthing Went Wrong")

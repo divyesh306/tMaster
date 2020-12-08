@@ -45,7 +45,7 @@ export class RegistrationPage implements OnInit {
             phone: [this.userData.phone],
             picture: [this.userData.picture],
             gender: ['', [Validators.required]],
-            rating: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.maxLength(3)]],
+            rating: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.maxLength(3),Validators.max(400)]],
             jobs: ['', [Validators.required]],
             tags: ['', [Validators.required]],
         })
@@ -64,7 +64,7 @@ export class RegistrationPage implements OnInit {
                     alert(data[0].fullPath);
                     // this.configService.sendTost("danger", data[0].fullPath, "bottom");
                     this.videoPlayer.play(data[0].fullPath).then(() => {
-                        this.configService.sendTost("danger", "Vedio Complete", "bottom");
+                        this.configService.sendToast("danger", "Vedio Complete", "bottom");
                     }).catch(err => {
                         alert(err);
                     });
@@ -75,7 +75,7 @@ export class RegistrationPage implements OnInit {
     next(userData) {
         this.isSubmitted = true;
         if (!this.registerForm.valid) {
-            console.log('Please provide all the required values!')
+            this.configService.sendToast('danger','Please provide all the required values!','top')
             return false;
         } else {
             // console.log(this.registerForm.value)

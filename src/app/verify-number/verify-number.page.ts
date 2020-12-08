@@ -4,6 +4,7 @@ import { PickerController } from '@ionic/angular';
 import { PickerOptions } from "@ionic/core";
 import { userService } from '../Service/user.service';
 import { LocalstorageService } from '../Service/localstorage.service';
+import { configService } from '../Service/config.service';
 
 @Component({
   selector: 'app-verify-number',
@@ -1223,6 +1224,7 @@ export class VerifyNumberPage implements OnInit {
   ];
   selectBoxOpen = false;
   constructor(private pickerController: PickerController, private localStorage: LocalstorageService,
+    private configService: configService,
     private router: Router, private userService: userService) { }
 
   ngOnInit() {
@@ -1273,7 +1275,9 @@ export class VerifyNumberPage implements OnInit {
   }
   next() {
     if (!this.countrycode || !this.phonenumber) {
-      alert('Please enter a valid Phone Number && country code')
+       this.configService.sendToast("danger", "Please enter a valid Phone Number && country code", "top");
+    }else if(this.phonenumber.length <10){
+      this.configService.sendToast("danger", "Please enter a valid Phone Number", "top");
     }
     else {
       this.sendOtp(this.phonenumber);

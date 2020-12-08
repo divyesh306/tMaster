@@ -13,7 +13,7 @@ export class configService {
         return this.SERVER_URL;
     }
 
-    async sendTost(color,message, position) {
+    async sendToast(color,message, position) {
         const toast = await this.toastController.create({
             color: color,
             message: message,
