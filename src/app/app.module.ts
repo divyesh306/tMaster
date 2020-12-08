@@ -8,23 +8,25 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+
 import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
-import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions ,CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 
+import { S3Controller } from './Service/upload.service';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [
     StatusBar,
     SplashScreen,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     SmsRetriever,
     MediaCapture,
     VideoPlayer,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    S3Controller
   ],
   bootstrap: [AppComponent]
 })

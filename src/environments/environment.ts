@@ -3,7 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  COGNITO_IDENTITY: {
+    IDENTITY_POOL_ID: ""
+  },
+  S3: {
+    BUCKET_NAME: ""
+  }
 };
 
 /*

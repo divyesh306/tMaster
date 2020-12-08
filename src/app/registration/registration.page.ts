@@ -3,22 +3,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
 import { configService } from '../Service/config.service';
-
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { VideoPlayer, VideoOptions } from '@ionic-native/video-player/ngx';
 import { ModalController } from '@ionic/angular';
+import { S3Controller } from '../Service/upload.service';
 
 @Component({
     selector: 'app-registration',
     templateUrl: './registration.page.html',
     styleUrls: ['./registration.page.scss'],
+    providers: [S3Controller]
 })
 export class RegistrationPage implements OnInit {
     registerForm: FormGroup;
     options: VideoOptions;
     isshowing: boolean = false;
-    file: File;
     profileImg = '../../assets/avatar.jpeg';
     isSubmitted = false;
     datePicker = Date.now();
@@ -26,7 +26,7 @@ export class RegistrationPage implements OnInit {
 
     constructor(private router: Router, private activatedRoute: ActivatedRoute,
         private localStorage: LocalstorageService, private userService: userService,
-        public formBuilder: FormBuilder, private mediaCapture: MediaCapture,
+        public formBuilder: FormBuilder, private mediaCapture: MediaCapture, private uploadservice: S3Controller,
         private configService: configService, private videoPlayer: VideoPlayer, public modalCtrl: ModalController) {
         this.userData = {};
         this.userData.picture = "https://www.flaticon.com/svg/static/icons/svg/147/147144.svg";
@@ -60,9 +60,11 @@ export class RegistrationPage implements OnInit {
         this.mediaCapture.captureVideo(options)
             .then(
                 (data: MediaFile[]) => {
+                    debugger
                     console.log("video : ", JSON.stringify(data));
                     alert(data[0].fullPath);
                     // this.configService.sendTost("danger", data[0].fullPath, "bottom");
+                    this.uploadservice.uploadFile(data[0]);
                     this.videoPlayer.play(data[0].fullPath).then(() => {
                         this.configService.sendTost("danger", "Vedio Complete", "bottom");
                     }).catch(err => {
@@ -72,7 +74,7 @@ export class RegistrationPage implements OnInit {
                 (err: CaptureError) => console.error(err)
             );
     }
-    next(userData) {
+    next() {
         this.isSubmitted = true;
         if (!this.registerForm.valid) {
             console.log('Please provide all the required values!')
@@ -104,19 +106,6 @@ export class RegistrationPage implements OnInit {
         }, err => {
             console.log("Somthing Went Wrong")
         });;
-    }
-    changeListener(event): void {
-        if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
-            reader.onload = (event: any) => {
-                this.profileImg = event.target.result;
-            }
-            reader.readAsDataURL(event.target.files[0]); // to trigger onload
-        }
-
-        let fileList: FileList = event.target.files;
-        let file: File = fileList[0];
-        console.log(file);
     }
     fillForm(option) {
         localStorage.setItem('formTitle', option);
