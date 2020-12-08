@@ -18,6 +18,7 @@ export class ChatWindowPage implements OnInit {
   ngOnInit() {
   }
   openCoinModal(){
+    console.log('open');
     this.openModal=!this.openModal;
   }
   closeCoinModal(){

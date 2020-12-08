@@ -1,4 +1,4 @@
-iion-input {
+ion-input {
     background: white;
     border-radius: 5px;
     height: 40px;
@@ -10,7 +10,7 @@ iion-input {
 .letstalk-row {
     box-shadow: 1px 0px 9px -1px #636363;
     justify-content: center;
-    margin-left: -10px;
+    margin-left: -20px;
 }
 .tabs {
     display: flex;
@@ -24,9 +24,9 @@ iion-input {
     text-transform: capitalize;
 }
 .active_tab {
-    color: #72ca2f;
+    color: #72CA2F;
     font-weight: bold;
-    border-bottom: 4px solid #72ca2f;
+    border-bottom: 4px solid #72CA2F;
     width: 28%;
     text-transform: capitalize;
 }

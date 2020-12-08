@@ -16,61 +16,21 @@
     font-size: 10px;
 }
 .background {
-    background: #6d97c1;
+    // background: #6d97c1;
+    background: url('../../assets/images/cloud-background.svg');
     height: 100%;
     width: 100%;
     position: absolute;
 }
-.sender-style {
-    display: flex;
-    align-items: flex-end;
-    justify-content: end;
-    ion-label {
-        width: 48px;
-        text-align: right;
-        margin-right: 4px;
-    }
-}
-.sender {
-    background: #72ca2f;
-    color: white;
-    padding: 10px;
-    max-width: 75%;
-    float: right;
-    margin-right: 4px;
-    border-radius: 6px;
-    font-size: 13px;
-}
-ion-avatar {
-    height: 50px;
-    width: 50px;
-    margin: 0 8px;
-}
-.receiver-style {
-    display: flex;
-    align-items: flex-end;
-    justify-content: start;
-}
-.receiver {
-    background: white;
-    color: #253447;
-    max-width: 72%;
-    padding: 10px;
-    float: left;
-    border-radius: 6px;
-    font-size: 13px;
-}
 .bottom-icon {
     position: fixed;
-    border: beige;
     bottom: 0;
     align-items: center;
     background: white;
     width: 100%;
-    padding: 6px;
-    ion-icon {
-        color: #253447;
-        font-size: 25px;
+    padding: 4px 8px;
+    ion-col{
+        padding: 0;
     }
     ion-input {
         border: 1px solid #253447;
@@ -81,21 +41,26 @@ ion-avatar {
 .coin-box {
     background: #6d8596;
     position: absolute;
-    bottom: 56px;
+    bottom: 52px;
     width: 100%;
     color: white;
     text-align: center;
 }
+.coin-box:before {
+    content: "";
+    display: block;
+    background-image: url("../../assets/images/uparrow.svg");
+    width: 16px;
+    height: 4px;
+    position: absolute;
+    bottom: 0;
+    left: 53px;
+  }
 .coin-padding {
     padding: 10px 0;
-}
-.c-icon {
-    border: 1px solid #253447;
-    color: #253447;
-    border-radius: 50%;
-    padding: 2px 5px;
-    width: 26px;
-    height: 26px;
+    img{
+        padding-bottom: 5px;
+    }
 }
 .fileupload {
     position: absolute;
@@ -113,4 +78,114 @@ ion-avatar {
             padding: 6px;
         }
     }
+}
+
+.chat-screen .conversation {
+    // padding: 10px 0;
+}
+.chat-screen .conversation ul {
+    padding-left: 0;
+    margin: 0;
+}
+.chat-screen .conversation ul li {
+    list-style: none;
+    margin-bottom: 30px;
+}
+.chat-screen .conversation ul li:nth-child(odd) {
+    position: relative;
+}
+.chat-screen .conversation ul li:nth-child(odd) .chat-details {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+.chat-screen .conversation ul li:nth-child(odd) .chat-details .read {
+    margin-right: 8px;
+    min-width: 45px;
+}
+.chat-screen .conversation ul li:nth-child(odd) .chat-details .read p {
+    margin-bottom: 0;
+    font-size: 9px;
+    line-height: 10px;
+    color: #fff;
+    text-align: right;
+}
+.chat-screen .conversation ul li:nth-child(odd) .chat-details .chat-msg {
+    background-color: #72CA2F;
+    padding: 10px;
+    border-radius: 8px;
+}
+.chat-screen .conversation ul li:nth-child(odd) .chat-details .chat-msg p {
+    margin: 0;
+    font-size: 13px;
+    color: #fff;
+}
+.chat-screen .conversation ul li:nth-child(odd) .chat-msg:after {
+    content: "";
+    background-image: url("../../assets/images/chat-arrow-green.svg");
+    position: absolute;
+    background-size: 100%;
+    width: 16px;
+    height: 12px;
+    right: -10px;
+    top: 0;
+}
+.chat-screen .conversation ul li:nth-child(even) {
+    position: relative;
+}
+.chat-screen .conversation ul li:nth-child(even) .chat-details {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+.chat-screen .conversation ul li:nth-child(even) .chat-details .user-img {
+    min-width: 48px;
+    min-height: 48px;
+    position: relative;
+    border-radius: 50%;
+    background-color: #fff;
+}
+.chat-screen .conversation ul li:nth-child(even) .chat-details .user-img img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    border-radius: 50px;
+}
+.chat-screen .conversation ul li:nth-child(even) .chat-details .read {
+    margin-left: 8px;
+    min-width: 45px;
+}
+.chat-screen .conversation ul li:nth-child(even) .chat-details .read p {
+    margin: 0;
+    font-size: 9px;
+    line-height: 10px;
+    color: #fff;
+    text-align: left;
+}
+.chat-screen .conversation ul li:nth-child(even) .chat-details .chat-msg {
+    background-color: #fff;
+    padding: 10px;
+    margin-left: 15px;
+    border-radius: 8px;
+    position: relative;
+}
+.chat-screen .conversation ul li:nth-child(even) .chat-details .chat-msg p {
+    margin-bottom: 0;
+    font-size: 13px;
+    color: #253447;
+}
+.chat-screen .conversation ul li:nth-child(even) .chat-msg:after {
+    content: "";
+    background-image: url("../../assets/images/chat-arrow-white.svg");
+    position: absolute;
+    background-size: 100%;
+    width: 16px;
+    height: 12px;
+    left: -9px;
+    top: 0;
+}
+p {
+    margin: 0 !important;
 }

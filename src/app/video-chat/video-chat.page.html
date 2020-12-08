@@ -2,12 +2,12 @@
   <img src="../../assets/images/chat-background-image.svg" alt="" class="background">
   <ion-row class="user_details">
     <ion-col class="ion-text-left column">
-      <ion-label class="white_text"><b>Mikachan</b></ion-label>
+      <small class="white_text fs-11">Mikachan</small>
       <small class="white_text">TIME: 2:21</small>
     </ion-col>
     <ion-col class="ion-text-right column">
-      <ion-label class="white_text"><b>10,000</b> coins</ion-label>
-      <small class="white_text"><b>BUY COINS</b></small>
+      <small class="white_text fs-11">10,000 coins</small>
+      <small class="white_text">BUY COINS</small>
     </ion-col>
   </ion-row>
 
@@ -21,7 +21,7 @@
     </ion-col>
   </ion-row>
 
-  <div class="chat">
+  <!-- <div class="chat">
     <div class="sender">
       <p class="ion-no-margin">Hey! Are you available for a meeting?</p>
     </div>
@@ -34,8 +34,26 @@
     <div class="receiver">
       <p class="ion-no-margin">Then maybe tomorrow at 5 45pm?</p><img src="../../assets/logo.svg" alt="" class="logo-icon">
     </div>
-  </div>
-
+  </div> -->
+  <section class="with-chat-info">
+		<ul>
+			<li><span>Hey! Are you available for a meeting?</span></li>
+			<li><span>Today at 5:45pm?</span></li>
+			<li><span>Too early</span></li>
+			<li><span>Then maybe tomorrow at 5:45pm?<span class="img-span"><img src="images/logo.svg" alt=""></span></span></li>
+		</ul>
+		<div class="extra-service">
+			<div class="service-list">
+				<img src="images/gift-logo.png" alt="">
+			</div>
+			<div class="service-list">
+				<img src="images/gift-icon.svg" alt="">
+			</div>
+			<div class="service-list">
+				<img src="images/say-frnd.svg" alt="">
+			</div>
+		</div>
+	</section>
   <div class="gift-icons" *ngIf="closeEye">
     <img src="../../assets/images/gift-logo.png" alt="">
     <img src="../../assets/images/gift-icon.svg" alt="">
