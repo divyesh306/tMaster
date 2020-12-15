@@ -1,18 +1,16 @@
 <ion-content>
   <img src="../../assets/user.png" alt="" class="video">
   <div class="row">
-    <img src="../../assets/images/green-back-arrow.svg" class="arrow_icon" [routerLink]="['/tabs/hangout']" alt="">
+    <img src="../../assets/images/green-back-arrow.svg" class="arrow_icon"  alt="" (click)="backHangout()">
     <div class="heading">
     <ion-icon name="star" color="success"></ion-icon>
-    <ion-label class="white_text">2038 | Counselor</ion-label>
+    <ion-label class="white_text">2038 | {{userDetail.type}}</ion-label>
   </div>
   </div>
   <div class="description">
-    <p><small>@Sayumi 23 Years</small></p>
-    <p><small>Naillist  C 200/M</small></p>
-    <p><small>#asian #love #tokyo #kis</small></p>
-    <p><small>#domemore #chatok #friend</small></p>
-    <p><small>#everybodychat #lineok</small></p>
+    <p><small>@{{userDetail.nick_name}} {{calculateAge(userDetail.date_of_birth)}} Years</small></p>
+    <p><small>{{userDetail.jobs}}  C {{userDetail.rating}}/M</small></p>
+    <p><small>{{userDetail.tags}}</small></p>
   </div>
   <div class="like-icons">
     <ion-icon name="heart" class="white_text"></ion-icon>

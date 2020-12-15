@@ -22,11 +22,11 @@
         <img src="../../assets/images/counselor-tokmay-icon.svg" alt="" class="tab-img">
       </div>
       <div class="ion-margin-horizontal">
-        <ion-label class="white_text">Counselor</ion-label>
+        <ion-label class="white_text">{{userDetail.type}}</ion-label>
         <p class="white_text ion-no-margin"><small>(As you can receive coins)</small></p>
       </div>
       <div>
-        <img src="../../assets/images/reset-icon.svg" alt="" class="tab-img">
+        <img src="../../assets/images/reset-icon.svg" alt="" (click)="next()" class="tab-img">
       </div>
     </ion-row>
   </ion-grid>
@@ -47,27 +47,51 @@
       <ion-button class="grey_button" [routerLink]="['/exchangecoins']">EXCHANGE</ion-button>
     </ion-row>
   </ion-grid>
-  <ion-grid class="ion-no-padding">
-    <div class="border_div"></div>
-    <ion-item class="item_margin">
-      <ion-label class="grey_text" position="stacked">Nickname</ion-label>
-      <p class="p_margin fs-14">NICK NAME</p>
-    </ion-item>
-    <ion-item class="item_margin">
-      <ion-label class="grey_text" position="stacked">Job</ion-label>
-      <p class="p_margin fs-14">JOB</p>
-    </ion-item>
-    <ion-item class="item_margin">
-      <ion-label class="grey_text" position="stacked">Minute Rating</ion-label>
-      <p class="p_margin fs-14">400</p>
-    </ion-item>
-  </ion-grid>
-  <ion-grid class="ion-no-padding">
-    <div class="border_div"></div>
-    <ion-item class="item_margin">
-      <ion-label class="grey_text" position="stacked">Appeal tags</ion-label>
-      <h6>#appealTags</h6>
-    </ion-item>
-    <div class="border_div"></div>
-  </ion-grid>
+  <form [formGroup]="registerForm">
+    <ion-grid class="ion-no-padding">
+      <div class="border_div"></div>
+      <ion-item class="item_margin">
+        <ion-label class="grey_text" position="stacked">Nickname</ion-label>
+        <ion-input placeholder="Nickname" formControlName="nick_name"></ion-input>
+      </ion-item>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.nick_name.errors?.required">
+        Nick Name is required.
+      </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.nick_name.errors?.minlength">
+        Name should be min 5 chars long.
+      </span>
+      <ion-item class="item_margin">
+        <ion-label class="grey_text" position="stacked">Job</ion-label>
+        <ion-input placeholder="Job" formControlName="jobs"></ion-input>
+      </ion-item>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.jobs.errors?.required">
+        Job is required.
+      </span>
+      <ion-item class="item_margin">
+        <ion-label class="grey_text" position="stacked">Minute Rating</ion-label>
+        <ion-input type="tel" placeholder="Minute Rating" max=400 formControlName="rating"></ion-input>
+      </ion-item>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.required">
+        Minute Rating is required.
+      </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.pattern">
+        Only Numeric Value is allowed.
+      </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.max">
+        Set your rate below 400
+      </span>
+    </ion-grid>
+    <ion-grid class="ion-no-padding">
+      <div class="border_div"></div>
+      <ion-item class="item_margin">
+        <ion-label class="grey_text" position="stacked">Appeal tags</ion-label>
+        <ion-textarea placeholder="Tag text here" formControlName="tags" rows="3">
+        </ion-textarea>
+      </ion-item>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.tags.errors?.required">
+        tags is required.
+      </span>
+      <div class="border_div"></div>
+    </ion-grid>
+  </form>
 </ion-content>

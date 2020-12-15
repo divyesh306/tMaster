@@ -1275,8 +1275,8 @@ export class VerifyNumberPage implements OnInit {
   }
   next() {
     if (!this.countrycode || !this.phonenumber) {
-       this.configService.sendToast("danger", "Please enter a valid Phone Number && country code", "top");
-    }else if(this.phonenumber.length <10){
+      this.configService.sendToast("danger", "Please enter a valid Phone Number && country code", "top");
+    } else if (this.phonenumber.length < 10) {
       this.configService.sendToast("danger", "Please enter a valid Phone Number", "top");
     }
     else {
@@ -1297,7 +1297,8 @@ export class VerifyNumberPage implements OnInit {
       const res = data['data'].send_otp;
       console.log("res :",);
       if (!res.hasError) {
-        this.localStorage.setphonenumber(phonenumber);
+        this.localStorage.clear();
+        this.localStorage.setsingel('phonenumber', phonenumber);
         // this.router.navigate(['/phone-verification']);
       }
     }, err => {

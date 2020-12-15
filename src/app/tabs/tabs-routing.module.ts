@@ -24,7 +24,7 @@ const routes: Routes = [
         loadChildren: () => import('../videolist-category/videolist-category.module').then( m => m.VideolistCategoryPageModule)
       },
       {
-        path: 'video-detail',
+        path: 'video-detail/:userId',
         loadChildren: () => import('../video-detail/video-detail.module').then( m => m.VideoDetailPageModule)
       },
       {

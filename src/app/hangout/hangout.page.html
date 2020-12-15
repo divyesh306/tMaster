@@ -7,7 +7,6 @@
     </div>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <div *ngIf="searchModal" class="searchBox">
     <h3 class="grey_text">Popular tags</h3>
@@ -31,10 +30,10 @@
           <img src="../../assets/images/client-tokmay-icon.svg" alt="" class="sort-img">
         </ion-col>
         <ion-col>
-          <img src="../../assets/images/gender-male-icon.svg" alt="" class="sort-img">
+          <img src="../../assets/images/gender-male-icon.svg" alt="" (click)='getUsers(search_term, "male")' class="sort-img">
         </ion-col>
         <ion-col>
-          <img src="../../assets/images/gender-female-icon.svg" alt="" class="sort-img">
+          <img src="../../assets/images/gender-female-icon.svg" alt="" (click)='getUsers(search_term, "female")' class="sort-img">
         </ion-col>
         <ion-col>
           <img src="../../assets/images/counselor-tokmay-icon.svg" alt="" class="sort-img">
@@ -48,245 +47,31 @@
     <div [ngClass]="menuOpen ? 'modal-bg' : 'slider'">
       <img src="../../assets/images/fiter-banner.svg" alt="" *ngIf="!menuOpen">
     </div>
-    <div class="row m-7">
-      <img src="../../assets/images/red-pin.svg" alt="">
-      <div class="grow ion-text-center column">
-        <ion-label class="fs-13 font-bold">Keep Users</ion-label>
-        <ion-label class="fs-11 grey_text">Now you keep this users</ion-label>
+    <div *ngFor="let user of user_list">
+      <div class="row m-7">
+        <img src="../../assets/images/red-pin.svg" *ngIf="user.asset == 'favorite_user'" alt="">
+        <img src="../../assets/images/categories-1.svg" *ngIf="user.asset != 'favorite_user'" alt="">
+        <div class="grow ion-text-center column">
+          <ion-label class="fs-13 font-bold" *ngIf="user.asset == 'favorite_user'">Keep Users</ion-label>
+          <ion-label class="fs-13 font-bold" *ngIf="user.asset != 'favorite_user'">{{user.asset}}</ion-label>
+          <ion-label class="fs-11 grey_text">Now you keep this users</ion-label>
+        </div>
+        <div class="row" (click)="categoryDetail()">
+          <ion-label class="fs-11 grey_text">{{user.data.length}}</ion-label>
+          <ion-icon name="chevron-forward-sharp" class="grey_text"></ion-icon>
+        </div>
       </div>
-      <div class="row" (click)="categoryDetail()">
-        <ion-label class="fs-11 grey_text">19900</ion-label>
-        <ion-icon name="chevron-forward-sharp" class="grey_text"></ion-icon>
-      </div>
+      <ion-row class="horizontal-scroll">
+        <ion-col size="3.2" class="video-box" *ngFor="let userdetail of user.data" (click)="gotoProfile(userdetail)">
+          <img [src]="userdetail.picture" alt="">
+          <ion-label class="minute-rating">{{userdetail.gender}}/{{userdetail.rating}}</ion-label>
+          <div class="name-age row">
+            <p>{{userdetail.nick_name}}</p>
+            <br/>
+            <b> {{calculateAge(userdetail.date_of_birth)}} Age</b>
+          </div>
+        </ion-col>
+      </ion-row>
     </div>
-    <ion-row class="horizontal-scroll">
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-2.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label>Mikachen</ion-label>
-          <ion-label> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-5.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-4.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-3.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-2.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-3.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-    </ion-row>
-
-    <div class="row m-7">
-      <img src="../../assets/images/categories-1.svg" alt="">
-      <div class="grow ion-text-center h-30">
-        <ion-label class="fs-13 font-bold">All Jobs and Users</ion-label>
-      </div>
-      <div class="row" (click)="categoryDetail()">
-        <ion-label class="fs-11 grey_text">19900</ion-label>
-        <ion-icon name="chevron-forward-sharp" class="grey_text"></ion-icon>
-      </div>
-    </div>
-    <ion-row class="horizontal-scroll">
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-2.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-3.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-4.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-5.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-4.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-    </ion-row>
-
-    <div class="row m-7">
-      <img src="../../assets/images/categories-1.svg" alt="">
-      <ion-label class="count">1</ion-label>
-      <div class="grow ion-text-center column">
-        <ion-label class="fs-13 font-bold">Housewife</ion-label>
-        <ion-label class="fs-11 grey_text">Popular Job</ion-label>
-      </div>
-      <div class="row" (click)="categoryDetail()">
-        <ion-label class="fs-11 grey_text">19900</ion-label>
-        <ion-icon name="chevron-forward-sharp" class="grey_text"></ion-icon>
-      </div>
-    </div>
-    <ion-row class="horizontal-scroll">
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-2.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-3.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-4.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-5.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-4.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-2.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-    </ion-row>
-
-    <div class="row m-7">
-      <img src="../../assets/images/categories-1.svg" alt="">
-      <ion-label class="count">2</ion-label>
-      <div class="grow ion-text-center column">
-        <ion-label class="fs-13 font-bold">College Student</ion-label>
-        <ion-label class="fs-11 grey_text">Popular Job</ion-label>
-      </div>
-      <div class="row" (click)="categoryDetail()">
-        <ion-label class="fs-11 grey_text">19900</ion-label>
-        <ion-icon name="chevron-forward-sharp" class="grey_text"></ion-icon>
-      </div>
-    </div>
-    <ion-row class="horizontal-scroll">
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-2.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-3.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-4.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-5.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-2.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-      <ion-col size="3.2" class="video-box" [routerLink]="['/tabs/video-detail']">
-        <img src="../../assets/user-3.svg" alt="">
-        <ion-label class="minute-rating">M/300</ion-label>
-        <div class="name-age row">
-          <ion-label class="grow">Mikachen</ion-label>
-          <ion-label class="ion-text-right"> 21 Age</ion-label>
-        </div>
-      </ion-col>
-    </ion-row>
   </div>
 </ion-content>

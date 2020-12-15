@@ -38,17 +38,20 @@ ion-input {
     color: white;
     font-size: 12px;
     position: absolute;
-    bottom: 20px;
+    bottom: 29px;
     right: 15px;
 }
 .name-age{
     font-size: 9px;
-    color: white;
+    color: black;
     position: absolute;
     bottom: 4px;
     display: flex;
     justify-content: space-between;
     // right: 0px;
+    p{
+        margin-right: 20px;
+    }
 }
 .menu-icon {
     margin: 0px -14px 0 8px;

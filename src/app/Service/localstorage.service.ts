@@ -7,13 +7,33 @@ export class LocalstorageService {
 
     constructor() { }
 
-    getphonenumber() {
-        return localStorage.phonenumber;
+    get(key: string) {
+        return JSON.parse(localStorage.getItem(key) || '{}') || {};
     }
-    setphonenumber(phonenumber) {
-        localStorage.phonenumber = phonenumber;
+
+    set(key: string, value: any): boolean {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
     }
-    removephonenumber() {
-        localStorage.removeItem("phonenumber");
+
+    remove(key: string) {
+        localStorage.removeItem(key);
+    }
+
+    getsingel(key: string) {
+        return localStorage.getItem(key);
+    }
+
+    setsingel(key: string, value: any): boolean {
+        localStorage.setItem(key, value);
+        return true;
+    }
+
+    removesingel(key: string) {
+        localStorage.removeItem(key);
+    }
+
+    clear() {
+        localStorage.clear();
     }
 }

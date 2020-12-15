@@ -61,19 +61,17 @@ export class PhoneVerificationPage implements OnInit {
       name: 'verify_otp',
       inputtype: 'VerifyOtpInputType',
       data: {
-        phone: this.localStorage.getphonenumber(),
+        phone: this.localStorage.getsingel('phonenumber'),
         otp: otp
       }
     }
     this.userService.sendApi(mutation).subscribe(result => {
-      console.log();
       const res = result['data'].verify_otp;
-      console.log("Verify Otp : ", res)
       if (!res.hasError) {
         if (res.data['is_register']) {
+          this.localStorage.set('loginToken', res.data['token']);
+          this.localStorage.set('userDetail', res.data['user']);
           this.router.navigate(['/tabs/hangout']);
-          const token = res.data['token'];
-          const user = res.data['user'];
         }
         else {
           this.router.navigate(['/select-position']);
@@ -92,7 +90,7 @@ export class PhoneVerificationPage implements OnInit {
       name: 'send_otp',
       inputtype: 'SendOtpInputType',
       data: {
-        phone: this.localStorage.getphonenumber()
+        phone: this.localStorage.getsingel('phonenumber')
       }
     }
     this.userService.sendApi(mutation).subscribe(data => {

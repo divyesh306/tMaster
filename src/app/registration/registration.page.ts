@@ -15,6 +15,7 @@ import { S3Controller } from '../Service/upload.service';
     styleUrls: ['./registration.page.scss'],
     providers: [S3Controller]
 })
+
 export class RegistrationPage implements OnInit {
     registerForm: FormGroup;
     options: VideoOptions;
@@ -30,7 +31,7 @@ export class RegistrationPage implements OnInit {
         private configService: configService, private videoPlayer: VideoPlayer, public modalCtrl: ModalController) {
         this.userData = {};
         this.userData.picture = "https://www.flaticon.com/svg/static/icons/svg/147/147144.svg";
-        this.userData.phone = this.localStorage.getphonenumber();
+        this.userData.phone = this.localStorage.getsingel('phonenumber');
         this.activatedRoute.params.subscribe(params => {
             this.userData.type = params['position'];
             console.log('Url Id: ', this.userData);
@@ -60,8 +61,6 @@ export class RegistrationPage implements OnInit {
         this.mediaCapture.captureVideo(options)
             .then(
                 (data: MediaFile[]) => {
-                    debugger
-                    console.log("video : ", JSON.stringify(data));
                     alert(data[0].fullPath);
                     // this.configService.sendTost("danger", data[0].fullPath, "bottom");
                     this.uploadservice.uploadFile(data[0]);
@@ -94,9 +93,7 @@ export class RegistrationPage implements OnInit {
             data: signuserData
         }
         this.userService.sendApi(mutation).subscribe(result => {
-            console.log();
             const res = result['data'].signup;
-            console.log("Verify Otp : ", res)
 
             if (!res.hasError) {
                 this.router.navigate(['/register-complete']);
