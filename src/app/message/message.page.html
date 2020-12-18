@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="dark_toolbar">
-    <ion-title class="m-0">Message</ion-title>
+    <ion-title class="m-0">{{'common.message' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,17 +11,17 @@
   </ion-row>
 
   <div class="sort_option" *ngIf="openSelectOption">
-    <p class="white_text" (click)="optionSelected('Latest')"><small>Latest</small></p>
-    <p class="white_text ion-no-margin" (click)="optionSelected('Low to High')"><small>Low to High</small></p>
-    <p class="white_text" (click)="optionSelected('High to Low')"><small>High to Low</small></p>
+    <p class="white_text" (click)="optionSelected('Latest')"><small>{{'common.latest' | translate}}</small></p>
+    <p class="white_text ion-no-margin" (click)="optionSelected('Low to High')"><small>{{'common.lowToHigh' | translate}}</small></p>
+    <p class="white_text" (click)="optionSelected('High to Low')"><small>{{'common.latest' | translate}}</small></p>
   </div>
 
   <ion-row class="tabs">
-    <ion-button fill="clear" [ngClass]="activeTab=='Know' ? 'active_tab' : 'tab'" (click)="selectTab('Know')">Know
+    <ion-button fill="clear" [ngClass]="activeTab=='Know' ? 'active_tab' : 'tab'" (click)="selectTab('Know')">{{'message.know' | translate}}
     </ion-button>
-    <ion-button fill="clear" [ngClass]="activeTab=='Friend' ? 'active_tab' : 'tab'" (click)="selectTab('Friend')">Friend
+    <ion-button fill="clear" [ngClass]="activeTab=='Friend' ? 'active_tab' : 'tab'" (click)="selectTab('Friend')">{{'message.friend' | translate}}
     </ion-button>
-    <ion-button fill="clear" [ngClass]="activeTab=='Favorite' ? 'active_tab' : 'tab'" (click)="selectTab('Favorite')">Favorite
+    <ion-button fill="clear" [ngClass]="activeTab=='Favorite' ? 'active_tab' : 'tab'" (click)="selectTab('Favorite')">{{'message.favorite' | translate}}
     </ion-button>
   </ion-row>
 

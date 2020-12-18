@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { VideoDetailPageRoutingModule } from './video-detail-routing.module';
 
 import { VideoDetailPage } from './video-detail.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VideoDetailPageRoutingModule
+    VideoDetailPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [VideoDetailPage]
 })

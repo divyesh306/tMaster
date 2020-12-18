@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { PhoneVerificationPageRoutingModule } from './phone-verification-routing.module';
 
 import { PhoneVerificationPage } from './phone-verification.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PhoneVerificationPageRoutingModule
+    PhoneVerificationPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [PhoneVerificationPage]
 })

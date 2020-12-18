@@ -8,17 +8,31 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 
 import { S3Controller } from './Service/upload.service';
+import { TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import { TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule,
+    TranslateModule.forRoot({
+      loader: {
+           provide: TranslateLoader,
+           useFactory: (createTranslateLoader),
+           deps: [HttpClient]
+         }
+      })],
   providers: [
     StatusBar,
     SplashScreen,
@@ -28,6 +42,6 @@ import { S3Controller } from './Service/upload.service';
     VideoPlayer,
     S3Controller
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

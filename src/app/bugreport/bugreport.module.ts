@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { BugreportPageRoutingModule } from './bugreport-routing.module';
 
 import { BugreportPage } from './bugreport.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BugreportPageRoutingModule
+    BugreportPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [BugreportPage]
 })

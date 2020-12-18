@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="dark_toolbar">
     <div class="row">
-      <ion-title>Profile Info</ion-title>
+      <ion-title>{{'profile.profileInfo' | translate}}</ion-title>
       <ion-icon [routerLink]="['/setting']" name="settings-outline" class="menu-icon"></ion-icon>
     </div>
   </ion-toolbar>
@@ -23,7 +23,7 @@
       </div>
       <div class="ion-margin-horizontal">
         <ion-label class="white_text">{{userDetail.type}}</ion-label>
-        <p class="white_text ion-no-margin"><small>(As you can receive coins)</small></p>
+        <p class="white_text ion-no-margin"><small>{{'profile.receiveCoins' | translate}}</small></p>
       </div>
       <div>
         <img src="../../assets/images/reset-icon.svg" alt="" (click)="next()" class="tab-img">
@@ -33,7 +33,7 @@
   <ion-grid>
     <ion-row>
       <ion-list class="profile_item_margin">
-        <p class="ion-no-margin ion-text-center grey_text"><small> Currently Coins </small></p>
+        <p class="ion-no-margin ion-text-center grey_text"><small> {{'profile.currentlyCoins' | translate}} </small></p>
         <ion-item class="fullborder">
           <ion-thumbnail slot="end" class="coinimg">
             <img src="../../assets/logo.svg" alt="">
@@ -43,53 +43,53 @@
       </ion-list>
     </ion-row>
     <ion-row class="buttons">
-      <ion-button class="grey_button" [routerLink]="['/buycoins']">BUY COINS</ion-button>
-      <ion-button class="grey_button" [routerLink]="['/exchangecoins']">EXCHANGE</ion-button>
+      <ion-button class="grey_button" [routerLink]="['/buycoins']">{{'profile.buycoins' | translate}}</ion-button>
+      <ion-button class="grey_button" [routerLink]="['/exchangecoins']">{{'profile.exchange' | translate}}</ion-button>
     </ion-row>
   </ion-grid>
   <form [formGroup]="registerForm">
     <ion-grid class="ion-no-padding">
       <div class="border_div"></div>
       <ion-item class="item_margin">
-        <ion-label class="grey_text" position="stacked">Nickname</ion-label>
+        <ion-label class="grey_text" position="stacked">{{'common.nickname' | translate}}</ion-label>
         <ion-input placeholder="Nickname" formControlName="nick_name"></ion-input>
       </ion-item>
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.nick_name.errors?.required">
-        Nick Name is required.
+        {{'common.nicknameRequired' | translate}}
       </span>
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.nick_name.errors?.minlength">
-        Name should be min 5 chars long.
+        {{'common.nameLength' | translate}}
       </span>
       <ion-item class="item_margin">
-        <ion-label class="grey_text" position="stacked">Job</ion-label>
+        <ion-label class="grey_text" position="stacked">{{'common.job' | translate}}</ion-label>
         <ion-input placeholder="Job" formControlName="jobs"></ion-input>
       </ion-item>
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.jobs.errors?.required">
-        Job is required.
+        {{'common.jobRequired' | translate}}
       </span>
       <ion-item class="item_margin">
-        <ion-label class="grey_text" position="stacked">Minute Rating</ion-label>
+        <ion-label class="grey_text" position="stacked">{{'common.minuteRating' | translate}}</ion-label>
         <ion-input type="tel" placeholder="Minute Rating" max=400 formControlName="rating"></ion-input>
       </ion-item>
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.required">
-        Minute Rating is required.
+        {{'common.minuteRatingRequired' | translate}}
       </span>
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.pattern">
-        Only Numeric Value is allowed.
+        {{'common.onlyNumeric' | translate}}
       </span>
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.max">
-        Set your rate below 400
+        {{'common.maxRate' | translate}}
       </span>
     </ion-grid>
     <ion-grid class="ion-no-padding">
       <div class="border_div"></div>
       <ion-item class="item_margin">
-        <ion-label class="grey_text" position="stacked">Appeal tags</ion-label>
+        <ion-label class="grey_text" position="stacked">{{'common.appealTag' | translate}}</ion-label>
         <ion-textarea placeholder="Tag text here" formControlName="tags" rows="3">
         </ion-textarea>
       </ion-item>
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.tags.errors?.required">
-        tags is required.
+        {{'common.tagRequired' | translate}}
       </span>
       <div class="border_div"></div>
     </ion-grid>
