@@ -11,12 +11,6 @@ export class WelcomePage implements OnInit {
 
   constructor(private router: Router, private localStorage: LocalstorageService) {
     const userdetail = this.localStorage.get("userDetail");
-    if (this.localStorage.getsingel('loginToken')) {
-      this.router.navigate(['/tabs/hangout']);
-    }
-    else {
-      
-    }
   }
 
   ngOnInit() {

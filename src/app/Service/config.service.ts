@@ -23,3 +23,5 @@ export class configService {
         toast.present();
     }
 }
+
+// web sdk app id : 4285e1dddbcc81686f098e4a4103c5dba75eadb57345643549b3707b6e317124254d33e311521a0c

@@ -69,9 +69,10 @@ export class PhoneVerificationPage implements OnInit {
       const res = result['data'].verify_otp;
       if (!res.hasError) {
         if (res.data['is_register']) {
-          this.localStorage.set('loginToken', res.data['token']);
+          this.localStorage.setsingel('loginToken', res.data['token']);
           this.localStorage.set('userDetail', res.data['user']);
-          this.router.navigate(['/tabs/hangout']);
+          if (this.localStorage.getsingel('loginToken'))
+            this.router.navigate(['/tabs/hangout']);
         }
         else {
           this.router.navigate(['/select-position']);

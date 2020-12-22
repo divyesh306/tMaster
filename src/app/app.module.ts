@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
+import { VideoEditor } from '@ionic-native/video-editor/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 import { S3Controller } from './Service/upload.service';
 @NgModule({
@@ -26,7 +28,9 @@ import { S3Controller } from './Service/upload.service';
     SmsRetriever,
     MediaCapture,
     VideoPlayer,
-    S3Controller
+    S3Controller,
+    VideoEditor,
+    File
   ],
   bootstrap: [AppComponent]
 })

@@ -26,7 +26,7 @@ export class userService {
         return this.http.post(this.server_url + "open", body)
     }
     CloseApi(mutationdata) {
-        const headers = this.headers;
+        const headers = { 'Authorization': this.localstorage.getsingel('loginToken') };
         let body = {
             query: 'mutation ' + mutationdata.name + '($data:' + mutationdata.inputtype + '!){' + mutationdata.name + '(data:$data){hasError,message,data}}',
             variables: {
@@ -36,7 +36,7 @@ export class userService {
         return this.http.post(this.server_url + "close", body, { headers })
     }
     closeQuery(queryData) {
-        const headers = this.headers;
+        const headers = { 'Authorization': this.localstorage.getsingel('loginToken') };
         // query: `query{ user_list(search_term:"hello" gender:"male") }`
         let body = {
             query: `query{` + queryData.name + `}`
