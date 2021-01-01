@@ -12,21 +12,43 @@
 
   <div class="sort_option" *ngIf="openSelectOption">
     <p class="white_text" (click)="optionSelected('Latest')"><small>{{'common.latest' | translate}}</small></p>
-    <p class="white_text ion-no-margin" (click)="optionSelected('Low to High')"><small>{{'common.lowToHigh' | translate}}</small></p>
+    <p class="white_text ion-no-margin" (click)="optionSelected('Low to High')">
+      <small>{{'common.lowToHigh' | translate}}</small></p>
     <p class="white_text" (click)="optionSelected('High to Low')"><small>{{'common.latest' | translate}}</small></p>
   </div>
 
   <ion-row class="tabs">
-    <ion-button fill="clear" [ngClass]="activeTab=='Know' ? 'active_tab' : 'tab'" (click)="selectTab('Know')">{{'message.know' | translate}}
+    <ion-button fill="clear" [ngClass]="activeTab=='Know' ? 'active_tab' : 'tab'" (click)="selectTab('Know')">
+      {{'message.know' | translate}}
     </ion-button>
-    <ion-button fill="clear" [ngClass]="activeTab=='Friend' ? 'active_tab' : 'tab'" (click)="selectTab('Friend')">{{'message.friend' | translate}}
+    <ion-button fill="clear" [ngClass]="activeTab=='Friend' ? 'active_tab' : 'tab'" (click)="selectTab('Friend')">
+      {{'message.friend' | translate}}
     </ion-button>
-    <ion-button fill="clear" [ngClass]="activeTab=='Favorite' ? 'active_tab' : 'tab'" (click)="selectTab('Favorite')">{{'message.favorite' | translate}}
+    <ion-button fill="clear" [ngClass]="activeTab=='Favorite' ? 'active_tab' : 'tab'" (click)="selectTab('Favorite')">
+      {{'message.favorite' | translate}}
     </ion-button>
   </ion-row>
 
   <ion-list>
-    <ion-row [routerLink]="['/chat-window']">
+    <ion-row (click)="openChatWindow(room.key)" *ngFor="let room of rooms">
+      <ion-col size="2" class="p0">
+        <img src="../../assets/avatar_img.jpg" alt="">
+      </ion-col>
+      <ion-col col="5.5">
+        <p class="grey_text ion-no-margin"><small>{{room.roomname}}</small></p>
+        <h5 class="ion-no-margin">Nice to meet you!</h5>
+      </ion-col>
+      <ion-col size="2.5" class="p0">
+        <p class="grey_text ion-text-right"><small>2019/02/11</small></p>
+      </ion-col>
+      <ion-col size="2" class="p0">
+        <img src="../../assets/images/coinafter.svg" alt="" class="margin-min">
+        <p class="p-margin"><small> 999</small></p>
+      </ion-col>
+    </ion-row>
+    <ion-item-divider></ion-item-divider>
+
+    <!-- <ion-row [routerLink]="['/chat-window']">
       <ion-col size="2" class="p0">
         <img src="../../assets/avatar_img.jpg" alt="">
       </ion-col>
@@ -78,42 +100,24 @@
         <p class="p-margin"><small> 999</small></p>
       </ion-col>
     </ion-row>
-    <ion-item-divider></ion-item-divider>
+    <ion-item-divider></ion-item-divider> -->
 
-    <ion-row [routerLink]="['/chat-window']">
-      <ion-col size="2" class="p0">
-        <img src="../../assets/avatar_img.jpg" alt="">
-      </ion-col>
-      <ion-col col="5.5">
-        <p class="grey_text ion-no-margin"><small>Annie Hall</small></p>
-        <h5 class="ion-no-margin">Nice to meet you!</h5>
-      </ion-col>
-      <ion-col size="2.5" class="p0">
-        <p class="grey_text ion-text-right"><small>2019/02/11</small></p>
-      </ion-col>
-      <ion-col size="2" class="p0">
-        <img src="../../assets/images/coinafter.svg" alt="" class="margin-min">
-        <p class="p-margin"><small> 999</small></p>
+    <ion-row>
+      <ion-col>Signin</ion-col>
+      <ion-col>
+        <ion-input type="text" [(ngModel)]="data.nickname" name="nickname" required=""></ion-input>
       </ion-col>
     </ion-row>
-    <ion-item-divider></ion-item-divider>
-
-    <ion-row [routerLink]="['/chat-window']">
-      <ion-col size="2" class="p0">
-        <img src="../../assets/avatar_img.jpg" alt="">
-      </ion-col>
-      <ion-col col="5.5">
-        <p class="grey_text ion-no-margin"><small>Annie Hall</small></p>
-        <h5 class="ion-no-margin">Nice to meet you!</h5>
-      </ion-col>
-      <ion-col size="2.5" class="p0">
-        <p class="grey_text ion-text-right"><small>2019/02/11</small></p>
-      </ion-col>
-      <ion-col size="2" class="p0">
-        <img src="../../assets/images/coinafter.svg" alt="" class="margin-min">
-        <p class="p-margin"><small> 999</small></p>
+    <ion-button (click)="enterNickname()">Add name</ion-button>
+    <ion-row>
+      <ion-col>Add New User</ion-col>
+      <ion-col>
+        <ion-icon name="add-circle-outline" class="add-icon" (click)="addNewChat()"></ion-icon>
       </ion-col>
     </ion-row>
-    <ion-item-divider></ion-item-divider>
+    <div *ngIf="addNewUser">
+      <ion-input type="text" [(ngModel)]="data.roomname" name="roomname" required=""></ion-input>
+      <ion-button (click)="addName()">Add name</ion-button>
+    </div>
   </ion-list>
 </ion-content>

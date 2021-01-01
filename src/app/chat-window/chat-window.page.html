@@ -30,36 +30,60 @@
   </div> -->
   <div class="background ion-padding">
     <div class="chat-screen">
-      <div class="conversation">
+      <div class="conversation" *ngFor="let chat of chats">
         <ul>
-          <li>
+          <li *ngIf="chat.user == nickname">
             <div class="chat-details">
               <div class="read">
                 <p>{{'common.read' | translate}}</p>
-                <p>10:25 am</p>
+                <p>{{chat.sendDate | date:'shortTime'}}</p>
               </div>
               <div class="chat-msg">
-                <p>Hey! Are you available for a meeting at 2:30pm tomorrow?Or maybe today at 5:45pm?</p>
+                <p>{{chat.message}}</p>
               </div>
             </div>
           </li>
-          <li>
-            <div class="chat-details">
+          <li *ngIf="chat.user != nickname">
+            <div class="white-chat-details">
               <div class="user-img">
                 <img src="../../assets/avatar_img.jpg" alt="">
               </div>
-              <div class="chat-msg">
-                <p>Today at 5:45pm will be just fine!</p>
+              <div class="white-chat-msg">
+                <p>{{chat.message}}</p>
               </div>
               <div class="read">
                 <p>{{'common.read' | translate}}</p>
-                <p>10:25 am</p>
+                <p>{{chat.sendDate | date:'shortTime'}}</p>
               </div>
             </div>
           </li>
         </ul>
       </div>
     </div>
+     <!-- <ion-list>
+    <ion-item *ngFor="let chat of chats" no-lines>
+      <div class="chat-status" text-center *ngIf="chat.type=='join'||chat.type=='exit';else message">
+        <span class="chat-date">{{chat.sendDate | date:'short'}}</span>
+        <span class="chat-content-center">{{chat.message}}</span>
+      </div>
+      <ng-template #message>
+        <div class="chat-message" text-right *ngIf="chat.user == nickname">
+          <div class="right-bubble">
+            <span class="msg-name">Me</span>
+            <span class="msg-date">{{chat.sendDate | date:'short'}}</span>
+            <p text-wrap>{{chat.message}}</p>
+          </div>
+        </div>
+        <div class="chat-message" text-left *ngIf="chat.user !== nickname">
+          <div class="left-bubble">
+            <span class="msg-name">{{chat.user}}</span>
+            <span class="msg-date">{{chat.sendDate | date:'short'}}</span>
+            <p text-wrap>{{chat.message}}</p>
+          </div>
+        </div>
+      </ng-template>
+    </ion-item>
+  </ion-list> -->
   </div>
   <div *ngIf="fileOption" class="fileupload">
       <img src="../../assets/images/upload-icon.svg" alt="">
@@ -72,8 +96,9 @@
     <ion-col size="1.5" (click)="openCoinModal()">
       <img src="../../assets/images/coins-icons.svg" alt="">
     </ion-col>
-    <ion-col size="6">
-      <ion-input type="text" placeholder="Aa"></ion-input>
+    <ion-col size="6" class="input_column">
+      <ion-textarea type="text" placeholder="Aa" rows="2" [(ngModel)]="data.message" name="message"></ion-textarea>
+      <img src="../../assets/images/enter-icon.svg" alt="" (click)="sendMessage()">
     </ion-col>
     <ion-col size="1.5" (click)="videoCall()">
     <img src="../../assets/images/video-camera.svg" alt="">
