@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import * as S3 from 'aws-sdk/clients/s3';
 import { Observable, of } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 class FileUpload {
@@ -14,64 +15,48 @@ class FileUpload {
     result: any[];
 }
 export class S3Controller {
-    FOLDER = 'Profilevideo';
-    BUCKET = 'UserProfile';
+    FOLDER = 'Profilevideo/';
+    BUCKET = environment.S3.bucketName;
 
     private static getS3Bucket(): any {
         return new S3(
             {
-                accessKeyId: 'AKIATGI7CQBJLYUOYTPP',
-                secretAccessKey: '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',
-                region: 'ap-northeast-1'
+                accessKeyId: environment.S3.accessKeyId,
+                secretAccessKey: environment.S3.secretAccessKey,
+                region: environment.S3.region
             }
         );
     }
 
-    public uploadFile(videoFile) {
-        console.log("vedio : ",videoFile);
+    public uploadFile(videoFile,filename,callback) {
         const bucket = new S3(
             {
-                accessKeyId: 'AKIATGI7CQBJLYUOYTPP',
-                secretAccessKey: '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',
-                region: 'ap-northeast-1'
+                accessKeyId: environment.S3.accessKeyId,
+                secretAccessKey: environment.S3.secretAccessKey,
+                region: environment.S3.region
             }
         );
         const params = {
             Bucket: this.BUCKET,
-            Key: this.FOLDER + videoFile.name,
-            Body: videoFile,
-            ACL: 'public'
+            Key: this.FOLDER + filename,
+            Body: videoFile
         };
-
         bucket.upload(params, function (err, data) {
             if (err) {
                 console.log('There was an error uploading your file: ', err);
-                alert(`There was an error uploading your file. ${err}`);
                 return false;
             }
             console.log('Successfully uploaded file.', data);
-            alert(`Successfully uploaded file. ${data}`);
+            alert(`Successfully uploaded file`);
+            callback(data);
             return true;
         });
-        // for upload progress   
-        /*bucket.upload(params).on('httpUploadProgress', function (evt) {
-                  console.log(evt.loaded + ' of ' + evt.total + ' Bytes');
-              }).send(function (err, data) {
-                  if (err) {
-                      console.log('There was an error uploading your file: ', err);
-                      return false;
-                  }
-                  console.log('Successfully uploaded file.', data);
-                  return true;
-              });*/
     }
 
     public getFiles(): Observable<Array<FileUpload>> {
         const fileUploads = [];
-
         const params = {
-            Bucket: this.BUCKET,
-            Prefix: this.FOLDER
+            Bucket: this.BUCKET
         };
 
         S3Controller.getS3Bucket().listObjects(params, function (err, data) {
@@ -80,9 +65,7 @@ export class S3Controller {
                 return;
             }
             console.log('Successfully get files.', data);
-
             const fileDetails = data.Contents;
-
             fileDetails.forEach((videoFile) => {
                 fileUploads.push(new FileUpload(
                     videoFile.Key,
@@ -90,7 +73,6 @@ export class S3Controller {
                 ));
             });
         });
-
         return of(fileUploads);
     }
 

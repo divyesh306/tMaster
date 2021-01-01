@@ -30,6 +30,7 @@
     "@ionic-native/video-player": "^5.30.0",
     "@ionic/angular": "^5.0.0",
     "@ionic/app-scripts": "^3.2.4",
+    "dotenv": "^8.2.0",
     "ionic-native": "^2.9.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

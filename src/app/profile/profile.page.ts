@@ -4,26 +4,37 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { userService } from '../Service/user.service';
 import { configService } from '../Service/config.service';
 
+import { S3Controller } from '../Service/upload.service';
+
+import { File } from '@ionic-native/file/ngx';
+import { VideoEditor, CreateThumbnailOptions } from '@ionic-native/video-editor/ngx';
+import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
+  providers: [S3Controller]
 })
 export class ProfilePage implements OnInit {
 
   registerForm: FormGroup;
   isSubmitted = false;
-  file: File;
   profileImg = '../../assets/avatar.jpeg';
   userDetail;
-  constructor(private localstorage: LocalstorageService, private userService: userService, public formBuilder: FormBuilder, private configService: configService) {
-    this.userDetail = this.localstorage.get('userDetail');
+  s3Url;
+  constructor(private localstorage: LocalstorageService, private userService: userService, private file: File,
+    public formBuilder: FormBuilder, private uploadservice: S3Controller, private mediaCapture: MediaCapture,
+    private configService: configService, private videoEditor: VideoEditor) {
+
+    this.s3Url = this.configService.getS3(); // amazone bucket Url
+    this.userDetail = this.localstorage.get('userDetail'); // User Detail
+
     this.registerForm = this.formBuilder.group({
       nick_name: [this.userDetail.nick_name, [Validators.required, Validators.minLength(5)]],
       date_of_birth: [this.userDetail.date_of_birth, [Validators.required]],
-      picture: [this.userDetail.picture],
       gender: [this.userDetail.gender, [Validators.required]],
-      rating: [this.userDetail.rating.toString(), [Validators.required, Validators.pattern('^[0-9]+$'), Validators.maxLength(3), Validators.max(400)]],
+      rating: [this.userDetail.rating, [Validators.required, Validators.pattern('^[0-9]+$'), Validators.maxLength(3), Validators.max(400)]],
       jobs: [this.userDetail.jobs, [Validators.required]],
       tags: [this.userDetail.tags, [Validators.required]],
       type: [this.userDetail.type, [Validators.required]]
@@ -40,6 +51,9 @@ export class ProfilePage implements OnInit {
       return false;
     } else {
       var userdata = this.registerForm.value;
+      userdata.picture = this.userDetail.picture;
+      userdata.rating = userdata.rating.toString();
+      userdata.video = this.userDetail.video;
       console.log("user Detail : ", userdata);
       this.signup(userdata);
     }
@@ -55,8 +69,9 @@ export class ProfilePage implements OnInit {
       const res = result['data'].update_profile;
 
       if (!res.hasError) {
-        this.localstorage.set('userDetail',res.data);
-        this.configService.sendToast('success','Profile Updated','bottom');
+        this.localstorage.set('userDetail', res.data);
+        this.userDetail = this.localstorage.get('userDetail'); 
+        this.configService.sendToast('success', 'Profile Updated', 'bottom');
       } else {
 
       }
@@ -78,17 +93,61 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
   }
 
-  changeListener(event): void {
-    if (event.target.files && event.target.files[0]) {
-      let reader = new FileReader();
-      reader.onload = (event: any) => {
-        this.profileImg = event.target.result;
+  changeType() {
+    this.isSubmitted = true;
+    if (!this.registerForm.valid) {
+      this.configService.sendToast('danger', 'Please provide all the required values!', 'top')
+      return false;
+    } else {
+      var userdata = this.registerForm.value;
+      userdata.picture = this.userDetail.picture;
+      userdata.rating = userdata.rating.toString();
+      userdata.video = this.userDetail.video;
+      if (this.userDetail.type == 'user') {
+        userdata.type = 'counselor';
       }
-      reader.readAsDataURL(event.target.files[0]); // to trigger onload
+      else {
+        userdata.type = 'user';
+      }
+      console.log("user Detail : ", userdata);
+      this.signup(userdata);
     }
+  }
 
-    let fileList: FileList = event.target.files;
-    let file: File = fileList[0];
-    console.log(file);
+  async startVedio() {
+    let options: CaptureVideoOptions = { duration: 3, quality: 1 }
+    this.mediaCapture.captureVideo(options)
+      .then(
+        async (data: MediaFile[]) => {
+          var path = data[0].fullPath.replace('/private', 'file:///');
+          const newBaseFilesystemPath = this.file.externalDataDirectory + "files/videos/";
+          const videofilename = path.substr(path.lastIndexOf('/') + 1);
+          const videopath = path.substr(0, path.lastIndexOf('/') + 1);
+          const filename = videofilename.substr(0, videofilename.lastIndexOf('.'));
+          this.file.readAsArrayBuffer(videopath, videofilename).then((body) => {
+            this.uploadservice.uploadFile(body, videofilename, (url) => {
+              console.log("video File : ", url);
+              this.userDetail.video = url.Key;
+            });
+          }).catch(err => {
+            console.log('readAsDataURL failed: (' + err.code + ")" + err.message);
+          })
+
+          var option: CreateThumbnailOptions = { fileUri: path.toString(), width: 160, height: 206, atTime: 1, outputFileName: filename, quality: 50 };
+          const tempImage = await this.videoEditor.createThumbnail(option);
+          const tempFilename = tempImage.substr(tempImage.lastIndexOf('/') + 1);
+          const tempBaseFilesystemPath = tempImage.substr(0, tempImage.lastIndexOf('/') + 1);
+
+          this.file.readAsArrayBuffer(newBaseFilesystemPath, tempFilename).then((b64str) => {
+            this.uploadservice.uploadFile(b64str, tempFilename, (url) => {
+              this.userDetail.picture = url.Key;
+              this.profileImg = this.configService.getS3() + url.Key;
+            });
+          }).catch(err => {
+            console.log('readAsDataURL failed: (' + err.code + ")" + err.message);
+          })
+        },
+        (err: CaptureError) => console.error(err)
+      );
   }
 }

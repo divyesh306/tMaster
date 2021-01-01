@@ -8,7 +8,10 @@ export const environment = {
     IDENTITY_POOL_ID: ""
   },
   S3: {
-    BUCKET_NAME: ""
+    accessKeyId:'AKIAJRLIOBJDO2NBBLIQ' ,//'AKIATGI7CQBJGBQZQHO3',
+    secretAccessKey: '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' ,//'bI4iam0Hvvo5GfGwHD2MD2XXiRrMGzOlj13O3ToY',
+    region:'ap-south-1', //'ap-northeast-1',
+    bucketName:'matukitestimg' //'tm-video-app'
   }
 };
 
