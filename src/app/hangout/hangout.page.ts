@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { configService } from '../Service/config.service';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
 
@@ -11,18 +12,21 @@ import { userService } from '../Service/user.service';
 export class HangoutPage implements OnInit {
   menuOpen = false;
   searchModal = false;
-  search_term=null;
+  search_term = null;
   gender;
   user_list = [];
-  constructor(private router: Router, private localStorage: LocalstorageService, private userService: userService) {
+  s3Url;
+  constructor(private router: Router, private localStorage: LocalstorageService,
+    private userService: userService, private configService: configService) {
     this.localStorage.get('userDetail');
     this.localStorage.remove('selectedUser');
-    this.getUsers(null,null);
+    this.getUsers(null, null);
+    this.s3Url = this.configService.getS3();
   }
 
   ngOnInit() {
   }
-  getUsers(search_term : string, gender:string) {
+  getUsers(search_term: string, gender: string) {
     const body = {
       name: 'user_list(search_term:"' + search_term + '" ,gender:"' + gender + '")'
     }

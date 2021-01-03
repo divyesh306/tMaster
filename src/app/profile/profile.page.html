@@ -11,9 +11,9 @@
   <ion-grid class="slider">
     <ion-row class="profile_item_margin">
       <ion-avatar class="p-relative">
-        <img [src]="profileImg" alt="">
-        <ion-input type="file" accept="image/*" class="browse_btn" (change)="changeListener($event)"></ion-input>
-        <img src="../../assets/images/camera.svg" class="camera_icon" alt="">
+        <img src="{{s3Url}}{{userDetail.picture}}" alt="">
+        <!-- <ion-input type="file" accept="image/*" class="browse_btn" (change)="changeListener($event)"></ion-input> -->
+        <img src="../../assets/images/camera.svg" class="camera_icon" alt="" (click)="startVedio()">
         <!-- <ion-icon name="camera" class="camera_icon"></ion-icon> -->
       </ion-avatar>
     </ion-row>
@@ -26,7 +26,7 @@
         <p class="white_text ion-no-margin"><small>{{'profile.receiveCoins' | translate}}</small></p>
       </div>
       <div>
-        <img src="../../assets/images/reset-icon.svg" alt="" (click)="next()" class="tab-img">
+        <img src="../../assets/images/reset-icon.svg" alt="" (click)="changeType()" class="tab-img">
       </div>
     </ion-row>
   </ion-grid>
@@ -92,6 +92,10 @@
         {{'common.tagRequired' | translate}}
       </span>
       <div class="border_div"></div>
+      <div class="ion-margin">
+        <ion-label class="fs-11 grey_text float_left">Recommended to add many tags that you related</ion-label><br>
+        <ion-button type="submit" class="green_button m-30" (click)="next()">UPDATE</ion-button>
+      </div>
     </ion-grid>
   </form>
 </ion-content>
