@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs',
@@ -7,6 +8,16 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
+  subscription;
+  constructor(private platform: Platform) { }
 
+
+  ionViewDidEnter() {
+    this.subscription = this.platform.backButton.subscribeWithPriority(9999, () => {
+      // do nothing
+    })
+  }
+  ionViewWillLeave() {
+    this.subscription.unsubscribe();
+  }
 }
