@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { SettingPageRoutingModule } from './setting-routing.module';
 
 import { SettingPage } from './setting.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SettingPageRoutingModule
+    SettingPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [SettingPage]
 })

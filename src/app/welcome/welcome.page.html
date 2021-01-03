@@ -1,9 +1,9 @@
 <ion-content>
   <div class="ion-text-center mt-20per column align-center">
-    <ion-label class="fs-25 grey_text">Welcome to Tokmay</ion-label>
+    <ion-label class="fs-25 grey_text">{{'welcompage.welcomeText' | translate}}</ion-label>
     <img src="../../assets/logo.svg" alt="" class="logo">
-    <p class="fs-11 grey_text ion-no-margin">Tap "Agree and Continue" to accept the Tokmay Terms of </p>
-    <div class="fs-11 green_text mt-5">Service and Privacy Policy</div>
-    <ion-button class="green_button mt-20per" (click)="accept()">ACCEPT AND CONTINUE</ion-button>
+    <p class="fs-11 grey_text ion-no-margin">{{'welcompage.agreeContinue' | translate}} </p>
+    <div class="fs-11 green_text mt-5">{{'welcompage.servicePolicy' | translate}}</div>
+    <ion-button class="green_button mt-20per" (click)="accept()">{{'welcompage.acceptContinue' | translate}}</ion-button>
   </div>
 </ion-content>

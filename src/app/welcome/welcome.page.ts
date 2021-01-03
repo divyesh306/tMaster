@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { LocalstorageService } from '../Service/localstorage.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { LocalstorageService } from '../Service/localstorage.service';
 export class WelcomePage implements OnInit {
 
   constructor(private router: Router, private localStorage: LocalstorageService) {
+  
     const userdetail = this.localStorage.get("userDetail");
   }
 

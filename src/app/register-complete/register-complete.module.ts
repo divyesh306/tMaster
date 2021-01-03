@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { RegisterCompletePageRoutingModule } from './register-complete-routing.module';
 
 import { RegisterCompletePage } from './register-complete.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RegisterCompletePageRoutingModule
+    RegisterCompletePageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [RegisterCompletePage]
 })

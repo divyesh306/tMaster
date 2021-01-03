@@ -17,7 +17,9 @@ export class ProfilePage implements OnInit {
   profileImg = '../../assets/avatar.jpeg';
   userDetail;
   constructor(private localstorage: LocalstorageService, private userService: userService, public formBuilder: FormBuilder, private configService: configService) {
-    this.userDetail = this.localstorage.get('userDetail');
+    this.userDetail = localStorage.getItem('userDetail');
+    console.log(this.userDetail);
+    if(this.userDetail !=null){
     this.registerForm = this.formBuilder.group({
       nick_name: [this.userDetail.nick_name, [Validators.required, Validators.minLength(5)]],
       date_of_birth: [this.userDetail.date_of_birth, [Validators.required]],
@@ -27,7 +29,8 @@ export class ProfilePage implements OnInit {
       jobs: [this.userDetail.jobs, [Validators.required]],
       tags: [this.userDetail.tags, [Validators.required]],
       type: [this.userDetail.type, [Validators.required]]
-    })
+    });
+  }
   }
 
   get errorControl() {

@@ -2,21 +2,21 @@
   <ion-toolbar class="dark_toolbar">
     <div class="row">
       <img src="../../assets/images/green-back-arrow.svg" class="arrow_icon" [routerLink]="['/setting']" alt="">
-      <ion-title>Bug Report</ion-title>
+      <ion-title>{{'setting.bugReport' | translate}}</ion-title>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-item lines="none">
-    <ion-label position="stacked" class="label-color">Email</ion-label>
+    <ion-label position="stacked" class="label-color">{{'bugReport.email' | translate}}</ion-label>
     <ion-input type="email" class="mt-5"></ion-input>
   </ion-item>
   <ion-item lines="none">
-    <ion-label position="stacked" class="label-color">Comment</ion-label>
+    <ion-label position="stacked" class="label-color">{{'bugReport.comment' | translate}}</ion-label>
     <ion-textarea type="text" rows="4"></ion-textarea>
   </ion-item>
   <div class="ion-text-center mt-10per">
-    <ion-button class="green_button" [routerLink]="['/setting']">Submit</ion-button>
+    <ion-button class="green_button" [routerLink]="['/setting']">{{'bugReport.submit' | translate}}</ion-button>
   </div>
 </ion-content>

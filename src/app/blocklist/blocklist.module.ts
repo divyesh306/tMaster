@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { BlocklistPageRoutingModule } from './blocklist-routing.module';
 
 import { BlocklistPage } from './blocklist.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BlocklistPageRoutingModule
+    BlocklistPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [BlocklistPage]
 })

@@ -13,8 +13,8 @@
     <div class="row">
       <img src="../../assets/images/hashtag-icon.svg" alt="">
       <div class="ion-text-center column">
-        <ion-label class="fs-13 font-bold">#letstalknow</ion-label>
-        <ion-label class="fs-11 grey_text">Popular Tag</ion-label>
+        <ion-label class="fs-13 font-bold">#{{'letstalknow.letstalknowLabel' | translate}}</ion-label>
+        <ion-label class="fs-11 grey_text">{{'letstalknow.popularTag' | translate}}</ion-label>
       </div>
     </div>
     <div class="row" [routerLink]="['/tabs/search-result']">
@@ -24,14 +24,14 @@
   </div>
 
   <ion-row class="sort_popular row ion-text-center" (click)="selectOption()">
-    <ion-label class="white_text grow">Sort by popular</ion-label>
+    <ion-label class="white_text grow">{{'letstalknow.sortByPopular' | translate}}</ion-label>
     <img src="../../assets/images/white-arrow.svg" alt="" class="arrow_icon">
   </ion-row>
 
   <div class="sort_option" *ngIf="openSelectOption">
-    <p class="white_text"><small>Latest</small></p>
-    <p class="white_text ion-no-margin"><small>Low to High</small></p>
-    <p class="white_text"><small>High to Low</small></p>
+    <p class="white_text"><small>{{'common.latest' | translate}}</small></p>
+    <p class="white_text ion-no-margin"><small>{{'common.lowToHigh' | translate}}</small></p>
+    <p class="white_text"><small>{{'common.latest' | translate}}</small></p>
   </div>
 
   <ion-row>
@@ -40,7 +40,7 @@
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
         <ion-label>Mikachen</ion-label>
-        <ion-label class="age-label"> 21 Age</ion-label>
+        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
       </div>
     </ion-col>
     <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
@@ -48,7 +48,7 @@
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
         <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 Age</ion-label>
+        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
       </div>
     </ion-col>
     <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
@@ -56,7 +56,7 @@
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
         <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 Age</ion-label>
+        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
       </div>
     </ion-col>
     <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
@@ -64,7 +64,7 @@
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
         <ion-label>Mikachen</ion-label>
-        <ion-label class="age-label"> 21 Age</ion-label>
+        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
       </div>
     </ion-col>
     <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
@@ -72,7 +72,7 @@
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
         <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 Age</ion-label>
+        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
       </div>
     </ion-col>
     <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
@@ -80,7 +80,7 @@
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
         <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 Age</ion-label>
+        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
       </div>
     </ion-col>
     <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
@@ -88,7 +88,7 @@
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
         <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 Age</ion-label>
+        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
       </div>
     </ion-col>
     <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
@@ -96,7 +96,7 @@
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
         <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 Age</ion-label>
+        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
       </div>
     </ion-col>
     <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
@@ -104,7 +104,7 @@
       <ion-label class="minute-rating">M/300</ion-label>
       <div class="name-age row">
         <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 Age</ion-label>
+        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
       </div>
     </ion-col>
   </ion-row>

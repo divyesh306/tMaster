@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { HangoutPageRoutingModule } from './hangout-routing.module';
 
 import { HangoutPage } from './hangout.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HangoutPageRoutingModule
+    HangoutPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [HangoutPage]
 })

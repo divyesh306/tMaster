@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { SelectPositionPageRoutingModule } from './select-position-routing.module';
 
 import { SelectPositionPage } from './select-position.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SelectPositionPageRoutingModule
+    SelectPositionPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [SelectPositionPage]
 })

@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { LetstalknowPageRoutingModule } from './letstalknow-routing.module';
 
 import { LetstalknowPage } from './letstalknow.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    LetstalknowPageRoutingModule
+    LetstalknowPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [LetstalknowPage]
 })

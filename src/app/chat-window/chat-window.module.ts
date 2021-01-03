@@ -8,13 +8,15 @@ import { ChatWindowPageRoutingModule } from './chat-window-routing.module';
 
 import { ChatWindowPage } from './chat-window.page';
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ChatWindowPageRoutingModule
+    ChatWindowPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [ChatWindowPage,VideoNoticeComponent],
   entryComponents:[VideoNoticeComponent]

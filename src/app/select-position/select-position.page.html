@@ -1,14 +1,12 @@
 <ion-content>
   <div class="ion-text-center mt-20per">
-    <ion-label class="fs-25 green_text">Registration</ion-label>
+    <ion-label class="fs-25 green_text">{{'common.registration' | translate}}</ion-label>
     <ion-item-divider></ion-item-divider>
-    <div class="fs-11 grey_text">You can enjoy this app as you are Counselor of Client.. <br> When you can earn coins,
-      spend coinn when you have trouble..</div><br>
-    <div class="fs-11 grey_text">As perform your speciality job, talented, speaking, etc... <br> Freestyle enjoying
-      video chatting.</div><br>
-    <div class="fs-11 grey_text">Your position is alternative changable! Don't be hurry!</div><br><br>
+    <div class="fs-11 grey_text content-margin">{{'selectPosition.content1' | translate}}</div><br>
+    <div class="fs-11 grey_text content-margin">{{'selectPosition.content2' | translate}}</div><br>
+    <div class="fs-11 grey_text content-margin">{{'selectPosition.content3' | translate}}</div><br><br>
 
-    <ion-label class="fs-25 green_text mt-10">Select Position</ion-label>
+    <ion-label class="fs-25 green_text mt-10"></ion-label>
 
 
     <ion-row class="ion-padding row" (click)="positionSelected('user')">
@@ -17,8 +15,8 @@
       </ion-col>
       <ion-col size="7" class="ion-no-padding">
         <div class="column">
-          <ion-label class="fs-25 blue_text">Client</ion-label>
-          <ion-label class="fs-11 grey_text">If you have any trouble in your life</ion-label>
+          <ion-label class="fs-25 blue_text">{{'common.client' | translate}}</ion-label>
+          <ion-label class="fs-11 grey_text">{{'selectPosition.haveTrouble' | translate}}</ion-label>
         </div>
       </ion-col>
     </ion-row>
@@ -29,8 +27,8 @@
       </ion-col>
       <ion-col size="7" class="ion-no-padding">
         <div class="column">
-          <ion-label class="fs-25 pink_text">Counselor</ion-label>
-          <ion-label class="fs-11 grey_text">If you can resolve anyone's trouble</ion-label>
+          <ion-label class="fs-25 pink_text">{{'common.counselor' | translate}}</ion-label>
+          <ion-label class="fs-11 grey_text">{{'selectPosition.resolveTrouble' | translate}}</ion-label>
         </div>
       </ion-col>
     </ion-row>
