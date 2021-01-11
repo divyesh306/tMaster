@@ -24,6 +24,7 @@ export class RegistrationPage implements OnInit {
     isSubmitted = false;
     datePicker = Date.now();
     userData;
+    userEligible: boolean = false;
 
     constructor(private router: Router, private activatedRoute: ActivatedRoute,
         private localStorage: LocalstorageService, private userService: userService, private file: File,
@@ -80,7 +81,7 @@ export class RegistrationPage implements OnInit {
                         this.uploadservice.uploadFile(b64str, tempFilename, (url) => {
                             this.userData.picture = url.Key;
                             this.profileImg = this.configService.getS3() + url.Key;
-                            console.log("Profile Img : ",this.profileImg);
+                            console.log("Profile Img : ", this.profileImg);
                         });
                     }).catch(err => {
                         console.log('readAsDataURL failed: (' + err.code + ")" + err.message);
@@ -94,6 +95,8 @@ export class RegistrationPage implements OnInit {
         if (!this.registerForm.valid) {
             this.configService.sendToast('danger', 'Please provide all the required values!', 'top')
             return false;
+        } else if (!this.userEligible) {
+            this.configService.sendToast('danger', 'You are not eligible now.', 'top');
         } else {
             if (this.userData.picture) {
                 var userdata = this.registerForm.value;
@@ -103,8 +106,8 @@ export class RegistrationPage implements OnInit {
                 console.log("UserData : ", userdata);
                 this.signup(userdata);
             }
-            else{
-                this.configService.sendToast('danger', 'Please Select Image','bottom')
+            else {
+                this.configService.sendToast('danger', 'Please Select Image', 'bottom')
             }
             // this.router.navigate(['/register-complete']);
         }
@@ -139,5 +142,17 @@ export class RegistrationPage implements OnInit {
     }
     changeDate(dt) {
         console.log(this.datePicker);
+    }
+    calculateAge() {
+        var bdate = this.registerForm.value.date_of_birth;
+        var dobDate = new Date(bdate);
+        const todayDate = new Date();
+        var age = todayDate.getFullYear() - dobDate.getFullYear();
+        if (age < 18) {
+            this.configService.sendToast('danger', 'You are not eligible now.', 'top');
+            this.userEligible = false;
+        } else {
+            this.userEligible = true;
+        }
     }
 }

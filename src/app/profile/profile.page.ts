@@ -9,6 +9,8 @@ import { S3Controller } from '../Service/upload.service';
 import { File } from '@ionic-native/file/ngx';
 import { VideoEditor, CreateThumbnailOptions } from '@ionic-native/video-editor/ngx';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import { Router } from '@angular/router';
+import { VideoPlayer } from '@ionic-native/video-player/ngx';
 
 @Component({
   selector: 'app-profile',
@@ -23,13 +25,17 @@ export class ProfilePage implements OnInit {
   profileImg = '../../assets/avatar.jpeg';
   userDetail;
   s3Url;
+  video;
   constructor(private localstorage: LocalstorageService, private userService: userService, private file: File,
     public formBuilder: FormBuilder, private uploadservice: S3Controller, private mediaCapture: MediaCapture,
-    private configService: configService, private videoEditor: VideoEditor) {
-
+    private configService: configService, private videoEditor: VideoEditor, private router: Router,
+    public videoPlayer: VideoPlayer) {
+      // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+      // "http://clips.vorwaerts-gmbh.de/VfE_html5.mp4"
     this.s3Url = this.configService.getS3(); // amazone bucket Url
     this.userDetail = this.localstorage.get('userDetail'); // User Detail
-
+    this.video = this.s3Url + this.userDetail.video;
+    console.log(this.userDetail);
     this.registerForm = this.formBuilder.group({
       nick_name: [this.userDetail.nick_name, [Validators.required, Validators.minLength(5)]],
       date_of_birth: [this.userDetail.date_of_birth, [Validators.required]],
@@ -126,11 +132,11 @@ export class ProfilePage implements OnInit {
           const filename = videofilename.substr(0, videofilename.lastIndexOf('.'));
           this.file.readAsArrayBuffer(videopath, videofilename).then((body) => {
             this.uploadservice.uploadFile(body, videofilename, (url) => {
-              console.log("video File : ", url);
+              alert("video File : " + url);
               this.userDetail.video = url.Key;
             });
           }).catch(err => {
-            console.log('readAsDataURL failed: (' + err.code + ")" + err.message);
+            alert('readAsDataURL failed: (' + err.code + ")" + err.message);
           })
 
           var option: CreateThumbnailOptions = { fileUri: path.toString(), width: 160, height: 206, atTime: 1, outputFileName: filename, quality: 50 };
@@ -149,5 +155,10 @@ export class ProfilePage implements OnInit {
         },
         (err: CaptureError) => console.error(err)
       );
+  }
+  playVideo() {
+    alert(this.userDetail.video);
+    this.localstorage.set('selectedUser', this.userDetail);
+    this.router.navigate(['tabs/video-detail/' + this.userDetail.id]);
   }
 }
