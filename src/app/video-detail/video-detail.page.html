@@ -1,5 +1,11 @@
 <ion-content>
-  <img src="{{s3Url}}{{userDetail.picture}}" alt="" class="video">
+  <video preload="auto" autoplay class="videoPlayer" muted loop>
+    <source src="https://matukitestimg.s3.ap-south-1.amazonaws.com/Profilevideo/20210110_152025.mp4" type="video/mp4">
+  </video>
+  <!-- <video controls class="video" preload="metadata" autoplay="autoplay" webkit-playsinline="webkit-playsinline">
+    <source src="{{s3Url}}{{userDetail.video}}">
+  </video> -->
+  <!-- <img src="{{s3Url}}{{userDetail.picture}}" alt="" class="video"> -->
   <div class="row">
     <img src="../../assets/images/green-back-arrow.svg" class="arrow_icon"  alt="" (click)="backHangout()">
     <div class="heading">

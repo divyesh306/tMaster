@@ -1,12 +1,13 @@
-
-ion-title{
+ion-title {
     margin: 0 0 0 30px !important;
 }
-ion-item-divider{
+
+ion-item-divider {
     width: 100%;
 }
-ion-label{
-    width:100%;
+
+ion-label {
+    width: 100%;
 }
 
 .menu-icon {
@@ -17,56 +18,74 @@ ion-label{
 
 .slider {
     height: 200px;
-    background : linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);
+    background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);
 }
+
 .p-relative {
     position: relative;
 }
-.browse_btn{
+
+.video-profile {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    background: grey;
+}
+
+.browse_btn {
     position: absolute;
     top: 70px;
     opacity: 0;
     width: 50px;
     left: 60px;
 }
+
 .camera_icon {
     position: absolute;
     top: 65px;
     left: 65px;
     height: 52px;
     width: 52px;
-    padding:5px;
+    padding: 5px;
 }
-.item_margin{
+
+.item_margin {
     margin: 8px 16px;
 }
-.fs-14{
+
+.fs-14 {
     font-size: 14px;
 }
-.profile_item_margin{
+
+.profile_item_margin {
     align-items: center;
     justify-content: center;
     margin: 8px 0px;
     width: 100%;
 }
-.p_margin{
+
+.p_margin {
     margin: 5px 0;
 }
-.tab-img{
+
+.tab-img {
     height: 38px;
 }
-.coinimg{
+
+.coinimg {
     width: 30px;
     height: 30px;
     margin-top: 2px;
 }
-.fullborder{
+
+.fullborder {
     border: 1px solid black;
     border-radius: 6px !important;
     width: 90%;
     margin: auto;
     height: 44px;
 }
+
 .border_div {
     height: 22px;
     background: #f5f5f5;
@@ -74,15 +93,18 @@ ion-label{
     border-bottom: 2px solid #d5d5d5;
     margin-top: 10px;
 }
-.buttons{
+
+.buttons {
     display: flex;
     justify-content: space-evenly;
 }
-.grey_button{
+
+.grey_button {
     width: 120px;
     height: 35px;
 }
-.formpadding{
+
+.formpadding {
     --padding-start: 20px;
     --padding-end: 20px;
 }
