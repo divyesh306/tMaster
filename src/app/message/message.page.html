@@ -13,7 +13,8 @@
   <div class="sort_option" *ngIf="openSelectOption">
     <p class="white_text" (click)="optionSelected('Latest')"><small>{{'common.latest' | translate}}</small></p>
     <p class="white_text ion-no-margin" (click)="optionSelected('Low to High')">
-      <small>{{'common.lowToHigh' | translate}}</small></p>
+      <small>{{'common.lowToHigh' | translate}}</small>
+    </p>
     <p class="white_text" (click)="optionSelected('High to Low')"><small>{{'common.latest' | translate}}</small></p>
   </div>
 
@@ -30,12 +31,12 @@
   </ion-row>
 
   <ion-list>
-    <ion-row (click)="openChatWindow(room.key)" *ngFor="let room of rooms">
+    <ion-row (click)="openChatWindow(room.data.room_key)" *ngFor="let room of rooms">
       <ion-col size="2" class="p0">
         <img src="../../assets/avatar_img.jpg" alt="">
       </ion-col>
       <ion-col col="5.5">
-        <p class="grey_text ion-no-margin"><small>{{room.roomname}}</small></p>
+        <p class="grey_text ion-no-margin"><small>{{room.data.room_id}}</small></p>
         <h5 class="ion-no-margin">Nice to meet you!</h5>
       </ion-col>
       <ion-col size="2.5" class="p0">
@@ -102,7 +103,7 @@
     </ion-row>
     <ion-item-divider></ion-item-divider> -->
 
-    <ion-row>
+    <!-- <ion-row>
       <ion-col>Signin</ion-col>
       <ion-col>
         <ion-input type="text" [(ngModel)]="data.nickname" name="nickname" required=""></ion-input>
@@ -118,6 +119,6 @@
     <div *ngIf="addNewUser">
       <ion-input type="text" [(ngModel)]="data.roomname" name="roomname" required=""></ion-input>
       <ion-button (click)="addName()">Add name</ion-button>
-    </div>
+    </div> -->
   </ion-list>
 </ion-content>
