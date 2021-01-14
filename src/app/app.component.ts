@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LocalstorageService } from './Service/localstorage.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 const config = {
   apiKey: 'AIzaSyDH0CirRvPmCSQt8qsEx4bLsm_urUqtTQE',
@@ -26,7 +27,7 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen, private navCtrl: NavController,
     private statusBar: StatusBar, private router: Router, private localStorage: LocalstorageService,
-    private translate: TranslateService
+    private translate: TranslateService, private androidPermissions: AndroidPermissions
   ) {
     if (this.localStorage.getsingel('loginToken')) {
       this.router.navigate(['/tabs/hangout']);
@@ -50,6 +51,12 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
+        result => console.log('Has permission?', result.hasPermission),
+        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+      );
+
+      this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION, this.androidPermissions.PERMISSION.STORAGE_LOCATION]);
     });
   }
 }

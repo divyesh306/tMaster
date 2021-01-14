@@ -27,7 +27,6 @@ export class VideoDetailPage implements OnInit {
     this.userDetail = this.localStorage.get('selectedUser');
     let userData = this.localStorage.get('userDetail'); // User Detail
     this.video = this.s3Url + userData.video;
-    alert(this.s3Url + userData.video);
     console.log("Selected User ", this.userDetail);
   }
 

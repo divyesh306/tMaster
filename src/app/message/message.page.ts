@@ -25,7 +25,7 @@ export class MessagePage implements OnInit {
   constructor(public router: Router, private localStorage: LocalstorageService, private userService: userService ,private chatService: chats) {
     this.loginUser = this.localStorage.get('userDetail');
     const body = {
-      name: 'room_list(id:"' + this.loginUser.id + '"){sender_id receiver_id room_id room_key}'
+      name: 'room_list(id:"' + this.loginUser.id + '"){sender_id receiver_id room_id room_key receiver_name sender_name}'
     }
     this.userService.closeQuery(body).subscribe(result => {
       this.rooms = this.splitKeyValue(result['data'].room_list);

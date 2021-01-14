@@ -97,6 +97,7 @@ export class RegistrationPage implements OnInit {
             return false;
         } else if (!this.userEligible) {
             this.configService.sendToast('danger', 'You are not eligible now.', 'top');
+            return false;
         } else {
             if (this.userData.picture) {
                 var userdata = this.registerForm.value;
