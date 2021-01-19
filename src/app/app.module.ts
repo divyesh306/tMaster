@@ -14,6 +14,7 @@ import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { VideoEditor } from '@ionic-native/video-editor/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { File } from '@ionic-native/file/ngx';
 
 import { S3Controller } from './Service/upload.service';
@@ -44,6 +45,7 @@ export function createTranslateLoader(http: HttpClient) {
     VideoPlayer,
     S3Controller,
     VideoEditor,
+    AndroidPermissions,
     File
   ],
   bootstrap: [AppComponent],

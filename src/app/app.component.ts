@@ -28,7 +28,7 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen, private navCtrl: NavController,
     private statusBar: StatusBar, private router: Router, private localStorage: LocalstorageService,
-    private translate: TranslateService, private androidPermissions: AndroidPermissions ,private file:File
+    private translate: TranslateService, private androidPermissions: AndroidPermissions, private file: File
   ) {
     if (this.localStorage.getsingel('loginToken')) {
       this.router.navigate(['/tabs/hangout']);
