@@ -24,7 +24,7 @@ export class MessagePage implements OnInit {
   s3Url;
   ref = firebase.database().ref('chatroom/');
 
-  constructor(public router: Router, private localStorage: LocalstorageService,private ConfigService: configService, private userService: userService, private chatService: chats) {
+  constructor(public router: Router, private localStorage: LocalstorageService, private ConfigService: configService, private userService: userService, private chatService: chats) {
     this.loginUser = this.localStorage.get('userDetail');
     this.s3Url = this.ConfigService.getS3();
     const body = {
@@ -39,10 +39,20 @@ export class MessagePage implements OnInit {
 
     this.data.nickname = this.loginUser.nick_name;
   }
-
+  splitKeyValue = (obj) => {
+    const keys = Object.keys(obj);
+    const res = [];
+    for (let i = 0; i < keys.length; i++) {
+      res.push({
+        'asset': keys[i],
+        'data': obj[keys[i]]
+      });
+    };
+    return res;
+  };
   ngOnInit() {
     console.log(this.data.nickname);
-    
+
   }
   selectTab(tab) {
     this.activeTab = tab;
@@ -54,22 +64,22 @@ export class MessagePage implements OnInit {
   selectOption() {
     this.openSelectOption = !this.openSelectOption;
   }
-  openChatWindow(key){
+  openChatWindow(key) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
         key: key.room_key,
         nickname: this.data.nickname,
         chatUser: key.receiver.nick_name == this.data.nickname ? JSON.stringify(key.sender) : JSON.stringify(key.receiver),
-        chatUser_id : key.receiver.nick_name == this.data.nickname ? key.sender_id : key.receiver_id
+        chatUser_id: key.receiver.nick_name == this.data.nickname ? key.sender_id : key.receiver_id
       }
     };
-   console.log(navigationExtras);
-    this.router.navigate(['/chat-window'],navigationExtras);
+    console.log(navigationExtras);
+    this.router.navigate(['/chat-window'], navigationExtras);
   }
   addNewChat() {
     this.addNewUser = true;
   }
-  enterNickname(){
+  enterNickname() {
   }
   addName() {
     this.addNewUser = false;
