@@ -10,6 +10,7 @@ import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVide
 import { S3Controller } from '../Service/upload.service';
 import { File } from '@ionic-native/file/ngx';
 import { VideoEditor, CreateThumbnailOptions } from '@ionic-native/video-editor/ngx';
+import { Platform } from '@ionic/angular';
 @Component({
     selector: 'app-registration',
     templateUrl: './registration.page.html',
@@ -25,13 +26,19 @@ export class RegistrationPage implements OnInit {
     datePicker = Date.now();
     userData;
     userEligible: boolean = false;
-
-    constructor(private router: Router, private activatedRoute: ActivatedRoute,
+    filedrectory;
+    constructor(private router: Router, private platform: Platform, private activatedRoute: ActivatedRoute,
         private localStorage: LocalstorageService, private userService: userService, private file: File,
         public formBuilder: FormBuilder, private mediaCapture: MediaCapture, private uploadservice: S3Controller,
         private configService: configService, private videoEditor: VideoEditor) {
         this.userData = {};
+        this.platform.ready().then(() => {
+            this.file.checkDir(this.file.externalDataDirectory, 'files/videos/')
+                .then(_ => console.log('Directory exists'))
+                .catch(err => console.log('Directory doesn\'t exist'));
 
+            this.filedrectory = this.file.externalDataDirectory + "files/videos/"
+        })
         this.userData.phone = this.localStorage.getsingel('phonenumber');
 
         this.activatedRoute.params.subscribe(params => {
@@ -55,37 +62,39 @@ export class RegistrationPage implements OnInit {
     }
 
     async startVedio() {
+        const newBaseFilesystemPath = this.filedrectory;
         let options: CaptureVideoOptions = { duration: 3, quality: 1 }
         this.mediaCapture.captureVideo(options)
             .then(
                 async (data: MediaFile[]) => {
                     var path = data[0].fullPath.replace('/private', 'file:///');
-                    const newBaseFilesystemPath = this.file.externalDataDirectory + "files/videos/";
+                    // const newBaseFilesystemPath = this.file.externalDataDirectory + "files/videos/";
                     const videofilename = path.substr(path.lastIndexOf('/') + 1);
                     const videopath = path.substr(0, path.lastIndexOf('/') + 1);
                     const filename = videofilename.substr(0, videofilename.lastIndexOf('.'));
                     this.file.readAsArrayBuffer(videopath, videofilename).then((body) => {
-                        this.uploadservice.uploadFile(body, videofilename, (url) => {
+                        this.uploadservice.uploadFile(body, videofilename, async (url) => {
                             this.userData.video = url.Key;
+                            var option: CreateThumbnailOptions = { fileUri: path.toString(), width: 160, height: 206, atTime: 1, outputFileName: filename, quality: 50 };
+                            const tempImage = await this.videoEditor.createThumbnail(option);
+                            const tempFilename = tempImage.substr(tempImage.lastIndexOf('/') + 1);
+                            const tempBaseFilesystemPath = tempImage.substr(0, tempImage.lastIndexOf('/') + 1);
+
+                            this.file.readAsArrayBuffer(newBaseFilesystemPath, tempFilename).then((b64str) => {
+                                this.uploadservice.uploadFile(b64str, tempFilename, (url) => {
+                                    this.userData.picture = url.Key;
+                                    this.profileImg = this.configService.getS3() + url.Key;
+                                    console.log("Profile Img : ", this.profileImg);
+                                });
+                            }).catch(err => {
+                                console.log('readAsDataURL failed: (' + err.code + ")" + err.message);
+                            })
                         });
                     }).catch(err => {
                         console.log('readAsDataURL failed: (' + err.code + ")" + err.message);
                     })
 
-                    var option: CreateThumbnailOptions = { fileUri: path.toString(), width: 160, height: 206, atTime: 1, outputFileName: filename, quality: 50 };
-                    const tempImage = await this.videoEditor.createThumbnail(option);
-                    const tempFilename = tempImage.substr(tempImage.lastIndexOf('/') + 1);
-                    const tempBaseFilesystemPath = tempImage.substr(0, tempImage.lastIndexOf('/') + 1);
 
-                    this.file.readAsArrayBuffer(newBaseFilesystemPath, tempFilename).then((b64str) => {
-                        this.uploadservice.uploadFile(b64str, tempFilename, (url) => {
-                            this.userData.picture = url.Key;
-                            this.profileImg = this.configService.getS3() + url.Key;
-                            console.log("Profile Img : ", this.profileImg);
-                        });
-                    }).catch(err => {
-                        console.log('readAsDataURL failed: (' + err.code + ")" + err.message);
-                    })
                 },
                 (err: CaptureError) => console.error(err)
             );
@@ -123,14 +132,17 @@ export class RegistrationPage implements OnInit {
             const res = result['data'].signup;
 
             if (!res.hasError) {
-                this.router.navigate(['/register-complete']);
+                this.localStorage.setsingel('loginToken', res.data['token']);
+                this.localStorage.set('userDetail', res.data['user']);
+                if (this.localStorage.getsingel('loginToken'))
+                    this.router.navigate(['/register-complete']);
             } else {
 
             }
         }, err => {
             console.log("Somthing Went Wrong")
             this.configService.sendToast('danger', 'Please Fill Up All Field', 'bottom');
-        });;
+        });
     }
     fillForm(option) {
         localStorage.setItem('formTitle', option);

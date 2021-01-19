@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { configService } from '../Service/config.service';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-video-detail',
@@ -16,6 +17,7 @@ export class VideoDetailPage implements OnInit {
   userDetail;
   s3Url;
   video;
+  userData
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private userService: userService,
     private localStorage: LocalstorageService, private configService: configService, private chatService: chats, private navCtrl: NavController) {
 
@@ -25,8 +27,8 @@ export class VideoDetailPage implements OnInit {
     })
     this.s3Url = this.configService.getS3();
     this.userDetail = this.localStorage.get('selectedUser');
-    let userData = this.localStorage.get('userDetail'); // User Detail
-    this.video = this.s3Url + userData.video;
+    this.userData = this.localStorage.get('userDetail'); // User Detail
+    this.video = this.s3Url + this.userData.video;
     console.log("Selected User ", this.userDetail);
   }
 
@@ -58,7 +60,6 @@ export class VideoDetailPage implements OnInit {
       const res = result['data'].create_rooms;
 
       if (!res.hasError) {
-        console.log(res)
         const data = {
           roomname: res.data.room_id
         };
@@ -78,14 +79,20 @@ export class VideoDetailPage implements OnInit {
           const res = result['data'].update_rooms;
           console.log("Response : ", res);
           if (!res.hasError) {
-
+            let newData = firebase.database().ref('chatroom/' + res.data.room_key + '/chats').push();
+            newData.set({
+              type: 'message',
+              user: this.userData.nick_name,
+              message: 'hello',
+              sendDate: Date()
+            });
           }
         }, err => {
           console.log("Somthing Went Wrong")
         });
         this.configService.sendToast('success', 'Room Created', 'bottom');
       } else {
-
+        this.configService.sendToast('success', 'You Sent message this user before', 'bottom');
       }
     }, err => {
       console.log("Somthing Went Wrong")

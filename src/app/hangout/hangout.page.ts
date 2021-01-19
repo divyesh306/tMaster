@@ -12,29 +12,67 @@ import { userService } from '../Service/user.service';
 export class HangoutPage implements OnInit {
   menuOpen = false;
   searchModal = false;
-  search_term = null;
+  search_term = '';
   gender;
+  user_type='';
   user_list = [];
   s3Url;
   constructor(private router: Router, private localStorage: LocalstorageService,
     private userService: userService, private configService: configService) {
     this.localStorage.get('userDetail');
-    this.localStorage.remove('selectedUser');
-    this.getUsers(null, null);
+    this.getUsers('', '', '');
     this.s3Url = this.configService.getS3();
+    if (this.localStorage.get('selectedUser'))
+      this.localStorage.remove('selectedUser');
   }
 
   ngOnInit() {
+    this.localStorage.get('userDetail');
+    if (this.localStorage.get('selectedUser'))
+      this.localStorage.remove('selectedUser');
+    this.getUsers('', '', '');
   }
-  getUsers(search_term: string, gender: string) {
+
+  ionViewDidEnter() {
+    this.localStorage.get('userDetail');
+    if (this.localStorage.get('selectedUser'))
+      this.localStorage.remove('selectedUser');
+    this.getUsers('', '', '');
+  }
+
+  selectGender(gender) {
+    if (!this.gender || this.gender === undefined || this.gender == '')
+      this.gender = gender;
+    else
+      this.gender = (gender == this.gender ? '' : (this.gender != gender ? '' : gender));
+
+    console.log("Gemder : ", this.gender);
+  }
+
+  selectType(type) {
+    if (!this.user_type || this.user_type === undefined || this.user_type == '')
+      this.user_type = type;
+    else
+      this.user_type = (type == this.user_type ? '' : (this.user_type != type ? '' : type));
+
+    console.log("Type : ", this.user_type);
+  }
+
+  getUsers(search_terms, gender, type) {
     const body = {
-      name: 'user_list(search_term:"' + search_term + '" ,gender:"' + gender + '")'
+      name: 'user_list(search_term:"' + search_terms + '" ,gender:"' + gender + '",type:"' + type + '")'
     }
     this.userService.closeQuery(body).subscribe(result => {
-      this.user_list = this.splitKeyValue(result['data'].user_list);
-      console.log("User List : ", this.user_list);
+      console.log("Result : ", result['status'])
+      if (result['hasError']) {
+
+      } else {
+        this.user_list = this.splitKeyValue(result['data'].user_list);
+        console.log("User List : ", this.user_list);
+      }
     }, err => {
-      console.log("Somthing Went Wrong : ", err)
+      if (err['status'] == 401)
+        this.router.navigate(['/verify-number']);
     })
   }
   splitKeyValue = (obj) => {
@@ -56,6 +94,9 @@ export class HangoutPage implements OnInit {
     this.menuOpen = !this.menuOpen;
   }
   close() {
+    if (!this.user_list.length)
+      this.getUsers('', '', '');
+
     this.menuOpen = false;
   }
   onSearch(value) {
@@ -63,13 +104,15 @@ export class HangoutPage implements OnInit {
     this.search_term = value;
     // this.searchModal = true;
   }
-  categoryDetail() {
-    this.router.navigate(['tabs/letstalknow']);
+  categoryDetail(userList) {
+    this.localStorage.set('categoryUser', userList);
+    if (this.localStorage.get('categoryUser'))
+      this.router.navigate(['tabs/letstalknow']);
   }
   calculateAge(bdate) {
-    var dobDate = new Date(bdate);
-    var todayDate = new Date();
-    var ageyear = todayDate.getFullYear() - dobDate.getFullYear();
+    const dobDate = new Date(bdate);
+    const todayDate = new Date();
+    const ageyear = todayDate.getFullYear() - dobDate.getFullYear();
     return ageyear;
   }
 }

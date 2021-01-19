@@ -31,13 +31,14 @@
   </ion-row>
 
   <ion-list>
-    <ion-row (click)="openChatWindow(room.data.room_key)" *ngFor="let room of rooms">
+    <ion-row (click)="openChatWindow(room.data)" *ngFor="let room of rooms">
       <ion-col size="2" class="p0">
-        <img src="../../assets/avatar_img.jpg" alt="">
+        <img src="{{s3Url}}{{room.data.receiver.nick_name == loginUser.nick_name ? room.data.sender.picture : room.data.receiver.picture }}" class="user_profilepic" alt="">
       </ion-col>
       <ion-col col="5.5">
-        <p class="grey_text ion-no-margin"><small>{{room.data.receiver_name == loginUser.nick_name ? room.data.sender_name : room.data.receiver_name }}</small></p>
-        <h5 class="ion-no-margin">Nice to meet you!</h5>
+        <h5 class="ion-no-margin">{{room.data.receiver.nick_name == loginUser.nick_name ? room.data.sender.nick_name : room.data.receiver.nick_name }}</h5>
+        <p class="grey_text ion-no-margin"><small>Nice to meet you!</small></p>
+        
       </ion-col>
       <ion-col size="2.5" class="p0">
         <p class="grey_text ion-text-right"><small>2019/02/11</small></p>

@@ -41,6 +41,7 @@ export class S3Controller {
             Key: this.FOLDER + filename,
             Body: videoFile
         };
+        console.log("Video Params : ",params);
         bucket.upload(params, function (err, data) {
             if (err) {
                 console.log('There was an error uploading your file: ', err);

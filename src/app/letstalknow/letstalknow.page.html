@@ -35,76 +35,13 @@
   </div>
 
   <ion-row>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
-      <img src="../../assets/user-2.svg" alt="">
-      <ion-label class="minute-rating">M/300</ion-label>
+    <ion-col size="4" class="video-box" *ngFor="let userdetail of user_list" (click)="gotoProfile(userdetail)">
+      <img src="{{s3Url}}{{userdetail.picture}}" alt="">
+      <ion-label class="minute-rating">{{userdetail.gender == 'male' ? 'M' : 'F'}}/{{userdetail.rating}}</ion-label>
       <div class="name-age row">
-        <ion-label>Mikachen</ion-label>
-        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
-      </div>
-    </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
-      <img src="../../assets/user-5.svg" alt="">
-      <ion-label class="minute-rating">M/300</ion-label>
-      <div class="name-age row">
-        <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
-      </div>
-    </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
-      <img src="../../assets/user-4.svg" alt="">
-      <ion-label class="minute-rating">M/300</ion-label>
-      <div class="name-age row">
-        <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
-      </div>
-    </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
-      <img src="../../assets/user-2.svg" alt="">
-      <ion-label class="minute-rating">M/300</ion-label>
-      <div class="name-age row">
-        <ion-label>Mikachen</ion-label>
-        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
-      </div>
-    </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
-      <img src="../../assets/user-5.svg" alt="">
-      <ion-label class="minute-rating">M/300</ion-label>
-      <div class="name-age row">
-        <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
-      </div>
-    </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
-      <img src="../../assets/user-4.svg" alt="">
-      <ion-label class="minute-rating">M/300</ion-label>
-      <div class="name-age row">
-        <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
-      </div>
-    </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
-      <img src="../../assets/user-3.svg" alt="">
-      <ion-label class="minute-rating">M/300</ion-label>
-      <div class="name-age row">
-        <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
-      </div>
-    </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
-      <img src="../../assets/user-2.svg" alt="">
-      <ion-label class="minute-rating">M/300</ion-label>
-      <div class="name-age row">
-        <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
-      </div>
-    </ion-col>
-    <ion-col size="4" class="video-box" [routerLink]="['/tabs/video-detail']">
-      <img src="../../assets/user-3.svg" alt="">
-      <ion-label class="minute-rating">M/300</ion-label>
-      <div class="name-age row">
-        <ion-label class="grow">Mikachen</ion-label>
-        <ion-label class="age-label"> 21 {{'common.age' | translate}}</ion-label>
+        <ion-label>{{userdetail.nick_name}}</ion-label>
+        <ion-label class="age-label"> {{calculateAge(userdetail.date_of_birth)}} {{'common.age' | translate}}
+        </ion-label>
       </div>
     </ion-col>
   </ion-row>

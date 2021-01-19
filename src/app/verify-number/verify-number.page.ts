@@ -1225,7 +1225,11 @@ export class VerifyNumberPage implements OnInit {
   selectBoxOpen = false;
   constructor(private pickerController: PickerController, private localStorage: LocalstorageService,
     private configService: configService,
-    private router: Router, private userService: userService) { }
+    private router: Router, private userService: userService) {
+    this.localStorage.removesingel('loginToken');
+    this.localStorage.removesingel('phonenumber');
+    this.localStorage.remove('userDetail');
+  }
 
   ngOnInit() {
   }

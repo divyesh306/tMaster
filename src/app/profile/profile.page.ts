@@ -132,7 +132,6 @@ export class ProfilePage implements OnInit {
           const filename = videofilename.substr(0, videofilename.lastIndexOf('.'));
           this.file.readAsArrayBuffer(videopath, videofilename).then((body) => {
             this.uploadservice.uploadFile(body, videofilename, (url) => {
-              alert("video File : " + url);
               this.userDetail.video = url.Key;
             });
           }).catch(err => {
@@ -157,7 +156,6 @@ export class ProfilePage implements OnInit {
       );
   }
   playVideo() {
-    alert(this.userDetail.video);
     this.localstorage.set('selectedUser', this.userDetail);
     this.router.navigate(['tabs/video-detail/' + this.userDetail.id]);
   }

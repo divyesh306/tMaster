@@ -27,23 +27,23 @@
       <ion-label class="ion-text-center grey_text">{{'hangout.sort' | translate}}</ion-label>
       <ion-row>
         <ion-col>
-          <img src="../../assets/images/client-tokmay-icon.svg" alt="" class="sort-img">
+          <img src="../../assets/images/client-tokmay-icon.svg" alt="" class="sort-img" [ngClass]="user_type == 'user' ? 'border-img' : ''" (click)='selectType("user")'>
         </ion-col>
         <ion-col>
-          <img src="../../assets/images/gender-male-icon.svg" alt="" (click)='getUsers(search_term, "male")'
+          <img src="../../assets/images/gender-male-icon.svg" alt="" [ngClass]="gender == 'male' ? 'border-img' : ''" (click)='selectGender("male")' class="sort-img">
+        </ion-col>
+        <ion-col>
+          <img src="../../assets/images/gender-female-icon.svg" alt="" [ngClass]="gender == 'female' ? 'border-img' : ''" (click)='selectGender("female")'
             class="sort-img">
         </ion-col>
         <ion-col>
-          <img src="../../assets/images/gender-female-icon.svg" alt="" (click)='getUsers(search_term, "female")'
-            class="sort-img">
-        </ion-col>
-        <ion-col>
-          <img src="../../assets/images/counselor-tokmay-icon.svg" alt="" class="sort-img">
+          <img src="../../assets/images/counselor-tokmay-icon.svg" alt="" class="sort-img" [ngClass]="user_type == 'counselor' ? 'border-img' : ''" (click)='selectType("counselor")'>
         </ion-col>
       </ion-row>
       <ion-row class="row-spacing mt-10">
         <ion-button class="green_border_button" (click)="close()">{{'hangout.close' | translate}}</ion-button>
-        <ion-button class="green_button" (click)="result()">{{'hangout.result' | translate}}</ion-button>
+        <ion-button class="green_button" (click)='getUsers(search_term,gender, user_type)'>{{'hangout.result' |
+          translate}}</ion-button>
       </ion-row>
     </div>
     <div [ngClass]="menuOpen ? 'modal-bg' : 'slider'">
@@ -59,7 +59,7 @@
           <ion-label class="fs-13 font-bold" *ngIf="user.asset != 'favorite_user'">{{user.asset}}</ion-label>
           <ion-label class="fs-11 grey_text">{{'hangout.nowKeepUser' | translate}}</ion-label>
         </div>
-        <div class="row" (click)="categoryDetail()">
+        <div class="row" (click)="categoryDetail(user.data)">
           <ion-label class="fs-11 grey_text">{{user.data.length}}</ion-label>
           <ion-icon name="chevron-forward-sharp" class="grey_text"></ion-icon>
         </div>
@@ -67,7 +67,7 @@
       <ion-row class="horizontal-scroll">
         <ion-col size="3.2" class="video-box" *ngFor="let userdetail of user.data" (click)="gotoProfile(userdetail)">
           <img src="{{s3Url}}{{userdetail.picture}}" alt="">
-          <ion-label class="minute-rating">{{userdetail.gender}}/{{userdetail.rating}}</ion-label>
+          <ion-label class="minute-rating">{{userdetail.gender == 'male' ? 'M' : 'F'}}/{{userdetail.rating}}</ion-label>
           <div class="name-age row">
             <p>{{userdetail.nick_name}}</p>
             <br />

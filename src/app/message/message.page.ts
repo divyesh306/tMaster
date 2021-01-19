@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { chats } from '../Service/chat.service';
+import { configService } from '../Service/config.service';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
 
@@ -20,12 +21,14 @@ export class MessagePage implements OnInit {
   nickname = "";
   loginUser;
   roomlist = [];
+  s3Url;
   ref = firebase.database().ref('chatroom/');
 
-  constructor(public router: Router, private localStorage: LocalstorageService, private userService: userService ,private chatService: chats) {
+  constructor(public router: Router, private localStorage: LocalstorageService,private ConfigService: configService, private userService: userService, private chatService: chats) {
     this.loginUser = this.localStorage.get('userDetail');
+    this.s3Url = this.ConfigService.getS3();
     const body = {
-      name: 'room_list(id:"' + this.loginUser.id + '"){sender_id receiver_id room_id room_key receiver_name sender_name}'
+      name: 'room_list(id:"' + this.loginUser.id + '"){sender_id receiver_id room_id room_key receiver{nick_name picture} sender{nick_name picture}}'
     }
     this.userService.closeQuery(body).subscribe(result => {
       this.rooms = this.splitKeyValue(result['data'].room_list);
@@ -67,8 +70,10 @@ export class MessagePage implements OnInit {
   openChatWindow(key) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        key: key,
-        nickname: this.data.nickname
+        key: key.room_key,
+        nickname: this.data.nickname,
+        chatUser: key.receiver.nick_name == this.data.nickname ? JSON.stringify(key.sender) : JSON.stringify(key.receiver),
+        chatUser_id : key.receiver.nick_name == this.data.nickname ? key.sender_id : key.receiver_id
       }
     };
     console.log(navigationExtras);

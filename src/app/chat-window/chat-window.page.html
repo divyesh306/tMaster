@@ -2,7 +2,7 @@
   <ion-toolbar class="dark_toolbar">
     <div class="row">
       <img src="../../assets/images/back-button.svg" alt="" [routerLink]="['/tabs/message']">
-      <ion-title class="m-0 grow" (click)="presentActionSheet()">Mikachan</ion-title>
+      <ion-title class="m-0 grow" (click)="presentActionSheet()">{{chatUser.nick_name}}</ion-title>
       <div class="online-tag">
         <img src="../../assets/images/OnLine-OffLine.svg" alt="">
       </div>
@@ -35,7 +35,7 @@
           <li *ngIf="chat.user == nickname">
             <div class="chat-details">
               <div class="read">
-                <p>{{'common.read' | translate}}</p>
+                <!-- <p>{{'common.read' | translate}}</p> -->
                 <p>{{chat.sendDate | date:'shortTime'}}</p>
               </div>
               <div class="chat-msg">
@@ -52,7 +52,7 @@
                 <p>{{chat.message}}</p>
               </div>
               <div class="read">
-                <p>{{'common.read' | translate}}</p>
+                <!-- <p>{{'common.read' | translate}}</p> -->
                 <p>{{chat.sendDate | date:'shortTime'}}</p>
               </div>
             </div>

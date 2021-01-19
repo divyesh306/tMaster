@@ -4,6 +4,8 @@ import { ActionSheetController, IonContent, NavController, PopoverController } f
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
 import * as firebase from 'firebase';
 import { chats } from '../Service/chat.service';
+import { userService } from '../Service/user.service';
+import { configService } from '../Service/config.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -19,16 +21,22 @@ export class ChatWindowPage implements OnInit {
   offStatus: boolean = false;
   openModal = false;
   fileOption = false;
+  chatUser: String;
+  chatUser_id: string;
   constructor(public router: Router,
     public popoverController: PopoverController,
     public actionSheetController: ActionSheetController,
     public route: ActivatedRoute,
     public navCtrl: NavController,
+    public userService: userService,
+    public configService: configService,
     public chatService: chats) {
     this.route.queryParams.subscribe(params => {
       if (params && params.key && params.nickname) {
         this.roomkey = params.key;
         this.nickname = params.nickname;
+        this.chatUser = JSON.parse(params.chatUser);
+        this.chatUser_id = params.chatUser_id;
       }
     });
   }
@@ -38,6 +46,8 @@ export class ChatWindowPage implements OnInit {
       if (params && params.key && params.nickname) {
         this.roomkey = params.key;
         this.nickname = params.nickname;
+        this.chatUser = JSON.parse(params.chatUser);
+        this.chatUser_id = params.chatUser_id;
       }
     });
     this.data.type = 'message';
@@ -48,7 +58,7 @@ export class ChatWindowPage implements OnInit {
       this.chatmsgs = snapshotToArray(resp);
       setTimeout(() => {
         if (this.offStatus === false) {
-          // this.content.scrollToBottom(300);
+          this.content.scrollToBottom(300);
         }
       }, 1000);
     });
@@ -97,6 +107,45 @@ export class ChatWindowPage implements OnInit {
     });
     return await popover.present();
   }
+
+  addFavorite() {
+    const mutation = {
+      name: 'add_to_favorite_user',
+      inputtype: 'AddFavoriteUserInputType',
+      data: { favorite_user: this.chatUser_id }
+    }
+    this.userService.CloseApi(mutation).subscribe(result => {
+      const res = result['data'].add_to_favorite_user;
+
+      if (!res.hasError) {
+        this.configService.sendToast('success', 'This User Add As a Favorite', 'bottom');
+      } else {
+
+      }
+    }, err => {
+      console.log("Somthing Went Wrong")
+    });
+  }
+
+  removeFavorite() {
+    const mutation = {
+      name: 'remove_favorite_user',
+      inputtype: 'RemoveFavoriteUserInputType',
+      data: { favorite_user: this.chatUser_id }
+    }
+    this.userService.CloseApi(mutation).subscribe(result => {
+      const res = result['data'].remove_favorite_user;
+
+      if (!res.hasError) {
+        this.configService.sendToast('success', 'This User Remove From Favorite', 'bottom');
+      } else {
+
+      }
+    }, err => {
+      console.log("Somthing Went Wrong")
+    });
+  }
+
   async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Albums',
@@ -104,7 +153,7 @@ export class ChatWindowPage implements OnInit {
       buttons: [{
         text: 'Add favorite',
         handler: () => {
-          console.log('Favorite clicked');
+          this.addFavorite();
         }
       }, {
         text: 'Release',
@@ -136,10 +185,10 @@ export class ChatWindowPage implements OnInit {
 }
 export const snapshotToArray = snapshot => {
   let returnArr = [];
-
   snapshot.forEach(childSnapshot => {
     let item = childSnapshot.val();
     item.key = childSnapshot.key;
+    console.log("Chat : ", item);
     returnArr.push(item);
   });
 

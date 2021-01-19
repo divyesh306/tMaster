@@ -33,7 +33,7 @@ export class userService {
                 data: mutationdata.data
             }
         }
-        return this.http.post(this.server_url + "close", body, { headers })
+        return this.http.post(this.server_url + "close/v2", body, { headers })
     }
     closeQuery(queryData) {
         const headers = { 'Authorization': this.localstorage.getsingel('loginToken') };
@@ -41,6 +41,6 @@ export class userService {
         let body = {
             query: `query{` + queryData.name + `}`
         }
-        return this.http.post(this.server_url + "close", body, { headers })
+        return this.http.post(this.server_url + "close/v2", body, { headers })
     }
 }

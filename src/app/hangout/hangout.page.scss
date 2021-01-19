@@ -43,7 +43,7 @@ ion-input {
 }
 .name-age{
     font-size: 9px;
-    color: black;
+    color: white;
     position: absolute;
     bottom: 4px;
     display: flex;
@@ -104,4 +104,9 @@ ion-input {
 }
 .row-spacing{
     justify-content: space-around;
+}
+.border-img{
+    background:gray;
+    border:solid 1px;
+    border-radius: 25%;
 }
