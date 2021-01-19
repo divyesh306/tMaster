@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { CloseVideoComponent } from '../component/close-video/close-video.component';
 import { WarningComponent } from '../component/warning/warning.component';
+import { WebrtcService } from '../Service/webrtc.service';
 
 @Component({
   selector: 'app-video-chat',
@@ -9,22 +10,43 @@ import { WarningComponent } from '../component/warning/warning.component';
   styleUrls: ['./video-chat.page.scss'],
 })
 export class VideoChatPage implements OnInit {
-  closeEye=true;
-  constructor( public popoverController: PopoverController,) { }
+  closeEye = true;
+  userDetail: any;
+  topVideoFrame = 'partner-video';
+  userId: string;
+  partnerId: string;
+  myEl: HTMLMediaElement;
+  partnerEl: HTMLMediaElement;
+
+  constructor(public popoverController: PopoverController, public webRTC: WebrtcService,
+    public elRef: ElementRef) {
+    this.userDetail = localStorage.getItem('userDetail');
+    console.log(this.userDetail);
+  }
 
   ngOnInit() {
   }
-  changeBeautifyOption(){
-    this.closeEye=!this.closeEye;
+  init() {
+    this.myEl = this.elRef.nativeElement.querySelector('#my-video');
+    this.partnerEl = this.elRef.nativeElement.querySelector('#partner-video');
+    this.webRTC.init(this.userId, this.myEl, this.partnerEl);
   }
-  async endCall(ev){
+
+  call() {
+    this.webRTC.call(this.partnerId);
+    this.swapVideo('my-video');
+  }
+  changeBeautifyOption() {
+    this.closeEye = !this.closeEye;
+  }
+  async endCall(ev) {
     const popover = await this.popoverController.create({
       component: CloseVideoComponent,
       cssClass: 'custom-popover',
       event: ev,
       translucent: true,
-      componentProps:{
-        onClick:()=>{
+      componentProps: {
+        onClick: () => {
         }
       }
     });
@@ -36,5 +58,8 @@ export class VideoChatPage implements OnInit {
     //   translucent: true,
     // });
     // return await popover.present();
+  }
+  swapVideo(topVideo: string) {
+    this.topVideoFrame = topVideo;
   }
 }

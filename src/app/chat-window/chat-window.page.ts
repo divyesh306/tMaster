@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, IonContent, NavController, PopoverController } from '@ionic/angular';
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
 import * as firebase from 'firebase';
-import { chats } from '../Service/chat.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -13,7 +12,7 @@ import { chats } from '../Service/chat.service';
 export class ChatWindowPage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
   data = { type: '', nickname: '', message: '' };
-  chatmsgs = [];
+  chats = [];
   roomkey: string;
   nickname: string;
   offStatus: boolean = false;
@@ -22,10 +21,9 @@ export class ChatWindowPage implements OnInit {
   constructor(public router: Router,
     public popoverController: PopoverController,
     public actionSheetController: ActionSheetController,
-    public route: ActivatedRoute,
-    public navCtrl: NavController,
-    public chatService: chats) {
+    public route: ActivatedRoute, public navCtrl: NavController) {
     this.route.queryParams.subscribe(params => {
+      console.log('params: ', params);
       if (params && params.key && params.nickname) {
         this.roomkey = params.key;
         this.nickname = params.nickname;
@@ -35,6 +33,7 @@ export class ChatWindowPage implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
+      console.log('params: ', params);
       if (params && params.key && params.nickname) {
         this.roomkey = params.key;
         this.nickname = params.nickname;
@@ -42,10 +41,20 @@ export class ChatWindowPage implements OnInit {
     });
     this.data.type = 'message';
     this.data.nickname = this.nickname;
+    console.log('roomkey', this.roomkey);
+
+    let joinData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
+    joinData.set({
+      type: 'join',
+      user: this.nickname,
+      message: this.nickname + ' has joined this room.',
+      sendDate: Date()
+    });
+    this.data.message = '';
 
     firebase.database().ref('chatroom/' + this.roomkey + '/chats').on('value', resp => {
-      this.chatmsgs = [];
-      this.chatmsgs = snapshotToArray(resp);
+      this.chats = [];
+      this.chats = snapshotToArray(resp);
       setTimeout(() => {
         if (this.offStatus === false) {
           // this.content.scrollToBottom(300);
@@ -53,8 +62,6 @@ export class ChatWindowPage implements OnInit {
       }, 1000);
     });
   }
-
-
   sendMessage() {
     let newData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
     newData.set({
@@ -65,22 +72,26 @@ export class ChatWindowPage implements OnInit {
     });
     this.data.message = '';
   }
-
   exitChat() {
     let exitData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
+    exitData.set({
+      type: 'exit',
+      user: this.nickname,
+      message: this.nickname + ' has exited this room.',
+      sendDate: Date()
+    });
+
     this.offStatus = true;
+
     this.router.navigate(['room']);
   }
-
   openCoinModal() {
     console.log('open');
     this.openModal = !this.openModal;
   }
-
   closeCoinModal() {
     this.openModal = false;
   }
-
   openFileOption() {
     this.fileOption = !this.fileOption;
   }

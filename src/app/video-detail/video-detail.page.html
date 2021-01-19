@@ -1,25 +1,26 @@
 <ion-content>
   <video preload="auto" autoplay class="videoPlayer" muted loop>
-    <source src="https://matukitestimg.s3.ap-south-1.amazonaws.com/Profilevideo/20210110_152025.mp4" type="video/mp4">
+    <source src="{{video}}" type="video/mp4">
   </video>
   <!-- <video controls class="video" preload="metadata" autoplay="autoplay" webkit-playsinline="webkit-playsinline">
     <source src="{{s3Url}}{{userDetail.video}}">
   </video> -->
   <!-- <img src="{{s3Url}}{{userDetail.picture}}" alt="" class="video"> -->
   <div class="row">
-    <img src="../../assets/images/green-back-arrow.svg" class="arrow_icon"  alt="" (click)="backHangout()">
+    <img src="../../assets/images/green-back-arrow.svg" class="arrow_icon" alt="" (click)="backHangout()">
     <div class="heading">
-    <ion-icon name="star" color="success"></ion-icon>
-    <ion-label class="white_text">2038 | {{userDetail.type}}</ion-label>
-  </div>
+      <ion-icon name="star" color="success"></ion-icon>
+      <ion-label class="white_text">2038 | {{userDetail.type}}</ion-label>
+    </div>
   </div>
   <div class="description">
-    <p><small>@{{userDetail.nick_name}} {{calculateAge(userDetail.date_of_birth)}} {{'videoDetail.years' | translate}}</small></p>
-    <p><small>{{userDetail.jobs}}  C {{userDetail.rating}}/M</small></p>
+    <p><small>@{{userDetail.nick_name}} {{calculateAge(userDetail.date_of_birth)}}
+        {{'videoDetail.years' | translate}}</small></p>
+    <p><small>{{userDetail.jobs}} C {{userDetail.rating}}/M</small></p>
     <p><small>{{userDetail.tags}}</small></p>
   </div>
   <div class="like-icons">
-    <ion-icon name="heart" class="white_text" (click)="createroom()"></ion-icon>
+    <ion-icon name="heart" class="white_text"></ion-icon>
     <ion-label class="white_text">{{'videoDetail.years' | translate}}</ion-label>
     <ion-icon name="pin" class="white_text"></ion-icon>
     <ion-label class="white_text">{{'videoDetail.years' | translate}}</ion-label>

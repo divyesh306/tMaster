@@ -157,7 +157,7 @@ export class ProfilePage implements OnInit {
       );
   }
   playVideo() {
-    alert(this.userDetail.video);
+    // alert(this.userDetail.video);
     this.localstorage.set('selectedUser', this.userDetail);
     this.router.navigate(['tabs/video-detail/' + this.userDetail.id]);
   }

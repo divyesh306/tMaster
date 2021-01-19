@@ -1,5 +1,26 @@
 <ion-content>
-  <img src="../../assets/images/chat-background-image.svg" alt="" class="background">
+  <div id="errorMsg"></div>
+
+  <video id="partner-video" (click)="swapVideo('my-video')" autoplay playsinline
+    [ngClass]="{'top-video': topVideoFrame === 'partner-video', 'main-video': topVideoFrame != 'partner-video'}">
+  </video>
+  <video id="my-video" (click)="swapVideo('partner-video')" autoplay playsinline
+    [ngClass]="{'top-video': topVideoFrame === 'my-video', 'main-video': topVideoFrame != 'my-video'}">
+  </video>
+  <ion-row nowrap>
+    <ion-button (click)="init()">Login As: </ion-button>
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="userId" placeholder="enter your nick name"></ion-input>
+    </ion-item>
+  </ion-row>
+
+  <ion-row nowrap>
+    <ion-button (click)="call()">Call To: </ion-button>
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="partnerId" placeholder="your partner nick name"></ion-input>
+    </ion-item>
+  </ion-row>
+  <!-- <img src="../../assets/images/chat-background-image.svg" alt="" class="background"> -->
   <ion-row class="user_details">
     <ion-col class="ion-text-left column">
       <small class="white_text fs-11">Mikachan</small>
@@ -36,24 +57,25 @@
     </div>
   </div> -->
   <section class="with-chat-info">
-		<ul>
-			<li><span>Hey! Are you available for a meeting?</span></li>
-			<li><span>Today at 5:45pm?</span></li>
-			<li><span>Too early</span></li>
-			<li><span>Then maybe tomorrow at 5:45pm?<span class="img-span"><img src="images/logo.svg" alt=""></span></span></li>
-		</ul>
-		<div class="extra-service">
-			<div class="service-list">
-				<img src="images/gift-logo.png" alt="">
-			</div>
-			<div class="service-list">
-				<img src="images/gift-icon.svg" alt="">
-			</div>
-			<div class="service-list">
-				<img src="images/say-frnd.svg" alt="">
-			</div>
-		</div>
-	</section>
+    <ul>
+      <li><span>Hey! Are you available for a meeting?</span></li>
+      <li><span>Today at 5:45pm?</span></li>
+      <li><span>Too early</span></li>
+      <li><span>Then maybe tomorrow at 5:45pm?<span class="img-span"><img src="images/logo.svg" alt=""></span></span>
+      </li>
+    </ul>
+    <div class="extra-service">
+      <div class="service-list">
+        <img src="images/gift-logo.png" alt="">
+      </div>
+      <div class="service-list">
+        <img src="images/gift-icon.svg" alt="">
+      </div>
+      <div class="service-list">
+        <img src="images/say-frnd.svg" alt="">
+      </div>
+    </div>
+  </section>
   <div class="gift-icons" *ngIf="closeEye">
     <img src="../../assets/images/gift-logo.png" alt="">
     <img src="../../assets/images/gift-icon.svg" alt="">
