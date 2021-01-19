@@ -16,7 +16,7 @@ export class MessagePage implements OnInit {
   openSelectOption = false;
   sortOption = 'Sort by popular';
   addNewUser = false;
-  data = { nickname: '', roomname: '' };
+  data = { nickname: "komu", roomname: '' };
   rooms = [];
   nickname = "";
   loginUser;
@@ -39,35 +39,22 @@ export class MessagePage implements OnInit {
 
     this.data.nickname = this.loginUser.nick_name;
   }
-  splitKeyValue = (obj) => {
-    const keys = Object.keys(obj);
-    const res = [];
-    for (let i = 0; i < keys.length; i++) {
-      res.push({
-        'asset': keys[i],
-        'data': obj[keys[i]]
-      });
-    };
-    return res;
-  };
+
   ngOnInit() {
     console.log(this.data.nickname);
+    
   }
-
   selectTab(tab) {
     this.activeTab = tab;
   }
-
   optionSelected(option) {
     this.sortOption = option;
     this.openSelectOption = false;
   }
-
   selectOption() {
     this.openSelectOption = !this.openSelectOption;
   }
-
-  openChatWindow(key) {
+  openChatWindow(key){
     let navigationExtras: NavigationExtras = {
       queryParams: {
         key: key.room_key,
@@ -76,9 +63,30 @@ export class MessagePage implements OnInit {
         chatUser_id : key.receiver.nick_name == this.data.nickname ? key.sender_id : key.receiver_id
       }
     };
-    console.log(navigationExtras);
-    this.router.navigate(['/chat-window'], navigationExtras);
+   console.log(navigationExtras);
+    this.router.navigate(['/chat-window'],navigationExtras);
   }
-  enterNickname() {
+  addNewChat() {
+    this.addNewUser = true;
+  }
+  enterNickname(){
+  }
+  addName() {
+    this.addNewUser = false;
+    let newData = this.ref.push();
+    newData.set({
+      roomname: this.data.roomname
+    });
   }
 }
+export const snapshotToArray = snapshot => {
+  let returnArr = [];
+
+  snapshot.forEach(childSnapshot => {
+    let item = childSnapshot.val();
+    item.key = childSnapshot.key;
+    returnArr.push(item);
+  });
+
+  return returnArr;
+};

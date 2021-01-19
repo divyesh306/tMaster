@@ -13,8 +13,7 @@
   <div class="sort_option" *ngIf="openSelectOption">
     <p class="white_text" (click)="optionSelected('Latest')"><small>{{'common.latest' | translate}}</small></p>
     <p class="white_text ion-no-margin" (click)="optionSelected('Low to High')">
-      <small>{{'common.lowToHigh' | translate}}</small>
-    </p>
+      <small>{{'common.lowToHigh' | translate}}</small></p>
     <p class="white_text" (click)="optionSelected('High to Low')"><small>{{'common.latest' | translate}}</small></p>
   </div>
 
@@ -104,7 +103,7 @@
     </ion-row>
     <ion-item-divider></ion-item-divider> -->
 
-    <!-- <ion-row>
+    <ion-row>
       <ion-col>Signin</ion-col>
       <ion-col>
         <ion-input type="text" [(ngModel)]="data.nickname" name="nickname" required=""></ion-input>
@@ -120,6 +119,6 @@
     <div *ngIf="addNewUser">
       <ion-input type="text" [(ngModel)]="data.roomname" name="roomname" required=""></ion-input>
       <ion-button (click)="addName()">Add name</ion-button>
-    </div> -->
+    </div>
   </ion-list>
 </ion-content>

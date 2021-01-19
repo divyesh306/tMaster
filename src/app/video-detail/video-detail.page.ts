@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { chats } from '../Service/chat.service';
 import { NavController } from '@ionic/angular';
 import { configService } from '../Service/config.service';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
 import * as firebase from 'firebase';
+import { chats } from '../Service/chat.service';
 
 @Component({
   selector: 'app-video-detail',
