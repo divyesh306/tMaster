@@ -11,6 +11,7 @@ import { VideoEditor, CreateThumbnailOptions } from '@ionic-native/video-editor/
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { Router } from '@angular/router';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
+import { LoadingService } from '../Service/loading.service';
 
 @Component({
   selector: 'app-profile',
@@ -29,9 +30,9 @@ export class ProfilePage implements OnInit {
   constructor(private localstorage: LocalstorageService, private userService: userService, private file: File,
     public formBuilder: FormBuilder, private uploadservice: S3Controller, private mediaCapture: MediaCapture,
     private configService: configService, private videoEditor: VideoEditor, private router: Router,
-    public videoPlayer: VideoPlayer) {
-      // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-      // "http://clips.vorwaerts-gmbh.de/VfE_html5.mp4"
+    public videoPlayer: VideoPlayer, private loading: LoadingService) {
+    // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    // "http://clips.vorwaerts-gmbh.de/VfE_html5.mp4"
     this.s3Url = this.configService.getS3(); // amazone bucket Url
     this.userDetail = this.localstorage.get('userDetail'); // User Detail
     this.video = this.s3Url + this.userDetail.video;
@@ -66,6 +67,7 @@ export class ProfilePage implements OnInit {
   }
 
   signup(signuserData) {
+    this.loading.present();
     const mutation = {
       name: 'update_profile',
       inputtype: 'UserRegisterInputType',
@@ -73,7 +75,7 @@ export class ProfilePage implements OnInit {
     }
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].update_profile;
-
+      this.loading.dismiss();
       if (!res.hasError) {
         this.localstorage.set('userDetail', res.data);
         this.userDetail = this.localstorage.get('userDetail');
@@ -82,7 +84,8 @@ export class ProfilePage implements OnInit {
 
       }
     }, err => {
-      console.log("Somthing Went Wrong")
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
+      this.loading.dismiss();
     });
   }
 
@@ -158,5 +161,9 @@ export class ProfilePage implements OnInit {
   playVideo() {
     this.localstorage.set('selectedUser', this.userDetail);
     this.router.navigate(['tabs/video-detail/' + this.userDetail.id]);
+  }
+  logout() {
+    this.localstorage.clear();
+    this.router.navigate(['verify-number']);
   }
 }

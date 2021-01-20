@@ -11,7 +11,7 @@
   <ion-grid class="slider">
     <ion-row class="profile_item_margin">
       <ion-avatar class="p-relative">
-        <video class="video-profile" (click)="playVideo()" preload="auto" autoplay="autoplay" muted loop>
+        <video class="video-profile" (click)="playVideo()" preload="auto" autoplay="autoplay" [muted]="'muted'" loop>
           <source src="{{s3Url}}{{userDetail.video}}" type="video/mp4" />
           <source src="{{s3Url}}{{userDetail.video}}" type="video/3gpp" />
         </video>
@@ -97,7 +97,10 @@
       <div class="border_div"></div>
       <div class="ion-margin">
         <ion-label class="fs-11 grey_text float_left">Recommended to add many tags that you related</ion-label><br>
-        <ion-button type="submit" class="green_button m-30" (click)="next()">UPDATE</ion-button>
+        <ion-row class="ion-justify-content-center">
+          <ion-button type="submit" class="green_button m-30" (click)="next()">UPDATE</ion-button>
+          <ion-button type="submit" class="green_button m-30" (click)="logout()">LOGOUT</ion-button>
+        </ion-row>
       </div>
     </ion-grid>
   </form>

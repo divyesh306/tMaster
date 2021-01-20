@@ -11,6 +11,7 @@ import { S3Controller } from '../Service/upload.service';
 import { File } from '@ionic-native/file/ngx';
 import { VideoEditor, CreateThumbnailOptions } from '@ionic-native/video-editor/ngx';
 import { Platform } from '@ionic/angular';
+import { LoadingService } from '../Service/loading.service';
 @Component({
     selector: 'app-registration',
     templateUrl: './registration.page.html',
@@ -30,7 +31,7 @@ export class RegistrationPage implements OnInit {
     constructor(private router: Router, private platform: Platform, private activatedRoute: ActivatedRoute,
         private localStorage: LocalstorageService, private userService: userService, private file: File,
         public formBuilder: FormBuilder, private mediaCapture: MediaCapture, private uploadservice: S3Controller,
-        private configService: configService, private videoEditor: VideoEditor) {
+        private configService: configService, private videoEditor: VideoEditor, private loading: LoadingService) {
         this.userData = {};
         this.platform.ready().then(() => {
             this.file.checkDir(this.file.externalDataDirectory, 'files/videos/')
@@ -79,24 +80,23 @@ export class RegistrationPage implements OnInit {
                             const tempImage = await this.videoEditor.createThumbnail(option);
                             const tempFilename = tempImage.substr(tempImage.lastIndexOf('/') + 1);
                             const tempBaseFilesystemPath = tempImage.substr(0, tempImage.lastIndexOf('/') + 1);
-
+                            this.loading.present();
                             this.file.readAsArrayBuffer(newBaseFilesystemPath, tempFilename).then((b64str) => {
                                 this.uploadservice.uploadFile(b64str, tempFilename, (url) => {
                                     this.userData.picture = url.Key;
                                     this.profileImg = this.configService.getS3() + url.Key;
                                     console.log("Profile Img : ", this.profileImg);
+                                    this.loading.dismiss();
                                 });
                             }).catch(err => {
-                                console.log('readAsDataURL failed: (' + err.code + ")" + err.message);
+                                this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
                             })
                         });
                     }).catch(err => {
-                        console.log('readAsDataURL failed: (' + err.code + ")" + err.message);
-                    })
-
-
+                        this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
+                    });
                 },
-                (err: CaptureError) => console.error(err)
+                (err: CaptureError) => this.configService.sendToast('danger', err.code, 'bottom')
             );
     }
     next() {
@@ -127,9 +127,10 @@ export class RegistrationPage implements OnInit {
             inputtype: 'UserRegisterInputType',
             data: signuserData
         }
+        this.loading.present();
         this.userService.sendApi(mutation).subscribe(result => {
             const res = result['data'].signup;
-
+            this.loading.dismiss();
             if (!res.hasError) {
                 this.localStorage.setsingel('loginToken', res.data['token']);
                 this.localStorage.set('userDetail', res.data['user']);
@@ -139,8 +140,8 @@ export class RegistrationPage implements OnInit {
 
             }
         }, err => {
-            console.log("Somthing Went Wrong")
-            this.configService.sendToast('danger', 'Please Fill Up All Field', 'bottom');
+            this.loading.dismiss();
+            this.configService.sendToast('danger', 'Something Went Wrong', 'bottom');
         });
     }
     fillForm(option) {

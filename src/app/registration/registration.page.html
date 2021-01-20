@@ -5,7 +5,8 @@
     <ion-avatar class="p-relative">
       <img [src]="profileImg" alt="">
       <!-- <ion-input type="file" accept="image/*" class="browse_btn" (change)="changeListener($event)"></ion-input> -->
-      <ion-icon name="camera" class="camera_icon" (click)="startVedio()"></ion-icon>
+      <img src="../../assets/images/camera.svg" alt="" class="camera_icon" (click)="startVedio()">
+      <!-- <ion-icon name="camera" class="camera_icon" (click)="startVedio()"></ion-icon> -->
       <canvas id="deepar-canvas"></canvas>
     </ion-avatar>
     <ion-label class="fs-12 grey_text">{{'registerpage.3secVideo' | translate}}</ion-label>
@@ -22,7 +23,8 @@
     </span>
     <ion-item class="item_margin">
       <ion-label class="fs-11">{{'common.birth' | translate}}</ion-label>
-      <ion-datetime displayFormat="YYYY MMM" formControlName="date_of_birth" placeholder="" (ionChange)="calculateAge()"> </ion-datetime>
+      <ion-datetime displayFormat="YYYY MMM" formControlName="date_of_birth" placeholder=""
+        (ionChange)="calculateAge()"> </ion-datetime>
       <ion-icon name="calendar-outline" class="arrow_icon"></ion-icon>
     </ion-item>
     <span class="error ion-padding" *ngIf="isSubmitted && errorControl.date_of_birth.errors?.required">

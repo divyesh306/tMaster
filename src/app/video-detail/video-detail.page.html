@@ -1,5 +1,5 @@
 <ion-content>
-  <video preload="auto" autoplay class="videoPlayer" muted loop>
+  <video preload="auto" autoplay class="videoPlayer" [muted]="'muted'" loop>
     <source src="{{s3Url}}{{userDetail.video}}" type="video/mp4">
   </video>
   <!-- <video controls class="video" preload="metadata" autoplay="autoplay" webkit-playsinline="webkit-playsinline">
@@ -21,8 +21,8 @@
   </div>
   <div class="like-icons">
     <ion-icon name="heart" class="white_text"></ion-icon>
-    <ion-label class="white_text">{{'videoDetail.years' | translate}}</ion-label>
+    <ion-label class="white_text">{{'videoDetail.hello' | translate}}</ion-label>
     <ion-icon name="pin" class="white_text"></ion-icon>
-    <ion-label class="white_text">{{'videoDetail.years' | translate}}</ion-label>
+    <ion-label class="white_text">{{'videoDetail.keep' | translate}}</ion-label>
   </div>
 </ion-content>

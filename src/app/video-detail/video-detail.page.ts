@@ -6,6 +6,7 @@ import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
 import * as firebase from 'firebase';
 import { chats } from '../Service/chat.service';
+import { LoadingService } from '../Service/loading.service';
 
 @Component({
   selector: 'app-video-detail',
@@ -18,7 +19,7 @@ export class VideoDetailPage implements OnInit {
   s3Url;
   video;
   userData
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private userService: userService,
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private userService: userService, private loading: LoadingService,
     private localStorage: LocalstorageService, private configService: configService, private chatService: chats, private navCtrl: NavController) {
 
     this.activatedRoute.params.subscribe(params => {
@@ -56,9 +57,10 @@ export class VideoDetailPage implements OnInit {
         'receiver_id': this.userDetail.id
       }
     }
+    this.loading.present();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].create_rooms;
-
+      this.loading.dismiss();
       if (!res.hasError) {
         const data = {
           roomname: res.data.room_id
@@ -75,9 +77,11 @@ export class VideoDetailPage implements OnInit {
             'room_key': room.ref.key,
           }
         }
+        this.loading.present();
         this.userService.CloseApi(mutation).subscribe(result => {
           const res = result['data'].update_rooms;
           console.log("Response : ", res);
+          this.loading.dismiss();
           if (!res.hasError) {
             let newData = firebase.database().ref('chatroom/' + res.data.room_key + '/chats').push();
             newData.set({
@@ -88,14 +92,14 @@ export class VideoDetailPage implements OnInit {
             });
           }
         }, err => {
-          console.log("Somthing Went Wrong")
+          this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
         });
         this.configService.sendToast('success', 'Room Created', 'bottom');
       } else {
         this.configService.sendToast('success', 'You Sent message this user before', 'bottom');
       }
     }, err => {
-      console.log("Somthing Went Wrong")
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
 

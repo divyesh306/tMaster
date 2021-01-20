@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import { chats } from '../Service/chat.service';
 import { userService } from '../Service/user.service';
 import { configService } from '../Service/config.service';
+import { LoadingService } from '../Service/loading.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -30,6 +31,7 @@ export class ChatWindowPage implements OnInit {
     public navCtrl: NavController,
     public userService: userService,
     public configService: configService,
+    public loading: LoadingService,
     public chatService: chats) {
     this.route.queryParams.subscribe(params => {
       console.log('params: ', params);
@@ -128,16 +130,17 @@ export class ChatWindowPage implements OnInit {
       inputtype: 'AddFavoriteUserInputType',
       data: { favorite_user: this.chatUser_id }
     }
+    this.loading.present();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].add_to_favorite_user;
-
+      this.loading.dismiss();
       if (!res.hasError) {
         this.configService.sendToast('success', 'This User Add As a Favorite', 'bottom');
       } else {
 
       }
     }, err => {
-      console.log("Somthing Went Wrong")
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
 
@@ -147,16 +150,17 @@ export class ChatWindowPage implements OnInit {
       inputtype: 'RemoveFavoriteUserInputType',
       data: { favorite_user: this.chatUser_id }
     }
+    this.loading.present();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].remove_favorite_user;
-
+      this.loading.dismiss();
       if (!res.hasError) {
         this.configService.sendToast('success', 'This User Remove From Favorite', 'bottom');
       } else {
 
       }
     }, err => {
-      console.log("Somthing Went Wrong")
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
 

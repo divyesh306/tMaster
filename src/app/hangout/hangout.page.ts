@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { configService } from '../Service/config.service';
+import { LoadingService } from '../Service/loading.service';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
 
@@ -14,11 +15,11 @@ export class HangoutPage implements OnInit {
   searchModal = false;
   search_term = '';
   gender;
-  user_type='';
+  user_type = '';
   user_list = [];
   s3Url;
   constructor(private router: Router, private localStorage: LocalstorageService,
-    private userService: userService, private configService: configService) {
+    private userService: userService, private configService: configService, private loading: LoadingService) {
     this.localStorage.get('userDetail');
     this.getUsers('', '', '');
     this.s3Url = this.configService.getS3();
@@ -62,11 +63,14 @@ export class HangoutPage implements OnInit {
     const body = {
       name: 'user_list(search_term:"' + search_terms + '" ,gender:"' + gender + '",type:"' + type + '")'
     }
+    // this.loading.present();
     this.userService.closeQuery(body).subscribe(result => {
       console.log("Result : ", result['status'])
+      // this.loading.dismiss();
       if (result['hasError']) {
-
+        
       } else {
+        // this.loading.dismiss();
         this.user_list = this.splitKeyValue(result['data'].user_list);
         console.log("User List : ", this.user_list);
       }
