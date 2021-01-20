@@ -3,6 +3,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { chats } from '../Service/chat.service';
 import { configService } from '../Service/config.service';
+import { LoadingService } from '../Service/loading.service';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
 
@@ -24,17 +25,19 @@ export class MessagePage implements OnInit {
   s3Url;
   ref = firebase.database().ref('chatroom/');
 
-  constructor(public router: Router, private localStorage: LocalstorageService, private ConfigService: configService, private userService: userService, private chatService: chats) {
+  constructor(public router: Router, private localStorage: LocalstorageService, private ConfigService: configService, private userService: userService, private chatService: chats, private loading: LoadingService) {
     this.loginUser = this.localStorage.get('userDetail');
     this.s3Url = this.ConfigService.getS3();
     const body = {
       name: 'room_list(id:"' + this.loginUser.id + '"){sender_id receiver_id room_id room_key receiver{nick_name picture} sender{nick_name picture}}'
     }
+    this.loading.present();
     this.userService.closeQuery(body).subscribe(result => {
+      this.loading.dismiss();
       this.rooms = this.splitKeyValue(result['data'].room_list);
       console.log("User List : ", this.rooms);
     }, err => {
-      console.log("Somthing Went Wrong : ", err)
+      this.ConfigService.sendToast('danger', "Something Went Wrong : " + err, 'bottom');
     })
 
     this.data.nickname = this.loginUser.nick_name;

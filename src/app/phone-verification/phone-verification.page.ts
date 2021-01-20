@@ -5,6 +5,7 @@ import { userService } from '../Service/user.service';
 // import { Directive, Renderer2, ElementRef } from '@angular/core';
 import { configService } from '../Service/config.service';
 import { SmsRetriever } from '@ionic-native/sms-retriever/ngx'
+import { LoadingService } from '../Service/loading.service';
 
 @Component({
   selector: 'app-phone-verification',
@@ -17,7 +18,7 @@ export class PhoneVerificationPage implements OnInit {
   otp = "";
   public smsTextmessage: string = '';
   public appHashString: string = '';
-  constructor(private router: Router, private userService: userService,
+  constructor(private router: Router, private userService: userService, private loading: LoadingService,
     private localStorage: LocalstorageService, private configService: configService, private smsRetriever: SmsRetriever) {
     this.verificationCode = {}
   }
@@ -65,8 +66,10 @@ export class PhoneVerificationPage implements OnInit {
         otp: otp
       }
     }
+    this.loading.present();
     this.userService.sendApi(mutation).subscribe(result => {
       const res = result['data'].verify_otp;
+      this.loading.dismiss();
       if (!res.hasError) {
         if (res.data['is_register']) {
           this.localStorage.setsingel('loginToken', res.data['token']);
@@ -82,8 +85,8 @@ export class PhoneVerificationPage implements OnInit {
         this.wrongCode = true;
       }
     }, err => {
-      // console.log("Somthing Went Wrong",err)
-      alert(err.message);
+      this.loading.dismiss();
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
   resend() {
@@ -94,13 +97,16 @@ export class PhoneVerificationPage implements OnInit {
         phone: this.localStorage.getsingel('phonenumber')
       }
     }
+    this.loading.present();
     this.userService.sendApi(mutation).subscribe(data => {
       const res = data['data'].send_otp;
+      this.loading.dismiss();
       if (!res.hasError) {
         this.configService.sendToast("dark", "Otp Resend Successfully", "bottom");
       }
     }, err => {
-      console.log("Somthing Went Wrong")
+      this.loading.dismiss();
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
   confirm(otp) {

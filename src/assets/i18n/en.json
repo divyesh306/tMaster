@@ -1,7 +1,7 @@
 {
     "common": {
-        "nextBtn": "Next",
-        "confirmBtn": "Confirm",
+        "nextBtn": "NEXT",
+        "confirmBtn": "CONFIRM",
         "registration": "Registration",
         "client": "Client",
         "counselor": "Counselor",
@@ -42,9 +42,9 @@
     },
     "phoneVerification": {
         "phoneVerifyTitle": "Phone Verification",
-        "enterCode": "Enter Code",
+        "enterCode": "ENTER CODE",
         "smsVerification": "Enter the SMS verification code below that was sent to your mobile phone",
-        "resendCodeBtn": "Resend Code"
+        "resendCodeBtn": "RESEND CODE"
     },
     "selectPosition": {
         "content1": "You can enjoy this app as you are Counselor of Client.. When you can earn coins, spend coinn when you have trouble..",

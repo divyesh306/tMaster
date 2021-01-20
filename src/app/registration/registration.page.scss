@@ -1,17 +1,20 @@
 .p-relative {
     position: relative;
 }
+
 .mt-13per {
     margin-top: 13%;
 }
+
 .camera_icon {
     position: absolute;
-    top: 75px;
-    left: 75px;
+    top: 72px;
+    left: 66px;
     font-size: 30px;
-    background: gray;
-    border-radius: 50%;
+    height: 45px;
+    width: 45px;
 }
+
 .border_div {
     height: 22px;
     background: #f5f5f5;
@@ -19,41 +22,51 @@
     border-bottom: 2px solid #d5d5d5;
     margin-top: 10px;
 }
+
 .content_row {
     border-bottom: 2px solid #d5d5d5;
     padding: 4px 0;
     margin: 0 25px;
 }
+
 .tags_padding {
     padding: 4px 24px;
 }
+
 .arrow_icon {
     font-size: 25px;
     text-align: right !important;
 }
+
 .bottom_div {
     background: #f5f5f5;
     height: 100%;
+
     ion-label {
         float: left;
         padding: 8px 0 0 28px;
     }
+
     ion-button {
         width: 90px;
         margin-top: 10%;
     }
 }
-.h-40{
+
+.h-40 {
     height: 40px !important;
 }
-.label_margin{
+
+.label_margin {
     height: 20px;
     margin-top: -8px;
     line-height: 30px;
 }
-.pb-10{
+
+.pb-10 {
     padding-bottom: 10px !important;
 }
+
 // ion-datetime {
 //     visibility: hidden !important;
 //     padding: 0 !important;
@@ -63,14 +76,16 @@
 ion-input {
     border: none !important;
 }
-.item_margin{
+
+.item_margin {
     margin: 8px 16px;
 }
 
-.error{
+.error {
     color: red
 }
-.browse_btn{
+
+.browse_btn {
     position: absolute;
     top: 70px;
     opacity: 0;

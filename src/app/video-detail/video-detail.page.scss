@@ -2,11 +2,13 @@
     width: 100%;
     height: 100%;
 }
+
 .videoPlayer {
     width: 100%;
     height: 100%;
     object-fit: fill;
 }
+
 .heading {
     position: absolute;
     top: 24px;
@@ -15,6 +17,7 @@
     text-align: center;
     // color: white;
 }
+
 .arrow_icon {
     position: absolute;
     top: 16px;
@@ -24,17 +27,21 @@
     width: 35px;
     border-radius: 50%;
     font-size: 25px;
+    z-index: 100;
 }
+
 .description {
     position: absolute;
     left: 16px;
     bottom: 16px;
     color: white;
+
     p {
         margin: 0;
         color: white !important;
     }
 }
+
 .like-icons {
     position: absolute;
     right: 16px;
@@ -42,6 +49,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
     ion-icon {
         font-size: 35px;
         margin: 14px 0 10px;

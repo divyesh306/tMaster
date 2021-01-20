@@ -5,6 +5,7 @@ import { PickerOptions } from "@ionic/core";
 import { userService } from '../Service/user.service';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { configService } from '../Service/config.service';
+import { LoadingService } from '../Service/loading.service';
 
 @Component({
   selector: 'app-verify-number',
@@ -1224,7 +1225,7 @@ export class VerifyNumberPage implements OnInit {
   ];
   selectBoxOpen = false;
   constructor(private pickerController: PickerController, private localStorage: LocalstorageService,
-    private configService: configService,
+    private configService: configService, private loading: LoadingService,
     private router: Router, private userService: userService) {
     this.localStorage.removesingel('loginToken');
     this.localStorage.removesingel('phonenumber');
@@ -1297,17 +1298,19 @@ export class VerifyNumberPage implements OnInit {
         phone: phonenumber
       }
     }
+    this.loading.present();
     this.userService.sendApi(mutation).subscribe(data => {
       const res = data['data'].send_otp;
       console.log("res :",);
+      this.loading.dismiss();
       if (!res.hasError) {
         this.localStorage.clear();
         this.localStorage.setsingel('phonenumber', phonenumber);
         // this.router.navigate(['/phone-verification']);
       }
     }, err => {
-      alert(err.message);
-      console.log("Somthing Went Wrong", err.message);
+      // alert(err.message);
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
 }
