@@ -5,9 +5,7 @@
 .online-tag {
     color: white;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     ion-icon {
         font-size: 25px;
     }
@@ -20,6 +18,8 @@
     background: url("../../assets/images/cloud-background.svg");
     height: 100%;
     width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
     position: absolute;
     overflow: scroll;
     padding-bottom: 30px;
