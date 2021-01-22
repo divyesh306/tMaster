@@ -26,6 +26,10 @@ export class MessagePage implements OnInit {
   ref = firebase.database().ref('chatroom/');
 
   constructor(public router: Router, private localStorage: LocalstorageService, private ConfigService: configService, private userService: userService, private chatService: chats, private loading: LoadingService) {
+
+  }
+
+  ionViewDidEnter() {
     this.loginUser = this.localStorage.get('userDetail');
     this.s3Url = this.ConfigService.getS3();
     const body = {
@@ -42,6 +46,7 @@ export class MessagePage implements OnInit {
 
     this.data.nickname = this.loginUser.nick_name;
   }
+
   splitKeyValue = (obj) => {
     const keys = Object.keys(obj);
     const res = [];

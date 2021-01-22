@@ -128,6 +128,7 @@ export class ProfilePage implements OnInit {
     this.mediaCapture.captureVideo(options)
       .then(
         async (data: MediaFile[]) => {
+          this.loading.present();
           var path = data[0].fullPath.replace('/private', 'file:///');
           const newBaseFilesystemPath = this.file.externalDataDirectory + "files/videos/";
           const videofilename = path.substr(path.lastIndexOf('/') + 1);
@@ -136,6 +137,7 @@ export class ProfilePage implements OnInit {
           this.file.readAsArrayBuffer(videopath, videofilename).then((body) => {
             this.uploadservice.uploadFile(body, videofilename, (url) => {
               this.userDetail.video = url.Key;
+              this.loading.dismiss();
             });
           }).catch(err => {
             alert('readAsDataURL failed: (' + err.code + ")" + err.message);

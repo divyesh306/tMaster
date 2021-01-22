@@ -19,23 +19,16 @@ export class HangoutPage implements OnInit {
   user_list = [];
   s3Url;
   constructor(private router: Router, private localStorage: LocalstorageService,
-    private userService: userService, private configService: configService, private loading: LoadingService) {
-    this.localStorage.get('userDetail');
-    this.getUsers('', '', '');
-    this.s3Url = this.configService.getS3();
-    if (this.localStorage.get('selectedUser'))
-      this.localStorage.remove('selectedUser');
+    private userService: userService, private configService: configService, public loadingservice: LoadingService) {
+
   }
 
   ngOnInit() {
-    this.localStorage.get('userDetail');
-    if (this.localStorage.get('selectedUser'))
-      this.localStorage.remove('selectedUser');
-    this.getUsers('', '', '');
   }
 
   ionViewDidEnter() {
     this.localStorage.get('userDetail');
+    this.s3Url = this.configService.getS3();
     if (this.localStorage.get('selectedUser'))
       this.localStorage.remove('selectedUser');
     this.getUsers('', '', '');
@@ -63,14 +56,11 @@ export class HangoutPage implements OnInit {
     const body = {
       name: 'user_list(search_term:"' + search_terms + '" ,gender:"' + gender + '",type:"' + type + '")'
     }
-    // this.loading.present();
+    this.loadingservice.present();
     this.userService.closeQuery(body).subscribe(result => {
-      console.log("Result : ", result['status'])
-      // this.loading.dismiss();
       if (result['hasError']) {
-        
+
       } else {
-        // this.loading.dismiss();
         this.user_list = this.splitKeyValue(result['data'].user_list);
         console.log("User List : ", this.user_list);
       }
@@ -88,6 +78,8 @@ export class HangoutPage implements OnInit {
         'data': obj[keys[i]]
       });
     };
+
+    this.loadingservice.dismiss();
     return res;
   };
   gotoProfile(selectuser) {

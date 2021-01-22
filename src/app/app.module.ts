@@ -16,6 +16,7 @@ import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { VideoEditor } from '@ionic-native/video-editor/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { Chooser } from '@ionic-native/chooser/ngx';
 
 import { S3Controller } from './Service/upload.service';
 import { TranslateModule, TranslateLoader} from '@ngx-translate/core';
@@ -46,6 +47,7 @@ export function createTranslateLoader(http: HttpClient) {
     S3Controller,
     VideoEditor,
     AndroidPermissions,
+    Chooser,
     File
   ],
   bootstrap: [AppComponent],

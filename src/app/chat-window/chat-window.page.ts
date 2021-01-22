@@ -2,11 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, IonContent, NavController, PopoverController } from '@ionic/angular';
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
+import { MediaCapture, MediaFile, CaptureError, CaptureAudioOptions } from '@ionic-native/media-capture/ngx';
 import * as firebase from 'firebase';
 import { chats } from '../Service/chat.service';
 import { userService } from '../Service/user.service';
 import { configService } from '../Service/config.service';
 import { LoadingService } from '../Service/loading.service';
+import { Chooser } from '@ionic-native/chooser/ngx';
+import { S3Controller } from '../Service/upload.service';
+import { File } from '@ionic-native/file/ngx';
 
 @Component({
   selector: 'app-chat-window',
@@ -15,7 +19,7 @@ import { LoadingService } from '../Service/loading.service';
 })
 export class ChatWindowPage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
-  data = { type: '', nickname: '', message: '' };
+  MessageData = { type: '', nickname: '', message: '' };
   chats = [];
   roomkey: string;
   nickname: string;
@@ -31,8 +35,12 @@ export class ChatWindowPage implements OnInit {
     public navCtrl: NavController,
     public userService: userService,
     public configService: configService,
+    public uploadservice: S3Controller,
     public loading: LoadingService,
-    public chatService: chats) {
+    private mediaCapture: MediaCapture,
+    public chatService: chats,
+    private file: File,
+    private chooser: Chooser) {
     this.route.queryParams.subscribe(params => {
       console.log('params: ', params);
       if (params && params.key && params.nickname) {
@@ -54,18 +62,9 @@ export class ChatWindowPage implements OnInit {
         this.chatUser_id = params.chatUser_id;
       }
     });
-    this.data.type = 'message';
-    this.data.nickname = this.nickname;
+    this.MessageData.type = 'message';
+    this.MessageData.nickname = this.nickname;
     console.log('roomkey', this.roomkey);
-
-    let joinData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
-    joinData.set({
-      type: 'join',
-      user: this.nickname,
-      message: this.nickname + ' has joined this room.',
-      sendDate: Date()
-    });
-    this.data.message = '';
 
     firebase.database().ref('chatroom/' + this.roomkey + '/chats').on('value', resp => {
       this.chats = [];
@@ -77,25 +76,17 @@ export class ChatWindowPage implements OnInit {
       }, 1000);
     });
   }
-  sendMessage() {
+  sendMessage(data) {
     let newData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
     newData.set({
-      type: this.data.type,
-      user: this.data.nickname,
-      message: this.data.message,
+      type: data.type,
+      user: data.nickname,
+      message: data.message,
       sendDate: Date()
     });
-    this.data.message = '';
+    this.MessageData.message = '';
   }
   exitChat() {
-    let exitData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
-    exitData.set({
-      type: 'exit',
-      user: this.nickname,
-      message: this.nickname + ' has exited this room.',
-      sendDate: Date()
-    });
-
     this.offStatus = true;
 
     this.router.navigate(['room']);
@@ -107,8 +98,65 @@ export class ChatWindowPage implements OnInit {
   closeCoinModal() {
     this.openModal = false;
   }
+
+  openFile(url) {
+    console.log("File Url : ", url);
+  }
   openFileOption() {
     this.fileOption = !this.fileOption;
+  }
+
+  selectFile() {
+    this.chooser.getFile()
+      .then(file => {
+        console.log(file ? file : 'canceled')
+        if (file) {
+          this.loading.present();
+          this.uploadservice.uploadFile(file.data, file.name, (url) => {
+            const se3url = this.configService.getS3() + url.Key;
+            this.loading.dismiss();
+            const message = {
+              type: "File",
+              nickname: this.nickname,
+              message: se3url
+            }
+            this.sendMessage(message);
+          });
+        }
+        else {
+
+        }
+      })
+      .catch((error: any) => console.error(error));
+  }
+
+  recordAudio() {
+    this.mediaCapture.captureAudio()
+      .then(
+        async (data: MediaFile[]) => {
+          this.loading.present();
+          var path = data[0].fullPath.replace('/private', 'file:///');
+          // const newBaseFilesystemPath = this.file.externalDataDirectory + "files/videos/";
+          const videofilename = path.substr(path.lastIndexOf('/') + 1);
+          const videopath = path.substr(0, path.lastIndexOf('/') + 1);
+          const filename = videofilename.substr(0, videofilename.lastIndexOf('.'));
+          console.log("File Name : ",filename);
+          console.log("videofilename Name : ",videofilename);
+          console.log("videopath Name : ",videopath);
+          this.loading.dismiss();
+          // this.file.readAsArrayBuffer(videopath, videofilename).then((body) => {
+          //   this.uploadservice.uploadFile(body, videofilename, async (url) => {
+          //     this.userData.video = url.Key;
+          //     if (this.userData.video)
+          //       this.loading.dismiss();
+              
+          //   });
+          // }).catch(err => {
+          //   this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
+          // });
+        },
+        (err: CaptureError) => this.configService.sendToast('danger', err.code, 'bottom')
+      );
   }
   async videoCall(ev: any) {
     const popover = await this.popoverController.create({

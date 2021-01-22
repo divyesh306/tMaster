@@ -28,7 +28,7 @@ export class S3Controller {
         );
     }
 
-    public uploadFile(videoFile,filename,callback) {
+    public uploadFile(videoFile, filename, callback) {
         const bucket = new S3(
             {
                 accessKeyId: environment.S3.accessKeyId,
@@ -41,14 +41,12 @@ export class S3Controller {
             Key: this.FOLDER + filename,
             Body: videoFile
         };
-        console.log("Video Params : ",params);
+        console.log("Video Params : ", params);
         bucket.upload(params, function (err, data) {
             if (err) {
                 console.log('There was an error uploading your file: ', err);
                 return false;
             }
-            console.log('Successfully uploaded file.', data);
-            alert(`Successfully uploaded file`);
             callback(data);
             return true;
         });
