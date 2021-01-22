@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, IonContent, NavController, PopoverController } from '@ionic/angular';
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
@@ -19,6 +19,7 @@ import { File } from '@ionic-native/file/ngx';
 })
 export class ChatWindowPage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   MessageData = { type: '', nickname: '', message: '' };
   chats = [];
   roomkey: string;
@@ -28,6 +29,7 @@ export class ChatWindowPage implements OnInit {
   fileOption = false;
   chatUser: String;
   chatUser_id: string;
+
   constructor(public router: Router,
     public popoverController: PopoverController,
     public actionSheetController: ActionSheetController,
@@ -76,6 +78,17 @@ export class ChatWindowPage implements OnInit {
       }, 1000);
     });
   }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) { }
+  }
+
   sendMessage(data) {
     let newData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
     newData.set({
@@ -86,15 +99,18 @@ export class ChatWindowPage implements OnInit {
     });
     this.MessageData.message = '';
   }
+
   exitChat() {
     this.offStatus = true;
 
     this.router.navigate(['room']);
   }
+
   openCoinModal() {
     console.log('open');
     this.openModal = !this.openModal;
   }
+
   closeCoinModal() {
     this.openModal = false;
   }
@@ -102,6 +118,7 @@ export class ChatWindowPage implements OnInit {
   openFile(url) {
     console.log("File Url : ", url);
   }
+  
   openFileOption() {
     this.fileOption = !this.fileOption;
   }
@@ -140,16 +157,16 @@ export class ChatWindowPage implements OnInit {
           const videofilename = path.substr(path.lastIndexOf('/') + 1);
           const videopath = path.substr(0, path.lastIndexOf('/') + 1);
           const filename = videofilename.substr(0, videofilename.lastIndexOf('.'));
-          console.log("File Name : ",filename);
-          console.log("videofilename Name : ",videofilename);
-          console.log("videopath Name : ",videopath);
+          console.log("File Name : ", filename);
+          console.log("videofilename Name : ", videofilename);
+          console.log("videopath Name : ", videopath);
           this.loading.dismiss();
           // this.file.readAsArrayBuffer(videopath, videofilename).then((body) => {
           //   this.uploadservice.uploadFile(body, videofilename, async (url) => {
           //     this.userData.video = url.Key;
           //     if (this.userData.video)
           //       this.loading.dismiss();
-              
+
           //   });
           // }).catch(err => {
           //   this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
