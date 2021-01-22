@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, IonContent, NavController, PopoverController } from '@ionic/angular';
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
@@ -15,6 +15,7 @@ import { LoadingService } from '../Service/loading.service';
 })
 export class ChatWindowPage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   data = { type: '', nickname: '', message: '' };
   chats = [];
   roomkey: string;
@@ -24,6 +25,7 @@ export class ChatWindowPage implements OnInit {
   fileOption = false;
   chatUser: String;
   chatUser_id: string;
+
   constructor(public router: Router,
     public popoverController: PopoverController,
     public actionSheetController: ActionSheetController,
@@ -57,7 +59,7 @@ export class ChatWindowPage implements OnInit {
     this.data.type = 'message';
     this.data.nickname = this.nickname;
     console.log('roomkey', this.roomkey);
-
+    this.scrollToBottom();
     let joinData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
     joinData.set({
       type: 'join',
@@ -76,6 +78,15 @@ export class ChatWindowPage implements OnInit {
         }
       }, 1000);
     });
+  }
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) { }
   }
   sendMessage() {
     let newData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
