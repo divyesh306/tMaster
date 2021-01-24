@@ -36,7 +36,6 @@ export class ProfilePage implements OnInit {
     this.s3Url = this.configService.getS3(); // amazone bucket Url
     this.userDetail = this.localstorage.get('userDetail'); // User Detail
     this.video = this.s3Url + this.userDetail.video;
-    console.log(this.userDetail);
     this.registerForm = this.formBuilder.group({
       nick_name: [this.userDetail.nick_name, [Validators.required, Validators.minLength(5)]],
       date_of_birth: [this.userDetail.date_of_birth, [Validators.required]],
@@ -61,7 +60,6 @@ export class ProfilePage implements OnInit {
       userdata.picture = this.userDetail.picture;
       userdata.rating = userdata.rating.toString();
       userdata.video = this.userDetail.video;
-      console.log("user Detail : ", userdata);
       this.signup(userdata);
     }
   }
@@ -118,7 +116,6 @@ export class ProfilePage implements OnInit {
       else {
         userdata.type = 'user';
       }
-      console.log("user Detail : ", userdata);
       this.signup(userdata);
     }
   }
@@ -154,7 +151,7 @@ export class ProfilePage implements OnInit {
               this.profileImg = this.configService.getS3() + url.Key;
             });
           }).catch(err => {
-            console.log('readAsDataURL failed: (' + err.code + ")" + err.message);
+            console.log('readAsDataURL failed: ( ' + err.code + ' ) ' + err.message);
           })
         },
         (err: CaptureError) => console.error(err)

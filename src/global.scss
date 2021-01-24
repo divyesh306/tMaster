@@ -225,6 +225,15 @@ ion-input.p0 {
 .picker-button.ion-activated.sc-ion-picker-md {
     color: #72CA2F;
 }
+ion-picker.select_country {
+    .picker-wrapper.sc-ion-picker-md {
+        height: 370px !important;
+    }
+    .picker-columns.sc-ion-picker-md {
+        height: 370px !important;
+    }
+}
+
 .popover-content.sc-ion-popover-md,
 .popover-content.sc-ion-popover-ios {
     width: 86% !important;

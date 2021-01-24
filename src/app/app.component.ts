@@ -54,7 +54,6 @@ export class AppComponent {
       this.splashScreen.hide();
       this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.STORAGE).then(
         result => {
-          console.log('Has permission?', result.hasPermission),
             this.file.externalDataDirectory + "files/videos/";
         },
         err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.STORAGE)

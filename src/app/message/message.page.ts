@@ -17,7 +17,7 @@ export class MessagePage implements OnInit {
   openSelectOption = false;
   sortOption = 'Sort by popular';
   addNewUser = false;
-  data = { nickname: "komu", roomname: '' };
+  data = { nickname: "", roomname: '' };
   rooms = [];
   nickname = "";
   loginUser;
@@ -39,7 +39,7 @@ export class MessagePage implements OnInit {
     this.userService.closeQuery(body).subscribe(result => {
       this.loading.dismiss();
       this.rooms = this.splitKeyValue(result['data'].room_list);
-      console.log("User List : ", this.rooms);
+      console.log("Rooms : ", this.rooms);
     }, err => {
       this.ConfigService.sendToast('danger', "Something Went Wrong : " + err, 'bottom');
     })

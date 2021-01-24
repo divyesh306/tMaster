@@ -41,7 +41,6 @@ export class S3Controller {
             Key: this.FOLDER + filename,
             Body: videoFile
         };
-        console.log("Video Params : ", params);
         bucket.upload(params, function (err, data) {
             if (err) {
                 console.log('There was an error uploading your file: ', err);
@@ -63,7 +62,6 @@ export class S3Controller {
                 console.log('There was an error getting your files: ' + err);
                 return;
             }
-            console.log('Successfully get files.', data);
             const fileDetails = data.Contents;
             fileDetails.forEach((videoFile) => {
                 fileUploads.push(new FileUpload(

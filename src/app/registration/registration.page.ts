@@ -95,7 +95,6 @@ export class RegistrationPage implements OnInit {
                                 this.uploadservice.uploadFile(b64str, tempFilename, (url) => {
                                     this.userData.picture = url.Key;
                                     this.profileImg = this.configService.getS3() + url.Key;
-                                    console.log("Profile Img : ", this.profileImg);
                                 });
                             }).catch(err => {
                                 this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
@@ -121,7 +120,6 @@ export class RegistrationPage implements OnInit {
                 userdata.type = this.userData.type;
                 userdata.picture = this.userData.picture;
                 userdata.video = this.userData.video;
-                console.log("UserData : ", userdata);
                 this.signup(userdata);
             }
             else {

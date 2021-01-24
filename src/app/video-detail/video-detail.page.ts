@@ -24,13 +24,11 @@ export class VideoDetailPage implements OnInit {
 
     this.activatedRoute.params.subscribe(params => {
       // this.userId.type = params['userId'];
-      // console.log('Url Id: ', this.userId);
     })
     this.s3Url = this.configService.getS3();
     this.userDetail = this.localStorage.get('selectedUser');
     this.userData = this.localStorage.get('userDetail'); // User Detail
     this.video = this.s3Url + this.userData.video;
-    console.log("Selected User ", this.userDetail);
   }
 
   calculateAge(bdate) {
@@ -40,7 +38,6 @@ export class VideoDetailPage implements OnInit {
   }
 
   backHangout() {
-    console.log('back');
     this.localStorage.remove('selectedUser');
     // this.router.navigate(['tabs/profile']);
     this.navCtrl.back();
@@ -66,7 +63,6 @@ export class VideoDetailPage implements OnInit {
           roomname: res.data.room_id
         };
         const room = this.chatService.createRoom(data);
-        console.log("Add Room : ", room.ref.key);
         const mutation = {
           name: 'update_rooms',
           inputtype: 'UpdateRoomInputType',
@@ -80,7 +76,6 @@ export class VideoDetailPage implements OnInit {
         this.loading.present();
         this.userService.CloseApi(mutation).subscribe(result => {
           const res = result['data'].update_rooms;
-          console.log("Response : ", res);
           this.loading.dismiss();
           if (!res.hasError) {
             let newData = firebase.database().ref('chatroom/' + res.data.room_key + '/chats').push();

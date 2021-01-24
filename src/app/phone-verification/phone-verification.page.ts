@@ -31,19 +31,10 @@ export class PhoneVerificationPage implements OnInit {
     this.smsRetriever.getAppHash()
       .then((res: any) => {
         this.appHashString = res;
-        console.log(res);
       })
       .catch((error: any) => console.error(error));
   }
 
-  getSMS() {
-    this.smsRetriever.startWatching()
-      .then((res: any) => {
-        this.smsTextmessage = res.Message;
-        console.log(res);
-      })
-      .catch((error: any) => console.error(error));
-  }
   inputChnage(event, nextInput, prvInput) {
     if (event.target.value != null) {
       if (event.keyCode == 8) {
@@ -89,6 +80,7 @@ export class PhoneVerificationPage implements OnInit {
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
+
   resend() {
     const mutation = {
       name: 'send_otp',
@@ -109,6 +101,7 @@ export class PhoneVerificationPage implements OnInit {
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
+  
   confirm(otp) {
     if (!this.verificationCode.o1 || !this.verificationCode.o2 || !this.verificationCode.o3 ||
       !this.verificationCode.o4 || !this.verificationCode.o5 || !this.verificationCode.o6) {

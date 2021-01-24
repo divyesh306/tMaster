@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActionSheetController, IonContent, NavController, PopoverController } from '@ionic/angular';
+import { ActionSheetController, NavController, PopoverController } from '@ionic/angular';
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
-import { MediaCapture, MediaFile, CaptureError, CaptureAudioOptions } from '@ionic-native/media-capture/ngx';
+import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture/ngx';
 import * as firebase from 'firebase';
 import { chats } from '../Service/chat.service';
 import { userService } from '../Service/user.service';
@@ -11,6 +11,7 @@ import { LoadingService } from '../Service/loading.service';
 import { Chooser } from '@ionic-native/chooser/ngx';
 import { S3Controller } from '../Service/upload.service';
 import { File } from '@ionic-native/file/ngx';
+import { FileViewerService } from '../Service/file-viewer.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -18,8 +19,6 @@ import { File } from '@ionic-native/file/ngx';
   styleUrls: ['./chat-window.page.scss'],
 })
 export class ChatWindowPage implements OnInit {
-  @ViewChild(IonContent) content: IonContent;
-  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   MessageData = { type: '', nickname: '', message: '' };
   chats = [];
   roomkey: string;
@@ -42,21 +41,12 @@ export class ChatWindowPage implements OnInit {
     private mediaCapture: MediaCapture,
     public chatService: chats,
     private file: File,
-    private chooser: Chooser) {
-    this.route.queryParams.subscribe(params => {
-      console.log('params: ', params);
-      if (params && params.key && params.nickname) {
-        this.roomkey = params.key;
-        this.nickname = params.nickname;
-        this.chatUser = JSON.parse(params.chatUser);
-        this.chatUser_id = params.chatUser_id;
-      }
-    });
-  }
+    private fileopenServcie: FileViewerService,
+    private chooser: Chooser
+  ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      console.log('params: ', params);
       if (params && params.key && params.nickname) {
         this.roomkey = params.key;
         this.nickname = params.nickname;
@@ -66,37 +56,25 @@ export class ChatWindowPage implements OnInit {
     });
     this.MessageData.type = 'message';
     this.MessageData.nickname = this.nickname;
-    console.log('roomkey', this.roomkey);
-
     firebase.database().ref('chatroom/' + this.roomkey + '/chats').on('value', resp => {
       this.chats = [];
       this.chats = snapshotToArray(resp);
-      setTimeout(() => {
-        if (this.offStatus === false) {
-          this.content.scrollToBottom(300);
-        }
-      }, 1000);
     });
-  }
-
-  ngAfterViewChecked() {
-    this.scrollToBottom();
-  }
-
-  scrollToBottom(): void {
-    try {
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch (err) { }
   }
 
   sendMessage(data) {
-    let newData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
-    newData.set({
-      type: data.type,
-      user: data.nickname,
-      message: data.message,
-      sendDate: Date()
-    });
+    if (!data.message.trim().length) {
+      //Empty String Not Send On message
+    }
+    else {
+      let newData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
+      newData.set({
+        type: data.type,
+        user: data.nickname,
+        message: data.message,
+        sendDate: Date()
+      });
+    }
     this.MessageData.message = '';
   }
 
@@ -107,7 +85,6 @@ export class ChatWindowPage implements OnInit {
   }
 
   openCoinModal() {
-    console.log('open');
     this.openModal = !this.openModal;
   }
 
@@ -116,9 +93,10 @@ export class ChatWindowPage implements OnInit {
   }
 
   openFile(url) {
-    console.log("File Url : ", url);
+    const audiofilename = url.substr(url.lastIndexOf('/') + 1);
+    this.fileopenServcie.download(url, audiofilename);
   }
-  
+
   openFileOption() {
     this.fileOption = !this.fileOption;
   }
@@ -126,14 +104,24 @@ export class ChatWindowPage implements OnInit {
   selectFile() {
     this.chooser.getFile()
       .then(file => {
-        console.log(file ? file : 'canceled')
         if (file) {
           this.loading.present();
+          console.log("File : ", file.mediaType);
+          var type;
+          if (file.mediaType == "video/mp4" || file.mediaType == "video/mpeg" || file.mediaType == "video/x-msvideo" || file.mediaType == "video/webm") {
+            type = "Video"
+          }
+          else if (file.mediaType == "image/jpeg" || file.mediaType == "image/png" || file.mediaType == "image/bmp" || file.mediaType == "image/*") {
+            type = "Image"
+          }
+          else {
+            type = "File"
+          }
           this.uploadservice.uploadFile(file.data, file.name, (url) => {
-            const se3url = this.configService.getS3() + url.Key;
+            const se3url = url.Location;
             this.loading.dismiss();
             const message = {
-              type: "File",
+              type: type,
               nickname: this.nickname,
               message: se3url
             }
@@ -147,34 +135,65 @@ export class ChatWindowPage implements OnInit {
       .catch((error: any) => console.error(error));
   }
 
+
+  capturePhoto() {
+    this.mediaCapture.captureImage()
+      .then(
+        async (data: MediaFile[]) => {
+          this.loading.present();
+          var path = data[0].fullPath;//.replace('/private', 'file:///');
+          const audiofilename = path.substr(path.lastIndexOf('/') + 1);
+          const audiopath = path.substr(0, path.lastIndexOf('/') + 1);
+          this.file.readAsArrayBuffer(audiopath, data[0].name).then((body) => {
+            this.uploadservice.uploadFile(body, audiofilename, async (url) => {
+              const se3url = url.Location;
+              this.loading.dismiss();
+              const message = {
+                type: "Image",
+                nickname: this.nickname,
+                message: se3url
+              }
+              this.sendMessage(message);
+
+            });
+          }).catch(err => {
+            this.loading.dismiss();
+            this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
+          });
+        },
+        (err: CaptureError) => this.configService.sendToast('danger', err.code, 'bottom')
+      );
+  }
+
   recordAudio() {
     this.mediaCapture.captureAudio()
       .then(
         async (data: MediaFile[]) => {
           this.loading.present();
-          var path = data[0].fullPath.replace('/private', 'file:///');
-          // const newBaseFilesystemPath = this.file.externalDataDirectory + "files/videos/";
-          const videofilename = path.substr(path.lastIndexOf('/') + 1);
-          const videopath = path.substr(0, path.lastIndexOf('/') + 1);
-          const filename = videofilename.substr(0, videofilename.lastIndexOf('.'));
-          console.log("File Name : ", filename);
-          console.log("videofilename Name : ", videofilename);
-          console.log("videopath Name : ", videopath);
-          this.loading.dismiss();
-          // this.file.readAsArrayBuffer(videopath, videofilename).then((body) => {
-          //   this.uploadservice.uploadFile(body, videofilename, async (url) => {
-          //     this.userData.video = url.Key;
-          //     if (this.userData.video)
-          //       this.loading.dismiss();
+          var path = data[0].fullPath;//.replace('/private', 'file:///');
+          const audiofilename = path.substr(path.lastIndexOf('/') + 1);
+          const audiopath = path.substr(0, path.lastIndexOf('/') + 1);
+          this.file.readAsArrayBuffer(audiopath, data[0].name).then((body) => {
+            this.uploadservice.uploadFile(body, audiofilename, async (url) => {
+              const se3url = url.Location;
+              this.loading.dismiss();
+              const message = {
+                type: "Audio",
+                nickname: this.nickname,
+                message: se3url
+              }
+              this.sendMessage(message);
 
-          //   });
-          // }).catch(err => {
-          //   this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
-          // });
+            });
+          }).catch(err => {
+            this.loading.dismiss();
+            this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
+          });
         },
         (err: CaptureError) => this.configService.sendToast('danger', err.code, 'bottom')
       );
   }
+
   async videoCall(ev: any) {
     const popover = await this.popoverController.create({
       component: VideoNoticeComponent,
@@ -271,7 +290,6 @@ export const snapshotToArray = snapshot => {
   snapshot.forEach(childSnapshot => {
     let item = childSnapshot.val();
     item.key = childSnapshot.key;
-    console.log("Chat : ", item);
     returnArr.push(item);
   });
 

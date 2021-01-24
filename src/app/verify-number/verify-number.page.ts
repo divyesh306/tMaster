@@ -1257,10 +1257,10 @@ export class VerifyNumberPage implements OnInit {
             this.selectedCountry = this.temp[0].text;
             this.countrycode = this.temp[0].value;
             this.selectBoxOpen = false;
-            console.log(this.temp[0].value);
           }
         }
       ],
+      cssClass:'select_country',
       columns: [{
         name: 'Countries',
         options: this.getColumnOptions()
@@ -1301,7 +1301,6 @@ export class VerifyNumberPage implements OnInit {
     this.loading.present();
     this.userService.sendApi(mutation).subscribe(data => {
       const res = data['data'].send_otp;
-      console.log("res :",);
       this.loading.dismiss();
       if (!res.hasError) {
         this.localStorage.clear();
