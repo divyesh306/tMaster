@@ -22,6 +22,7 @@
     "@ionic-native/android-permissions": "^5.30.0",
     "@ionic-native/chooser": "^5.30.0",
     "@ionic-native/core": "^5.0.0",
+    "@ionic-native/fcm": "^5.31.1",
     "@ionic-native/file": "^5.30.0",
     "@ionic-native/file-opener": "^5.30.0",
     "@ionic-native/file-transfer": "^5.30.0",

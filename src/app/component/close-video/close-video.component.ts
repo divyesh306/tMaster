@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
 @Component({
@@ -7,14 +7,15 @@ import { PopoverController } from '@ionic/angular';
   styleUrls: ['./close-video.component.scss'],
 })
 export class CloseVideoComponent implements OnInit {
+  @Input() onClick = () => { };
+  constructor(public popoverCtrl: PopoverController) { }
 
-  constructor(public popoverCtrl:PopoverController) { }
-
-  ngOnInit() {}
-  close(){
+  ngOnInit() { }
+  close() {
     this.popoverCtrl.dismiss();
+    this.onClick();
   }
-  cancel(){
+  cancel() {
     this.popoverCtrl.dismiss();
   }
 }

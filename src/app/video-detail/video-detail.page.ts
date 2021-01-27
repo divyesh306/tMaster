@@ -87,6 +87,7 @@ export class VideoDetailPage implements OnInit {
             });
           }
         }, err => {
+          this.loading.dismiss();
           this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
         });
         this.configService.sendToast('success', 'Room Created', 'bottom');

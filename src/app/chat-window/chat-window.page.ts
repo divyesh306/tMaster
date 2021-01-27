@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ActionSheetController, NavController, PopoverController } from '@ionic/angular';
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
 import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture/ngx';
@@ -12,6 +12,8 @@ import { Chooser } from '@ionic-native/chooser/ngx';
 import { S3Controller } from '../Service/upload.service';
 import { File } from '@ionic-native/file/ngx';
 import { FileViewerService } from '../Service/file-viewer.service';
+import { LocalstorageService } from '../Service/localstorage.service';
+import { WebrtcService } from '../Service/webrtc.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -42,7 +44,7 @@ export class ChatWindowPage implements OnInit {
     public chatService: chats,
     private file: File,
     private fileopenServcie: FileViewerService,
-    private chooser: Chooser
+    private chooser: Chooser,
   ) { }
 
   ngOnInit() {
@@ -128,13 +130,10 @@ export class ChatWindowPage implements OnInit {
             this.sendMessage(message);
           });
         }
-        else {
-
-        }
+        else { }
       })
       .catch((error: any) => console.error(error));
   }
-
 
   capturePhoto() {
     this.mediaCapture.captureImage()
@@ -201,7 +200,12 @@ export class ChatWindowPage implements OnInit {
       translucent: true,
       componentProps: {
         onClick: () => {
-          this.router.navigate(['/video-chat']);
+          let navigationExtras: NavigationExtras = {
+            queryParams: {
+              chatUser_id: this.chatUser_id
+            }
+          };
+          this.router.navigate(['/video-chat'], navigationExtras);
         }
       }
     });
@@ -220,9 +224,7 @@ export class ChatWindowPage implements OnInit {
       this.loading.dismiss();
       if (!res.hasError) {
         this.configService.sendToast('success', 'This User Add As a Favorite', 'bottom');
-      } else {
-
-      }
+      } else { }
     }, err => {
       this.loading.dismiss();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");

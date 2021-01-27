@@ -21,8 +21,9 @@ import { FileTransfer } from "@ionic-native/file-transfer/ngx";
 import { FileOpener } from "@ionic-native/file-opener/ngx";
 
 import { S3Controller } from './Service/upload.service';
-import { TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import { TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+// import { FCM } from '@ionic-native/fcm/ngx';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -34,11 +35,11 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
-           provide: TranslateLoader,
-           useFactory: (createTranslateLoader),
-           deps: [HttpClient]
-         }
-      })],
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    })],
   providers: [
     StatusBar,
     SplashScreen,
@@ -52,7 +53,8 @@ export function createTranslateLoader(http: HttpClient) {
     Chooser,
     File,
     FileTransfer,
-    FileOpener
+    FileOpener,
+    // FCM
   ],
   bootstrap: [AppComponent],
 })
