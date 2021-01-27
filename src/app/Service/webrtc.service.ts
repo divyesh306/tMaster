@@ -35,6 +35,9 @@ export class WebrtcService {
   async init(userId: string, myEl: HTMLMediaElement, partnerEl: HTMLMediaElement) {
     this.myEl = myEl;
     this.partnerEl = partnerEl;
+    console.log(userId);
+    console.log(this.myEl);
+    console.log(this.partnerEl);
     try {
       this.getMedia();
     } catch (e) {
@@ -45,13 +48,17 @@ export class WebrtcService {
 
   async createPeer(userId: string) {
     this.peer = new Peer(userId);
+    console.log(this.peer);
     this.peer.on('open', () => {
       this.wait();
     });
   }
 
   call(partnerId: string) {
+    console.log(partnerId);
     const call = this.peer.call(partnerId, this.myStream);
+    console.log(call);
+
     call.on('stream', (stream) => {
       this.partnerEl.srcObject = stream;
     });
@@ -65,7 +72,10 @@ export class WebrtcService {
       });
     });
   }
-
+  endCall() {
+    this.peer.destroy();
+    this.myStream.getTracks().forEach(function (track) { track.stop();});
+  }
   handleSuccess(stream: MediaStream) {
     this.myStream = stream;
     this.myEl.srcObject = stream;

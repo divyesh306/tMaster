@@ -82,8 +82,8 @@ export class ProfilePage implements OnInit {
 
       }
     }, err => {
-      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
       this.loading.dismiss();
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
 
@@ -137,6 +137,7 @@ export class ProfilePage implements OnInit {
               this.loading.dismiss();
             });
           }).catch(err => {
+            this.loading.dismiss();
             alert('readAsDataURL failed: (' + err.code + ")" + err.message);
           })
 

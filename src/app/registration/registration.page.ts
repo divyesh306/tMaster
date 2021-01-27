@@ -97,10 +97,12 @@ export class RegistrationPage implements OnInit {
                                     this.profileImg = this.configService.getS3() + url.Key;
                                 });
                             }).catch(err => {
+                                this.loading.dismiss();
                                 this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
                             })
                         });
                     }).catch(err => {
+                        this.loading.dismiss();
                         this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
                     });
                 },
@@ -144,7 +146,6 @@ export class RegistrationPage implements OnInit {
                 if (this.localStorage.getsingel('loginToken'))
                     this.router.navigate(['/register-complete']);
             } else {
-
             }
         }, err => {
             this.loading.dismiss();

@@ -41,6 +41,7 @@ export class MessagePage implements OnInit {
       this.rooms = this.splitKeyValue(result['data'].room_list);
       console.log("Rooms : ", this.rooms);
     }, err => {
+      this.loading.dismiss();
       this.ConfigService.sendToast('danger', "Something Went Wrong : " + err, 'bottom');
     })
 

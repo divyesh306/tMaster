@@ -1,11 +1,11 @@
 <ion-content>
   <div id="errorMsg"></div>
 
-  <video id="partner-video" (click)="swapVideo('my-video')" autoplay playsinline
-    [ngClass]="{'top-video': topVideoFrame === 'partner-video', 'main-video': topVideoFrame != 'partner-video'}">
+  <video id="partnerVideo" (click)="swapVideo('partnerVideo')" autoplay playsinline
+    [ngClass]="{'top-video': topVideoFrame == 'partnerVideo', 'main-video': topVideoFrame != 'partnerVideo'}">
   </video>
-  <video id="my-video" (click)="swapVideo('partner-video')" autoplay playsinline
-    [ngClass]="{'top-video': topVideoFrame === 'my-video', 'main-video': topVideoFrame != 'my-video'}">
+  <video id="myVideo" (click)="swapVideo('myVideo')" autoplay playsinline
+    [ngClass]="{'top-video': topVideoFrame == 'myVideo', 'main-video': topVideoFrame != 'myVideo'}">
   </video>
   <ion-row nowrap>
     <ion-button (click)="init()">Login As: </ion-button>

@@ -1309,6 +1309,7 @@ export class VerifyNumberPage implements OnInit {
       }
     }, err => {
       // alert(err.message);
+      this.loading.dismiss();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
