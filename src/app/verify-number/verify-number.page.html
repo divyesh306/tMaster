@@ -6,6 +6,10 @@
       <ion-label class="grow no_wrap">{{selectedCountry}}</ion-label>
       <img src="../../assets/right-arrow.svg" alt="">
     </div>
+    <ion-select #countryList (ionChange)="optionSelected($event)" class="country_alert">
+      <ion-select-option [value]="country" *ngFor="let country of countries">{{country.name}}</ion-select-option>
+    </ion-select>
+
     <ion-row>
       <ion-col size="3">
         <ion-input [(ngModel)]="countrycode"></ion-input>

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { PickerController } from '@ionic/angular';
+import { PickerController,IonSelect } from '@ionic/angular';
 import { PickerOptions } from "@ionic/core";
 import { userService } from '../Service/user.service';
 import { LocalstorageService } from '../Service/localstorage.service';
@@ -13,6 +13,7 @@ import { LoadingService } from '../Service/loading.service';
   styleUrls: ['./verify-number.page.scss'],
 })
 export class VerifyNumberPage implements OnInit {
+  @ViewChild('countryList') countryRef: IonSelect;
   public selectedCountry = 'Japan';
   phonenumber; countrycode = "+81";
   public temp = [];
@@ -1233,51 +1234,54 @@ export class VerifyNumberPage implements OnInit {
   }
 
   ngOnInit() {
-  }
-  // selectOption(){
-  //   this.selectBoxOpen = !this.selectBoxOpen;
-  // }
-  optionSelected(option) {
-    this.selectedCountry = option;
-    this.selectBoxOpen = false;
-  }
-
-  async selectOption() {
-    this.selectBoxOpen = !this.selectBoxOpen;
-    let options: PickerOptions = {
-      buttons: [
-        {
-          text: "Cancel",
-          role: 'cancel'
-        },
-        {
-          text: 'Ok',
-          handler: (data: any) => {
-            this.temp = [] = Object.values(data);
-            this.selectedCountry = this.temp[0].text;
-            this.countrycode = this.temp[0].value;
-            this.selectBoxOpen = false;
-          }
-        }
-      ],
-      cssClass:'select_country',
-      columns: [{
-        name: 'Countries',
-        options: this.getColumnOptions()
-      }]
-    };
-
-    let picker = await this.pickerController.create(options);
-    picker.present()
-  }
-
-  getColumnOptions() {
-    let options = [];
-    this.countries.forEach(x => {
-      options.push({ text: x.name, value: x.dial_code });
+    window.addEventListener('ionAlertDidPresent', e => {
+      const selected = (e.target as HTMLElement).querySelector('[aria-checked="true"]');
+      selected && selected.scrollIntoView();
     });
-    return options;
   }
+  
+  optionSelected(ev) {
+    console.log(ev.target.value);
+    this.selectedCountry = ev.target.value.name;
+    this.countrycode = ev.target.value.dial_code;
+  }
+  selectOption() {
+    this.countryRef.open();
+    // this.selectBoxOpen = !this.selectBoxOpen;
+    // let options: PickerOptions = {
+    //   buttons: [
+    //     {
+    //       text: "Cancel",
+    //       role: 'cancel'
+    //     },
+    //     {
+    //       text: 'Ok',
+    //       handler: (data: any) => {
+    //         this.temp = [] = Object.values(data);
+    //         this.selectedCountry = this.temp[0].text;
+    //         this.countrycode = this.temp[0].value;
+    //         this.selectBoxOpen = false;
+    //       }
+    //     }
+    //   ],
+    //   cssClass:'select_country',
+    //   columns: [{
+    //     name: 'Countries',
+    //     options: this.getColumnOptions()
+    //   }]
+    // };
+
+    // let picker = await this.pickerController.create(options);
+    // picker.present()
+  }
+
+  // getColumnOptions() {
+  //   let options = [];
+  //   this.countries.forEach(x => {
+  //     options.push({ text: x.name, value: x.dial_code });
+  //   });
+  //   return options;
+  // }
   next() {
     if (!this.countrycode || !this.phonenumber) {
       this.configService.sendToast("danger", "Please enter a valid Phone Number && country code", "top");
