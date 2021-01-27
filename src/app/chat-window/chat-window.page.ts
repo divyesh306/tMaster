@@ -224,6 +224,7 @@ export class ChatWindowPage implements OnInit {
 
       }
     }, err => {
+      this.loading.dismiss();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
@@ -244,6 +245,49 @@ export class ChatWindowPage implements OnInit {
 
       }
     }, err => {
+      this.loading.dismiss();
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
+    });
+  }
+
+  userBlocked() {
+    const mutation = {
+      name: 'add_user_to_blocks',
+      inputtype: 'BlockUserInputType',
+      data: { blocked_user_id: this.chatUser_id }
+    }
+    this.loading.present();
+    this.userService.CloseApi(mutation).subscribe(result => {
+      const res = result['data'].add_user_to_blocks;
+      this.loading.dismiss();
+      if (!res.hasError) {
+        this.configService.sendToast('success', 'User Blocked', 'bottom');
+      } else {
+
+      }
+    }, err => {
+      this.loading.dismiss();
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
+    });
+  }
+
+  removeUserBlocked() {
+    const mutation = {
+      name: 'remove_blocked_user',
+      inputtype: 'RemoveBlockedUserInputType',
+      data: { blocked_user_id: this.chatUser_id }
+    }
+    this.loading.present();
+    this.userService.CloseApi(mutation).subscribe(result => {
+      const res = result['data'].remove_blocked_user;
+      this.loading.dismiss();
+      if (!res.hasError) {
+        this.configService.sendToast('success', 'User Remove From Blocked', 'bottom');
+      } else {
+
+      }
+    }, err => {
+      this.loading.dismiss();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
@@ -261,12 +305,12 @@ export class ChatWindowPage implements OnInit {
         text: 'Release',
         role: 'destructive',
         handler: () => {
-          console.log('DeleReleasete clicked');
+          this.removeUserBlocked();
         }
       }, {
         text: 'Block',
         handler: () => {
-          console.log('Block clicked');
+          this.userBlocked();
         }
       }, {
         text: 'Report',

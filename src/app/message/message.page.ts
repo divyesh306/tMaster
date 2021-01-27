@@ -59,8 +59,6 @@ export class MessagePage implements OnInit {
     return res;
   };
   ngOnInit() {
-    console.log(this.data.nickname);
-
   }
   selectTab(tab) {
     this.activeTab = tab;
@@ -81,7 +79,6 @@ export class MessagePage implements OnInit {
         chatUser_id: key.receiver.nick_name == this.data.nickname ? key.sender_id : key.receiver_id
       }
     };
-    console.log(navigationExtras);
     this.router.navigate(['/chat-window'], navigationExtras);
   }
   addNewChat() {

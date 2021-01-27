@@ -60,11 +60,13 @@ export class HangoutPage implements OnInit {
     this.userService.closeQuery(body).subscribe(result => {
       if (result['hasError']) {
 
+        this.loadingservice.dismiss();
       } else {
         this.user_list = this.splitKeyValue(result['data'].user_list);
         console.log("User List : ", this.user_list);
       }
     }, err => {
+      this.loadingservice.dismiss();
       if (err['status'] == 401)
         this.router.navigate(['/verify-number']);
     })

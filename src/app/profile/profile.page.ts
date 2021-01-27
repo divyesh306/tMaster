@@ -137,6 +137,7 @@ export class ProfilePage implements OnInit {
               this.loading.dismiss();
             });
           }).catch(err => {
+            this.loading.dismiss();
             alert('readAsDataURL failed: (' + err.code + ")" + err.message);
           })
 
@@ -150,7 +151,8 @@ export class ProfilePage implements OnInit {
               this.userDetail.picture = url.Key;
               this.profileImg = this.configService.getS3() + url.Key;
             });
-          }).catch(err => {
+          }).catch(err => {            
+            this.loading.dismiss();
             console.log('readAsDataURL failed: ( ' + err.code + ' ) ' + err.message);
           })
         },

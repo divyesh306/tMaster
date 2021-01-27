@@ -1,0 +1,117 @@
+{
+    "common": {
+        "nextBtn": "NEXT",
+        "confirmBtn": "CONFIRM",
+        "registration": "Registration",
+        "client": "Client",
+        "counselor": "Counselor",
+        "age": "Age",
+        "message": "Message",
+        "latest": "Latest",
+        "lowToHigh": "Low to High",
+        "highToLow": "High to Low",
+        "read": "Read",
+        "coins": "Coins",
+        "nickname": "Nickname",
+        "nicknameRequired": "Nick Name is required.",
+        "nameLength": "Name should be min 5 chars long.",
+        "birth": "Birth",
+        "dobRequired": "Select Date Of Birth",
+        "gender": "Gender",
+        "male": "Male",
+        "female": "Female",
+        "selectGender": "Select Gender",
+        "job": "Job",
+        "jobRequired": "Job is required.",
+        "minuteRating": "Minute Rating",
+        "minuteRatingRequired": "Minute Rating is required.",
+        "onlyNumeric": "Only Numeric Value is allowed.",
+        "maxRate": "Set your rate below 400.",
+        "appealTag": "Appeal tags",
+        "tagRequired": "Tags is required."
+    },
+    "welcompage": {
+        "welcomeText": "Welcome to Tokmay",
+        "agreeContinue": "Tap \"Agree and Continue\" to accept the Tokmay Terms of",
+        "servicePolicy": "Service and Privacy Policy",
+        "acceptContinue": "ACCEPT AND CONTINUE"
+    },
+    "verifyNumber": {
+        "verifyMobile": "Verify your mobile number",
+        "verifyNumberContent": "Tokmay App will send SMS message to verify your Phone Number, Enter your country code and phone number."
+    },
+    "phoneVerification": {
+        "phoneVerifyTitle": "Phone Verification",
+        "enterCode": "ENTER CODE",
+        "smsVerification": "Enter the SMS verification code below that was sent to your mobile phone",
+        "resendCodeBtn": "RESEND CODE"
+    },
+    "selectPosition": {
+        "content1": "You can enjoy this app as you are Counselor of Client.. When you can earn coins, spend coinn when you have trouble..",
+        "content2": "As perform your speciality job, talented, speaking, etc... Freestyle enjoying video chatting.",
+        "content3": "Your position is alternative changable! Don't be hurry!",
+        "selPosition": "Select Position",
+        "haveTrouble": "If you have any trouble in your life",
+        "resolveTrouble": "If you can resolve anyone's trouble"
+    },
+    "registerpage": {
+        "3secVideo": "Take your own 3 sec video with face mask",
+        "recommendedTag": "Recommended to add many tags that you related"
+    },
+    "registerComplete": {
+        "completeReg": "Register Complete",
+        "start": "Start"
+    },
+    "hangout": {
+        "popularTags": "Popular tags",
+        "sort": "Sort",
+        "close": "CLOSE",
+        "result": "RESULT",
+        "keepUser": "Keep Users",
+        "nowKeepUser": "Now you keep this users"
+    },
+    "videoDetail": {
+        "years": "Years",
+        "hello": "HELLO",
+        "keep": "KEEP"
+    },
+    "letstalknow": {
+        "letstalknowLabel": "letstalknow",
+        "popularTag": "Popular Tag",
+        "sortByPopular": "Sort by popular"
+    },
+    "message": {
+        "know": "Know",
+        "friend": "Friend",
+        "favorite": "Favorite"
+    },
+    "profile": {
+        "profileInfo": "Profile Info",
+        "receiveCoins": "(As you can receive coins)",
+        "currentlyCoins": "Currently Coins",
+        "buycoins": "BUY COINS",
+        "exchange": "EXCHANGE"
+    },
+    "setting": {
+        "settingTitle": "Settings",
+        "blockList": "Block List",
+        "languages": "Languages",
+        "toc": "Terms of Service",
+        "bugReport": "Bug Report",
+        "deleteAccount": "Delete Account"
+    },
+    "blockList": {
+        "noUsers": "There are no blocked users"
+    },
+    "bugReport": {
+        "email": "Email",
+        "comment": "Comment",
+        "submitBtn": "Submit"
+    },
+    "deleteAccount": {
+        "wantToDelete": "Are you sure want to delete account?",
+        "neverExchangeText": "If you delete account, you will never exchange your holding coins and recoever account.",
+        "dataDeleteText":"All Datas immediately delete from database, if you sure delete account, tap \"Delete\" to delete your account.",
+        "deleteComplete": "Delete Completely!"
+    }
+}
