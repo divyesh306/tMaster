@@ -10,7 +10,17 @@
 
 <ion-content>
   <div class="ion-text-center mt-10">
-    <ion-label class="green_text font-bold">{{'blockList.noUsers' | translate}}</ion-label><br>
-    <ion-item-divider></ion-item-divider>
+    <ion-label class="green_text font-bold" *ngIf = "!blockUserList">{{'blockList.noUsers' | translate}}</ion-label><br>
+    <ion-row *ngFor="let blockusers of blockUserList">
+      <ion-col size="2" class="p0">
+        <img src="{{s3Url}}{{blockusers.blocked_user.picture}}" class="user_profilepic" alt="">
+      </ion-col>
+      <ion-col class="center" col="5.5">
+        <h5 class="ion-no-margin">{{blockusers.blocked_user.nick_name}}</h5>
+      </ion-col>
+      <ion-col size="4" class="p0">        
+        <ion-button class="green_button" (click)="removeUserBlocked(blockusers)">Release</ion-button>
+      </ion-col>
+    </ion-row>
   </div>
 </ion-content>

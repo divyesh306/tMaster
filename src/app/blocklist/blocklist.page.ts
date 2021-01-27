@@ -9,12 +9,16 @@ import { configService } from '../Service/config.service';
   styleUrls: ['./blocklist.page.scss'],
 })
 export class BlocklistPage implements OnInit {
-  blockList = [];
-  constructor(public userService: userService, private loading: LoadingService, public ConfigService: configService) { }
+  blockUserList = [];
+  s3Url;
+  constructor(public userService: userService, private loading: LoadingService, public ConfigService: configService) {
+    this.s3Url = this.ConfigService.getS3();
+  }
 
   ngOnInit() {
     this.getBloackList();
   }
+
   getBloackList() {
     this.loading.present();
     const body = {
@@ -22,24 +26,32 @@ export class BlocklistPage implements OnInit {
     }
     this.userService.closeQuery(body).subscribe(result => {
       this.loading.dismiss();
-      this.blockList = this.splitKeyValue(result['data'].blocked_users);
-      console.log("Rooms : ", this.blockList);
+      this.blockUserList = result['data'].blocked_users;
+      console.log("Block User : ", this.blockUserList);
     }, err => {
       this.loading.dismiss();
       this.ConfigService.sendToast('danger', "Something Went Wrong : " + err, 'bottom');
     })
   }
 
-  splitKeyValue = (obj) => {
-    const keys = Object.keys(obj);
-    const res = [];
-    for (let i = 0; i < keys.length; i++) {
-      res.push({
-        'asset': keys[i],
-        'data': obj[keys[i]]
-      });
-    };
-    return res;
-  };
+  removeUserBlocked(userId) {
+    const mutation = {
+      name: 'remove_blocked_user',
+      inputtype: 'RemoveBlockedUserInputType',
+      data: { blocked_user_id: userId}
+    }
+    this.loading.present();
+    this.userService.CloseApi(mutation).subscribe(result => {
+      const res = result['data'].remove_blocked_user;
+      this.loading.dismiss();
+      if (!res.hasError) {
+        this.ConfigService.sendToast('success', 'User Remove From Blocked', 'bottom');
+      } else {
 
+      }
+    }, err => {
+      this.loading.dismiss();
+      this.ConfigService.sendToast("danger", "Something Went Wrong" + err, "bottom");
+    });
+  }
 }
