@@ -31,10 +31,10 @@
         "tagRequired": "Tags is required."
     },
     "welcompage": {
-        "welcomeText": "Welcome to Tokmay",
+        "welcomeText": "Tokmay પર આપનું સ્વાગત છે",
         "agreeContinue": "Tap \"Agree and Continue\" to accept the Tokmay Terms of",
         "servicePolicy": "Service and Privacy Policy",
-        "acceptContinue": "ACCEPT AND CONTINUE"
+        "acceptContinue": "સ્વીકારો અને ચાલુ રાખો"
     },
     "verifyNumber": {
         "verifyMobile": "Verify your mobile number",
@@ -94,8 +94,8 @@
     },
     "setting": {
         "settingTitle": "Settings",
-        "blockList": "Block List",
-        "languages": "Languages",
+        "blockList": "અવરોધ સૂચિ",
+        "languages": "ભાષાઓ",
         "toc": "Terms of Service",
         "bugReport": "Bug Report",
         "deleteAccount": "Delete Account"
@@ -111,7 +111,7 @@
     "deleteAccount": {
         "wantToDelete": "Are you sure want to delete account?",
         "neverExchangeText": "If you delete account, you will never exchange your holding coins and recoever account.",
-        "dataDeleteText":"All Datas immediately delete from database, if you sure delete account, tap \"Delete\" to delete your account.",
+        "dataDeleteText": "All Datas immediately delete from database, if you sure delete account, tap \"Delete\" to delete your account.",
         "deleteComplete": "Delete Completely!"
     }
 }

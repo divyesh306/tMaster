@@ -10,7 +10,7 @@ ion-row {
     display: flex;
     flex-direction: column;
 }
-.text-margin{
+.text-margin {
     margin: 5% 15%;
     letter-spacing: 0.8px;
     line-height: 14px;
@@ -20,7 +20,7 @@ ion-row {
     margin-bottom: 0;
 }
 ion-input {
-    border: 1px solid #72CA2F;
+    border: 1px solid #72ca2f;
     height: 36px !important;
 }
 ion-list {
@@ -37,4 +37,7 @@ ion-list {
             color: #bbb;
         }
     }
+}
+ion-select {
+    display: none;
 }

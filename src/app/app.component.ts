@@ -25,6 +25,7 @@ const config = {
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  selectedLanguage = "";
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen, private navCtrl: NavController,
@@ -37,8 +38,10 @@ export class AppComponent {
     else {
       this.router.navigate(['']);
     }
+    this.translate.addLangs(['en', 'jst']);
     this.translate.setDefaultLang('en');
     this.translate.use('en');
+    this.selectedLanguage = localStorage.get('selectedLanguage');
     if (this.platform.is('cordova')) {
       console.log("I am an cordova Device");
     }
@@ -46,6 +49,7 @@ export class AppComponent {
       console.log("I am an Browser");
     }
     this.initializeApp();
+    this.changeLanguage(this.selectedLanguage);
     firebase.initializeApp(config);
   }
 
@@ -76,6 +80,16 @@ export class AppComponent {
       //   // backend.registerToken(token);
       // });
     });
+  }
+  changeLanguage(language) {
+  console.log(language);
+    if (language =={}) {
+      this.translate.setDefaultLang('en');
+      this.translate.use('en');
+    } else {
+      this.translate.setDefaultLang(language);
+      this.translate.use(language);
+    }
   }
   // subscribeToTopic() {
   //   this.fcm.subscribeToTopic('enappd');
