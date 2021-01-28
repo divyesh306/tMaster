@@ -33,7 +33,7 @@ export class MessagePage implements OnInit {
     this.loginUser = this.localStorage.get('userDetail');
     this.s3Url = this.ConfigService.getS3();
     const body = {
-      name: 'room_list(id:"' + this.loginUser.id + '"){sender_id receiver_id room_id room_key receiver{nick_name picture} sender{nick_name picture}}'
+      name: 'room_list(id:"' + this.loginUser.id + '"){sender_id receiver_id room_id room_key receiver{nick_name picture} sender{nick_name picture} type}'
     }
     this.loading.present();
     this.userService.closeQuery(body).subscribe(result => {
@@ -77,7 +77,8 @@ export class MessagePage implements OnInit {
         key: key.room_key,
         nickname: this.data.nickname,
         chatUser: key.receiver.nick_name == this.data.nickname ? JSON.stringify(key.sender) : JSON.stringify(key.receiver),
-        chatUser_id: key.receiver.nick_name == this.data.nickname ? key.sender_id : key.receiver_id
+        chatUser_id: key.receiver.nick_name == this.data.nickname ? key.sender_id : key.receiver_id,
+        userType:key.type
       }
     };
     this.router.navigate(['/chat-window'], navigationExtras);

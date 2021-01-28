@@ -30,6 +30,7 @@ export class ChatWindowPage implements OnInit {
   fileOption = false;
   chatUser: String;
   chatUser_id: string;
+  userType: string;
 
   constructor(public router: Router,
     public popoverController: PopoverController,
@@ -54,13 +55,31 @@ export class ChatWindowPage implements OnInit {
         this.nickname = params.nickname;
         this.chatUser = JSON.parse(params.chatUser);
         this.chatUser_id = params.chatUser_id;
+        this.userType = params.userType;
       }
     });
+    console.log("Type Params : ", this.userType);
     this.MessageData.type = 'message';
     this.MessageData.nickname = this.nickname;
     firebase.database().ref('chatroom/' + this.roomkey + '/chats').on('value', resp => {
       this.chats = [];
       this.chats = snapshotToArray(resp);
+      if (this.chats) {
+        if (!this.userType || this.userType == "know") {
+          let nickname, otherUser;
+          console.log("Chats : ", this.chats);
+          for (var i = 0; i < this.chats.length; i++) {
+            console.log("User Name : ", this.chats[i].nickname);
+            if (this.chats[i].user == this.nickname)
+              nickname = this.chats[i].user;
+            else otherUser = this.chats[i].user;
+          }
+          console.log("Nickname : " + nickname + " Other User : " + otherUser);
+          if (nickname && otherUser) {
+            this.addFavorite('friend')
+          }
+        }
+      }
     });
   }
 
@@ -212,11 +231,11 @@ export class ChatWindowPage implements OnInit {
     return await popover.present();
   }
 
-  addFavorite() {
+  addFavorite(type) {
     const mutation = {
       name: 'add_to_favorite_user',
       inputtype: 'AddFavoriteUserInputType',
-      data: { favorite_user: this.chatUser_id }
+      data: { favorite_user: this.chatUser_id, type: type }
     }
     this.loading.present();
     this.userService.CloseApi(mutation).subscribe(result => {
@@ -301,7 +320,7 @@ export class ChatWindowPage implements OnInit {
       buttons: [{
         text: 'Add favorite',
         handler: () => {
-          this.addFavorite();
+          this.addFavorite("favorite");
         }
       }, {
         text: 'Release',

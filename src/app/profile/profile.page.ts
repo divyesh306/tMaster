@@ -164,7 +164,18 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['tabs/video-detail/' + this.userDetail.id]);
   }
   logout() {
-    this.localstorage.clear();
-    this.router.navigate(['verify-number']);
+    this.loading.present();
+    const body = {
+      name: 'logout'
+    }
+    this.userService.closeQuery(body).subscribe(result => {
+      this.loading.dismiss();
+      console.log("Block User : ", result['data'].logout);
+      this.localstorage.clear();
+      this.router.navigate(['verify-number']);
+    }, err => {
+      this.loading.dismiss();
+      this.configService.sendToast('danger', "Something Went Wrong : " + err, 'bottom');
+    })
   }
 }

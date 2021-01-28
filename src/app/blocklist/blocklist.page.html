@@ -19,7 +19,7 @@
         <h5 class="ion-no-margin">{{blockusers.blocked_user.nick_name}}</h5>
       </ion-col>
       <ion-col size="4" class="p0">        
-        <ion-button class="green_button" (click)="removeUserBlocked(blockusers)">Release</ion-button>
+        <ion-button class="green_button" (click)="removeUserBlocked(blockusers.blocked_user_id)">Release</ion-button>
       </ion-col>
     </ion-row>
   </div>
