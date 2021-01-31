@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { configService } from '../Service/config.service';
@@ -14,23 +14,45 @@ import { LoadingService } from '../Service/loading.service';
   styleUrls: ['./video-detail.page.scss'],
 })
 export class VideoDetailPage implements OnInit {
-
+  // @Input() video:string = "";
   userDetail;
   s3Url;
-  video;
-  userData
+  video: HTMLMediaElement;
+  userData;
+  usersList = [];
+  currentUserIndex: number;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private userService: userService, private loading: LoadingService,
-    private localStorage: LocalstorageService, private configService: configService, private chatService: chats, private navCtrl: NavController) {
+    private localStorage: LocalstorageService, private configService: configService, private chatService: chats, private navCtrl: NavController, public elRef: ElementRef,) {
 
     this.activatedRoute.params.subscribe(params => {
       // this.userId.type = params['userId'];
     })
     this.s3Url = this.configService.getS3();
     this.userDetail = this.localStorage.get('selectedUser');
+
+    this.usersList = this.localStorage.get('categoryUser');
     this.userData = this.localStorage.get('userDetail'); // User Detail
-    this.video = this.s3Url + this.userData.video;
+    this.video = this.s3Url + this.userDetail.video;
+  }
+  onSwipeLeft($event) {
+    this.currentUserIndex = this.usersList.findIndex(x => x.id == this.userDetail.id);
+    console.log(this.currentUserIndex);
+    if (this.currentUserIndex != 0 && this.currentUserIndex < this.usersList.length) {
+      this.userDetail = this.usersList[this.currentUserIndex - 1];
+      this.video = this.elRef.nativeElement.querySelector('#myVideo');
+      this.video.src = this.s3Url + this.userDetail.video;
+    }
   }
 
+  onSwipeRight($event) {
+    this.currentUserIndex = this.usersList.findIndex(x => x.id == this.userDetail.id);
+    console.log(this.currentUserIndex);
+    if (this.currentUserIndex + 1 < this.usersList.length) {
+      this.userDetail = this.usersList[this.currentUserIndex + 1];
+      this.video = this.elRef.nativeElement.querySelector('#myVideo');
+      this.video.src = this.s3Url + this.userDetail.video;
+    }
+  }
   calculateAge(bdate) {
     var dobDate = new Date(bdate);
     const todayDate = new Date();

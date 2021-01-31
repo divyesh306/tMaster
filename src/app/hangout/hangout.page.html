@@ -65,7 +65,7 @@
         </div>
       </div>
       <ion-row class="horizontal-scroll">
-        <ion-col size="3.2" class="video-box" *ngFor="let userdetail of user.data" (click)="gotoProfile(userdetail)">
+        <ion-col size="3.2" class="video-box" *ngFor="let userdetail of user.data" (click)="gotoProfile(userdetail,user.data)">
           <img src="{{s3Url}}{{userdetail.picture}}" alt="">
           <ion-label class="minute-rating">{{userdetail.gender == 'male' ? 'M' : 'F'}}/{{userdetail.rating}}</ion-label>
           <div class="name-age row">

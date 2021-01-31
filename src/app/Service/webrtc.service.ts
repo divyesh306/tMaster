@@ -26,7 +26,8 @@ export class WebrtcService {
 
   getMedia() {
     navigator.getUserMedia({ audio: true, video: true }, (stream) => {
-      this.handleSuccess(stream);
+       this.myStream = stream;
+    this.myEl.srcObject = stream;
     }, (error) => {
       this.handleError(error);
     });

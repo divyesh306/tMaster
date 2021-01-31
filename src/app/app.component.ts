@@ -84,10 +84,11 @@ export class AppComponent {
     });
   }
   changeLanguage(language) {
-  console.log(language);
-    if (language =={}) {
+    console.log(language);
+    if (language == {}) {
       this.translate.setDefaultLang('en');
       this.translate.use('en');
+      this.localStorage.set('selectedLanguage', 'en');
     } else {
       this.translate.setDefaultLang(language);
       this.translate.use(language);
