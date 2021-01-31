@@ -82,9 +82,10 @@ export class HangoutPage implements OnInit {
     this.loadingservice.dismiss();
     return res;
   };
-  gotoProfile(selectuser) {
+  gotoProfile(selectuser,userList) {
     this.router.navigate(['tabs/video-detail/' + selectuser.id]);
     this.localStorage.set('selectedUser', selectuser);
+    this.localStorage.set('categoryUser', userList);
   }
   toggleMenu() {
     this.menuOpen = !this.menuOpen;

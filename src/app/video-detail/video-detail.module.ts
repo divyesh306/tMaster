@@ -8,6 +8,7 @@ import { VideoDetailPageRoutingModule } from './video-detail-routing.module';
 
 import { VideoDetailPage } from './video-detail.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { SwipeModule } from '../swipe/swipe.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     VideoDetailPageRoutingModule,
-    TranslateModule.forChild()
+    TranslateModule.forChild(),
+    SwipeModule
   ],
   declarations: [VideoDetailPage]
 })

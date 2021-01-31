@@ -10,7 +10,7 @@ import { LocalstorageService } from '../Service/localstorage.service';
 })
 export class WelcomePage implements OnInit {
 
-  constructor(private router: Router, private localStorage: LocalstorageService,private translate:TranslateService) {
+  constructor(private router: Router, private localStorage: LocalstorageService) {
   
     const userdetail = this.localStorage.get("userDetail");
   }
