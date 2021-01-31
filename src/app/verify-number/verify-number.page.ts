@@ -1241,7 +1241,6 @@ export class VerifyNumberPage implements OnInit {
   }
   
   optionSelected(ev) {
-    console.log(ev.target.value);
     this.selectedCountry = ev.target.value.name;
     this.countrycode = ev.target.value.dial_code;
   }

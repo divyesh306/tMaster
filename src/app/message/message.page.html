@@ -19,27 +19,27 @@
   </div>
 
   <ion-row class="tabs">
-    <ion-button fill="clear" [ngClass]="activeTab=='Know' ? 'active_tab' : 'tab'" (click)="selectTab('Know')">
+    <ion-button fill="clear" [ngClass]="activeTab=='know' ? 'active_tab' : 'tab'" (click)="selectTab(roomlist,'know')">
       {{'message.know' | translate}}
     </ion-button>
-    <ion-button fill="clear" [ngClass]="activeTab=='Friend' ? 'active_tab' : 'tab'" (click)="selectTab('Friend')">
+    <ion-button fill="clear" [ngClass]="activeTab=='friend' ? 'active_tab' : 'tab'" (click)="selectTab(roomlist,'friend')">
       {{'message.friend' | translate}}
     </ion-button>
-    <ion-button fill="clear" [ngClass]="activeTab=='Favorite' ? 'active_tab' : 'tab'" (click)="selectTab('Favorite')">
+    <ion-button fill="clear" [ngClass]="activeTab=='favorite' ? 'active_tab' : 'tab'" (click)="selectTab(roomlist,'favorite')">
       {{'message.favorite' | translate}}
     </ion-button>
   </ion-row>
 
   <ion-list>
-    <ion-row (click)="openChatWindow(room.data)" *ngFor="let room of rooms">
+    <ion-row (click)="openChatWindow(room)" *ngFor="let room of rooms">
       <ion-col size="2" class="p0">
         <img
-          src="{{s3Url}}{{room.data.receiver.nick_name == loginUser.nick_name ? room.data.sender.picture : room.data.receiver.picture }}"
+          src="{{s3Url}}{{room.receiver.nick_name == loginUser.nick_name ? room.sender.picture : room.receiver.picture }}"
           class="user_profilepic" alt="">
       </ion-col>
       <ion-col col="5.5">
-        <h5 class="ion-no-margin">{{room.data.receiver.nick_name == loginUser.nick_name ? room.data.sender.nick_name :
-          room.data.receiver.nick_name }}</h5>
+        <h5 class="ion-no-margin">{{room.receiver.nick_name == loginUser.nick_name ? room.sender.nick_name :
+          room.receiver.nick_name }}</h5>
         <!-- <p class="grey_text ion-no-margin"><small>Nice to meet you!</small></p> -->
       </ion-col>
       <ion-col size="2.5" class="p0">

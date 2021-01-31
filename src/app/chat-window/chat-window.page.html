@@ -41,6 +41,9 @@
               <div class="chat-msg" *ngIf="chat.type== 'message'">
                 <p>{{chat.message}}</p>
               </div>
+              <div class="chat-msg" *ngIf="chat.type== 'SendCoin'">
+                <p>{{chat.message}} Coins</p>
+              </div>
               <div class="chat-msg" *ngIf="chat.type == 'Image'">
                 <img src="{{chat.message}}" height="100px" width="100px" (click)="openFile(chat.message)" alt="File">
               </div>
@@ -65,6 +68,10 @@
               </div>
               <div class="white-chat-msg" *ngIf="chat.type == 'message'  || chat.type == 'join'">
                 <p>{{chat.message}}</p>
+              </div>
+              
+              <div class="white-chat-msg" *ngIf="chat.type== 'SendCoin'">
+                <p>{{chat.message}} Coins</p>
               </div>
               <div class="white-chat-msg" *ngIf="chat.type == 'Image'">
                 <img src="{{chat.message}}" height="100px" width="100px" (click)="openFile(chat.message)" alt="File">
@@ -119,37 +126,37 @@
     <ion-icon name="close-outline" class="row back-arrow" (click)=closeCoinModal()></ion-icon>
     <ion-row>
       <ion-col class="column">
-        <img src="../../assets/images/1.svg" alt="">
+        <img src="../../assets/images/1.svg" alt="" (click)="sendCoins(50)">
         <p><small>50 {{'common.coins' | translate}}</small></p>
       </ion-col>
       <ion-col class="column">
-        <img src="../../assets/images/2.svg" alt="">
+        <img src="../../assets/images/2.svg" alt="" (click)="sendCoins(100)">
         <p><small>100 {{'common.coins' | translate}}</small></p>
       </ion-col>
       <ion-col class="column">
-        <img src="../../assets/images/3.svg" alt="">
+        <img src="../../assets/images/3.svg" alt="" (click)="sendCoins(300)">
         <p><small>300 {{'common.coins' | translate}}</small></p>
       </ion-col>
       <ion-col class="column">
-        <img src="../../assets/images/4.svg" alt="">
+        <img src="../../assets/images/4.svg" alt="" (click)="sendCoins(500)">
         <p><small>500 {{'common.coins' | translate}}</small></p>
       </ion-col>
     </ion-row>
     <ion-row class="coin-padding">
       <ion-col class="column">
-        <img src="../../assets/images/5.svg" alt="">
+        <img src="../../assets/images/5.svg" alt="" (click)="sendCoins(1000)">
         <p><small>1,000 {{'common.coins' | translate}}</small></p>
       </ion-col>
       <ion-col class="column">
-        <img src="../../assets/images/6.svg" alt="">
+        <img src="../../assets/images/6.svg" alt="" (click)="sendCoins(3000)">
         <p><small>3,000 {{'common.coins' | translate}}</small></p>
       </ion-col>
       <ion-col class="column">
-        <img src="../../assets/images/7.svg" alt="">
+        <img src="../../assets/images/7.svg" alt="" (click)="sendCoins(5000)">
         <p><small>5,000 {{'common.coins' | translate}}</small></p>
       </ion-col>
       <ion-col class="column">
-        <img src="../../assets/images/8.svg" alt="">
+        <img src="../../assets/images/8.svg" alt="" (click)="sendCoins(10000)">
         <p><small>10.000 {{'common.coins' | translate}}</small></p>
       </ion-col>
     </ion-row>

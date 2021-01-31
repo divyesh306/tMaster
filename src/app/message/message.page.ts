@@ -13,7 +13,7 @@ import { userService } from '../Service/user.service';
   styleUrls: ['./message.page.scss'],
 })
 export class MessagePage implements OnInit {
-  activeTab = 'Know';
+  activeTab = 'know';
   openSelectOption = false;
   sortOption = 'Sort by popular';
   addNewUser = false;
@@ -38,8 +38,8 @@ export class MessagePage implements OnInit {
     this.loading.present();
     this.userService.closeQuery(body).subscribe(result => {
       this.loading.dismiss();
-      this.rooms = this.splitKeyValue(result['data'].room_list);
-      console.log("Rooms : ", this.rooms);
+      this.roomlist = result['data'].room_list;//this.splitKeyValue(result['data'].room_list);
+      this.rooms = this.roomlist.filter(element => element.type == this.activeTab || element.type == "" || element.type == null);
     }, err => {
       this.loading.dismiss();
       this.ConfigService.sendToast('danger', "Something Went Wrong : " + err, 'bottom');
@@ -59,11 +59,17 @@ export class MessagePage implements OnInit {
     };
     return res;
   };
-  ngOnInit() {
-  }
-  selectTab(tab) {
+
+  ngOnInit() {}
+
+  selectTab(roomArray, tab) {
     this.activeTab = tab;
+    if (tab === 'know')
+      this.rooms = roomArray.filter(element => element.type == tab || element.type == '' || element.type == null);
+    else
+      this.rooms = roomArray.filter(element => element.type == tab);
   }
+
   optionSelected(option) {
     this.sortOption = option;
     this.openSelectOption = false;
@@ -78,7 +84,7 @@ export class MessagePage implements OnInit {
         nickname: this.data.nickname,
         chatUser: key.receiver.nick_name == this.data.nickname ? JSON.stringify(key.sender) : JSON.stringify(key.receiver),
         chatUser_id: key.receiver.nick_name == this.data.nickname ? key.sender_id : key.receiver_id,
-        userType:key.type
+        userType: key.type
       }
     };
     this.router.navigate(['/chat-window'], navigationExtras);

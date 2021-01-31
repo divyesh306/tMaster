@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { InAppPurchase2 } from '@ionic-native/in-app-purchase-2/ngx';
 // import { FCM } from '@ionic-native/fcm/ngx';
 
 const config = {
@@ -28,7 +29,8 @@ export class AppComponent {
   selectedLanguage = "";
   constructor(
     private platform: Platform,
-    private splashScreen: SplashScreen, private navCtrl: NavController,
+    private splashScreen: SplashScreen, private navCtrl: NavController,,
+    private inAppPurchase: InAppPurchase2,
     private statusBar: StatusBar, private router: Router, private localStorage: LocalstorageService,
     private translate: TranslateService, private androidPermissions: AndroidPermissions, private file: File
   ) {

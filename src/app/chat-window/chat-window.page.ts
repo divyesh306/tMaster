@@ -83,6 +83,32 @@ export class ChatWindowPage implements OnInit {
     });
   }
 
+  sendCoins(coins) {
+    const mutation = {
+      name: 'coin_management',
+      inputtype: 'CoinManagementInputType',
+      data: { user_id: this.chatUser_id, coin: coins, type: "message" }
+    }
+    this.loading.present();
+    this.userService.CloseApi(mutation).subscribe(result => {
+      const res = result['data'].coin_management;
+      this.loading.dismiss();
+      if (!res.hasError) {
+        const message = {
+          type: 'SendCoin',
+          nickname: this.nickname,
+          message: coins.toString(),
+        }
+        console.log("message Params : ",message);
+        this.sendMessage(message);
+      } else {
+
+      }
+    }, err => {
+      this.loading.dismiss();
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
+    });
+  }
   sendMessage(data) {
     if (!data.message.trim().length) {
       //Empty String Not Send On message

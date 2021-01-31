@@ -19,6 +19,7 @@ import { File } from '@ionic-native/file/ngx';
 import { Chooser } from '@ionic-native/chooser/ngx';
 import { FileTransfer } from "@ionic-native/file-transfer/ngx";
 import { FileOpener } from "@ionic-native/file-opener/ngx";
+import { InAppPurchase2 } from '@ionic-native/in-app-purchase-2/ngx';
 
 import { S3Controller } from './Service/upload.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -54,6 +55,7 @@ export function createTranslateLoader(http: HttpClient) {
     File,
     FileTransfer,
     FileOpener,
+    InAppPurchase2
     // FCM
   ],
   bootstrap: [AppComponent],
