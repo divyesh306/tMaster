@@ -22,7 +22,7 @@ export class BlocklistPage implements OnInit {
   getBloackList() {
     this.loading.present();
     const body = {
-      name: 'blocked_users{id updated_at status blocked_user{nick_name picture} user{nick_name picture}}'
+      name: 'blocked_users{id updated_at status blocked_user_id blocked_user{nick_name picture} user{nick_name picture}}'
     }
     this.userService.closeQuery(body).subscribe(result => {
       this.loading.dismiss();
@@ -38,7 +38,7 @@ export class BlocklistPage implements OnInit {
     const mutation = {
       name: 'remove_blocked_user',
       inputtype: 'RemoveBlockedUserInputType',
-      data: { blocked_user_id: userId}
+      data: { blocked_user_id: userId }
     }
     this.loading.present();
     this.userService.CloseApi(mutation).subscribe(result => {
@@ -46,6 +46,7 @@ export class BlocklistPage implements OnInit {
       this.loading.dismiss();
       if (!res.hasError) {
         this.ConfigService.sendToast('success', 'User Remove From Blocked', 'bottom');
+        this.getBloackList();
       } else {
 
       }

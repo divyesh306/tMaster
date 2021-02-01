@@ -10,7 +10,12 @@ export class LoadingService {
     }
     async present() {
         this.loader = await this.loadingCtrl.create({
+<<<<<<< HEAD
             message: 'Please wait...'
+=======
+            message: 'Please wait...',
+            duration: 10000
+>>>>>>> 9cdcaf15267104939cae72ee3524fb164e240105
         });
         await this.loader.present();
     }
