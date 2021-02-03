@@ -1246,41 +1246,8 @@ export class VerifyNumberPage implements OnInit {
   }
   selectOption() {
     this.countryRef.open();
-    // this.selectBoxOpen = !this.selectBoxOpen;
-    // let options: PickerOptions = {
-    //   buttons: [
-    //     {
-    //       text: "Cancel",
-    //       role: 'cancel'
-    //     },
-    //     {
-    //       text: 'Ok',
-    //       handler: (data: any) => {
-    //         this.temp = [] = Object.values(data);
-    //         this.selectedCountry = this.temp[0].text;
-    //         this.countrycode = this.temp[0].value;
-    //         this.selectBoxOpen = false;
-    //       }
-    //     }
-    //   ],
-    //   cssClass:'select_country',
-    //   columns: [{
-    //     name: 'Countries',
-    //     options: this.getColumnOptions()
-    //   }]
-    // };
-
-    // let picker = await this.pickerController.create(options);
-    // picker.present()
   }
 
-  // getColumnOptions() {
-  //   let options = [];
-  //   this.countries.forEach(x => {
-  //     options.push({ text: x.name, value: x.dial_code });
-  //   });
-  //   return options;
-  // }
   next() {
     if (!this.countrycode || !this.phonenumber) {
       this.configService.sendToast("danger", "Please enter a valid Phone Number && country code", "top");

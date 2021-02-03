@@ -40,6 +40,12 @@ ion-input {
     position: absolute;
     bottom: 29px;
     right: 15px;
+    padding:3px;
+    margin-bottom: 5px;
+}
+
+.counsler_minut_rating{
+    background:deeppink  !important;
 }
 .name-age{
     font-size: 9px;
@@ -47,11 +53,9 @@ ion-input {
     position: absolute;
     bottom: 4px;
     display: flex;
+    margin: 5px;
     justify-content: space-between;
-    // right: 0px;
-    p{
-        margin-right: 20px;
-    }
+
 }
 .menu-icon {
     margin: 0px -14px 0 8px;

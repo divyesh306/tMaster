@@ -16,6 +16,12 @@ export class HangoutPage implements OnInit {
   search_term = '';
   gender;
   user_type = '';
+  sorting = {
+    male: false,
+    female: false,
+    client: false,
+    counslor: false,
+  }
   user_list = [];
   s3Url;
   constructor(private router: Router, private localStorage: LocalstorageService,
@@ -35,21 +41,21 @@ export class HangoutPage implements OnInit {
   }
 
   selectGender(gender) {
-    if (!this.gender || this.gender === undefined || this.gender == '')
-      this.gender = gender;
-    else
-      this.gender = (gender == this.gender ? '' : (this.gender != gender ? '' : gender));
+    if (gender == 'male') this.sorting.male ? this.sorting.male = false : this.sorting.male = true;
+    if (gender == 'female') this.sorting.female ? this.sorting.female = false : this.sorting.female = true;
 
-    console.log("Gemder : ", this.gender);
+    if (this.sorting.male && this.sorting.female || !this.sorting.male && !this.sorting.female) this.gender = '';
+    else if (this.sorting.male && !this.sorting.female) this.gender = 'male';
+    else if (!this.sorting.male && this.sorting.female) this.gender = 'female';
   }
 
   selectType(type) {
-    if (!this.user_type || this.user_type === undefined || this.user_type == '')
-      this.user_type = type;
-    else
-      this.user_type = (type == this.user_type ? '' : (this.user_type != type ? '' : type));
+    if (type == 'user') this.sorting.client ? this.sorting.client = false : this.sorting.client = true;
+    if (type == 'counselor') this.sorting.counslor ? this.sorting.counslor = false : this.sorting.counslor = true;
 
-    console.log("Type : ", this.user_type);
+    if (this.sorting.client && this.sorting.counslor || !this.sorting.client && !this.sorting.counslor) this.user_type = '';
+    else if (this.sorting.client && !this.sorting.counslor) this.user_type = 'user';
+    else if (!this.sorting.client && this.sorting.counslor) this.user_type = 'counselor';
   }
 
   getUsers(search_terms, gender, type) {
@@ -82,7 +88,7 @@ export class HangoutPage implements OnInit {
     this.loadingservice.dismiss();
     return res;
   };
-  gotoProfile(selectuser,userList) {
+  gotoProfile(selectuser, userList) {
     this.router.navigate(['tabs/video-detail/' + selectuser.id]);
     this.localStorage.set('selectedUser', selectuser);
     this.localStorage.set('categoryUser', userList);
@@ -101,10 +107,10 @@ export class HangoutPage implements OnInit {
     this.search_term = value;
     // this.searchModal = true;
   }
-  categoryDetail(userList) {
+  categoryDetail(userList,userassets) {
     this.localStorage.set('categoryUser', userList);
     if (this.localStorage.get('categoryUser'))
-      this.router.navigate(['tabs/letstalknow']);
+      this.router.navigate(['tabs/letstalknow/'+userassets]);
   }
   calculateAge(bdate) {
     const dobDate = new Date(bdate);

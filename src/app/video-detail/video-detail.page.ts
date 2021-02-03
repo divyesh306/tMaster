@@ -21,8 +21,15 @@ export class VideoDetailPage implements OnInit {
   userData;
   usersList = [];
   currentUserIndex: number;
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private userService: userService, private loading: LoadingService,
-    private localStorage: LocalstorageService, private configService: configService, private chatService: chats, private navCtrl: NavController, public elRef: ElementRef,) {
+  constructor(private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private userService: userService,
+    private loading: LoadingService,
+    private localStorage: LocalstorageService,
+    private configService: configService,
+    private chatService: chats,
+    private navCtrl: NavController,
+    public elRef: ElementRef,) {
 
     this.activatedRoute.params.subscribe(params => {
       // this.userId.type = params['userId'];
@@ -34,6 +41,26 @@ export class VideoDetailPage implements OnInit {
     this.userData = this.localStorage.get('userDetail'); // User Detail
     this.video = this.s3Url + this.userDetail.video;
   }
+
+  addFavorite() {
+    const mutation = {
+      name: 'add_to_favorite_user',
+      inputtype: 'AddFavoriteUserInputType',
+      data: { favorite_user: this.userDetail._id, type: 'favorite' },
+    }
+    this.loading.present();
+    this.userService.CloseApi(mutation).subscribe(result => {
+      const res = result['data'].add_to_favorite_user;
+      this.loading.dismiss();
+      if (!res.hasError) {
+        this.configService.sendToast('success', 'This User Add As a Favorite', 'bottom');
+      } else { }
+    }, err => {
+      this.loading.dismiss();
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
+    });
+  }
+
   onSwipeLeft($event) {
     this.currentUserIndex = this.usersList.findIndex(x => x.id == this.userDetail.id);
     console.log(this.currentUserIndex);

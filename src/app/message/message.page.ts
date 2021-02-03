@@ -25,20 +25,31 @@ export class MessagePage implements OnInit {
   s3Url;
   ref = firebase.database().ref('chatroom/');
 
-  constructor(public router: Router, private localStorage: LocalstorageService, private ConfigService: configService, private userService: userService, private chatService: chats, private loading: LoadingService) {
-
-  }
+  constructor(public router: Router, 
+    private localStorage: LocalstorageService, 
+    private ConfigService: configService, 
+    private userService: userService, 
+    private chatService: chats, 
+    private loading: LoadingService) { }
 
   ionViewDidEnter() {
     this.loginUser = this.localStorage.get('userDetail');
     this.s3Url = this.ConfigService.getS3();
     const body = {
-      name: 'room_list(id:"' + this.loginUser.id + '"){sender_id receiver_id room_id room_key receiver{nick_name picture} sender{nick_name picture} type}'
+      name: 'room_list(id:"' + this.loginUser.id + '"){sender_id receiver_id room_id room_key created_at receiver{nick_name picture coins} sender{nick_name picture coins} type}'
     }
     this.loading.present();
+    this.activeTab = 'know'
     this.userService.closeQuery(body).subscribe(result => {
       this.loading.dismiss();
       this.roomlist = result['data'].room_list;//this.splitKeyValue(result['data'].room_list);
+      this.roomlist.forEach(element => {
+        element.chatuserdata = {};
+        if (element.receiver.nick_name == this.loginUser.nick_name)
+          element.chatuserdata = element.sender;
+        else
+          element.chatuserdata = element.receiver;
+      });
       this.rooms = this.roomlist.filter(element => element.type == this.activeTab || element.type == "" || element.type == null);
     }, err => {
       this.loading.dismiss();
@@ -60,7 +71,7 @@ export class MessagePage implements OnInit {
     return res;
   };
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   selectTab(roomArray, tab) {
     this.activeTab = tab;
@@ -70,13 +81,28 @@ export class MessagePage implements OnInit {
       this.rooms = roomArray.filter(element => element.type == tab);
   }
 
-  optionSelected(option) {
+  optionSelected(option, roomlist, filed) {
     this.sortOption = option;
+    this.rooms = roomlist.sort((a, b) => 0 - (new Date(a[filed]) > new Date(b[filed]) ? -1 : 1));
     this.openSelectOption = false;
   }
+
+  sortByLowtoHigh(option, roomlist) {
+    this.sortOption = option;
+    this.rooms = roomlist.sort((a, b) => 0 - (a.chatuserdata.coins > b.chatuserdata.coins ? -1 : 1));
+    this.openSelectOption = false;
+  }
+
+  sortByHightoLow(option, roomlist) {
+    this.sortOption = option;
+    this.rooms = roomlist.sort((a, b) => 0 - (b.chatuserdata.coins > a.chatuserdata.coins ? -1 : 1));
+    this.openSelectOption = false;
+  }
+
   selectOption() {
     this.openSelectOption = !this.openSelectOption;
   }
+
   openChatWindow(key) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
@@ -89,11 +115,11 @@ export class MessagePage implements OnInit {
     };
     this.router.navigate(['/chat-window'], navigationExtras);
   }
+
   addNewChat() {
     this.addNewUser = true;
   }
-  enterNickname() {
-  }
+
   addName() {
     this.addNewUser = false;
     let newData = this.ref.push();
@@ -102,6 +128,7 @@ export class MessagePage implements OnInit {
     });
   }
 }
+
 export const snapshotToArray = snapshot => {
   let returnArr = [];
 

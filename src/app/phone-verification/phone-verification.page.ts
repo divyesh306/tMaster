@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
-// import { Directive, Renderer2, ElementRef } from '@angular/core';
 import { configService } from '../Service/config.service';
 import { SmsRetriever } from '@ionic-native/sms-retriever/ngx'
 import { LoadingService } from '../Service/loading.service';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-phone-verification',
@@ -13,18 +14,28 @@ import { LoadingService } from '../Service/loading.service';
   styleUrls: ['./phone-verification.page.scss'],
 })
 export class PhoneVerificationPage implements OnInit {
+  @ViewChild('otp1') myinput;
+  private focused: boolean;
   wrongCode = false;
   verificationCode;
   otp = "";
   public smsTextmessage: string = '';
   public appHashString: string = '';
-  constructor(private router: Router, private userService: userService, private loading: LoadingService,
-    private localStorage: LocalstorageService, private configService: configService, private smsRetriever: SmsRetriever) {
+  constructor(private router: Router,
+    private userService: userService,
+    private loading: LoadingService,
+    private localStorage: LocalstorageService,
+    private configService: configService,
+    private smsRetriever: SmsRetriever,
+    private keyboard: Keyboard,
+    public navCtrl: NavController,
+    public elRef: ElementRef) {
     this.verificationCode = {}
   }
 
   ngOnInit() {
-    this.getHashCode()
+    this.getHashCode();
+    this.focused = true;
   }
 
   getHashCode() {
@@ -36,7 +47,7 @@ export class PhoneVerificationPage implements OnInit {
   }
 
   inputChnage(event, nextInput, prvInput) {
-    if (event.target.value != null) {
+    if (!event.target.value || event.target.value.trim().length === 0 || event.target.value != null) {
       if (event.keyCode == 8) {
         prvInput.setFocus();
         prvInput.value = null;
@@ -45,6 +56,11 @@ export class PhoneVerificationPage implements OnInit {
         nextInput.setFocus();
       }
     }
+  }
+
+  ionViewDidEnter() {
+    this.myinput.setFocus();
+    this.keyboard.show()
   }
 
   verfyOtp(code) {
@@ -101,7 +117,7 @@ export class PhoneVerificationPage implements OnInit {
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
-  
+
   confirm(otp) {
     if (!this.verificationCode.o1 || !this.verificationCode.o2 || !this.verificationCode.o3 ||
       !this.verificationCode.o4 || !this.verificationCode.o5 || !this.verificationCode.o6) {

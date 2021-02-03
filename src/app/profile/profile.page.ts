@@ -27,14 +27,19 @@ export class ProfilePage implements OnInit {
   userDetail;
   s3Url;
   video;
-  constructor(private localstorage: LocalstorageService, private userService: userService, private file: File,
-    public formBuilder: FormBuilder, private uploadservice: S3Controller, private mediaCapture: MediaCapture,
-    private configService: configService, private videoEditor: VideoEditor, private router: Router,
-    public videoPlayer: VideoPlayer, private loading: LoadingService) {
-    // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-    // "http://clips.vorwaerts-gmbh.de/VfE_html5.mp4"
+  constructor(private localstorage: LocalstorageService,
+    private userService: userService,
+    private file: File,
+    public formBuilder: FormBuilder,
+    private uploadservice: S3Controller,
+    private mediaCapture: MediaCapture,
+    private configService: configService,
+    private videoEditor: VideoEditor,
+    private router: Router,
+    public videoPlayer: VideoPlayer,
+    private loading: LoadingService) {
     this.s3Url = this.configService.getS3(); // amazone bucket Url
-    this.userDetail = this.localstorage.get('userDetail'); // User Detail
+    this.userDetail = this.localstorage.get('userDetail');
     this.video = this.s3Url + this.userDetail.video;
     this.registerForm = this.formBuilder.group({
       nick_name: [this.userDetail.nick_name, [Validators.required, Validators.minLength(5)]],
@@ -50,6 +55,11 @@ export class ProfilePage implements OnInit {
   get errorControl() {
     return this.registerForm.controls;
   }
+
+  ionViewDidEnter() {
+    this.userDetail = this.localstorage.get('userDetail'); // User Detail    
+  }
+
   next() {
     this.isSubmitted = true;
     if (!this.registerForm.valid) {
@@ -151,7 +161,7 @@ export class ProfilePage implements OnInit {
               this.userDetail.picture = url.Key;
               this.profileImg = this.configService.getS3() + url.Key;
             });
-          }).catch(err => {            
+          }).catch(err => {
             this.loading.dismiss();
             console.log('readAsDataURL failed: ( ' + err.code + ' ) ' + err.message);
           })

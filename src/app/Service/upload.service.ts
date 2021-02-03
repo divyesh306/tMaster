@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import S3 from 'aws-sdk/clients/s3';
 import { Observable, of } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { environment } from './enviroment';
 
 @Injectable()
 class FileUpload {
-    name: string;
-    url: string;
+    name: String;
+    url: String;
 
-    constructor(name: string, url: string) {
+    constructor(name: String, url: String) {
         this.name = name;
         this.url = url;
     }
@@ -16,14 +16,14 @@ class FileUpload {
 }
 export class S3Controller {
     FOLDER = 'Profilevideo/';
-    BUCKET = environment.S3.bucketName;
+    BUCKET = environment.bucketName;
 
     private static getS3Bucket(): any {
         return new S3(
             {
-                accessKeyId: environment.S3.accessKeyId,
-                secretAccessKey: environment.S3.secretAccessKey,
-                region: environment.S3.region
+                accessKeyId: environment.accessKeyId,
+                secretAccessKey: environment.secretAccessKey,
+                region: environment.region
             }
         );
     }
@@ -31,9 +31,9 @@ export class S3Controller {
     public uploadFile(videoFile, filename, callback) {
         const bucket = new S3(
             {
-                accessKeyId: environment.S3.accessKeyId,
-                secretAccessKey: environment.S3.secretAccessKey,
-                region: environment.S3.region
+                accessKeyId: environment.accessKeyId,
+                secretAccessKey: environment.secretAccessKey,
+                region: environment.region
             }
         );
         const params = {

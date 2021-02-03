@@ -11,21 +11,24 @@
   </ion-row>
 
   <div class="sort_option" *ngIf="openSelectOption">
-    <p class="white_text" (click)="optionSelected('Latest')"><small>{{'common.latest' | translate}}</small></p>
-    <p class="white_text ion-no-margin" (click)="optionSelected('Low to High')">
+    <p class="white_text" (click)="optionSelected('Latest',rooms,'created_at')"><small>{{'common.latest' |
+        translate}}</small></p>
+    <p class="white_text ion-no-margin" (click)="sortByLowtoHigh('Low to High',rooms)">
       <small>{{'common.lowToHigh' | translate}}</small>
     </p>
-    <p class="white_text" (click)="optionSelected('High to Low')"><small>{{'common.latest' | translate}}</small></p>
+    <p class="white_text" (click)="sortByHightoLow('High to Low',rooms)"><small>{{'common.highToLow' | translate}}</small></p>
   </div>
 
   <ion-row class="tabs">
     <ion-button fill="clear" [ngClass]="activeTab=='know' ? 'active_tab' : 'tab'" (click)="selectTab(roomlist,'know')">
       {{'message.know' | translate}}
     </ion-button>
-    <ion-button fill="clear" [ngClass]="activeTab=='friend' ? 'active_tab' : 'tab'" (click)="selectTab(roomlist,'friend')">
+    <ion-button fill="clear" [ngClass]="activeTab=='friend' ? 'active_tab' : 'tab'"
+      (click)="selectTab(roomlist,'friend')">
       {{'message.friend' | translate}}
     </ion-button>
-    <ion-button fill="clear" [ngClass]="activeTab=='favorite' ? 'active_tab' : 'tab'" (click)="selectTab(roomlist,'favorite')">
+    <ion-button fill="clear" [ngClass]="activeTab=='favorite' ? 'active_tab' : 'tab'"
+      (click)="selectTab(roomlist,'favorite')">
       {{'message.favorite' | translate}}
     </ion-button>
   </ion-row>
@@ -33,21 +36,18 @@
   <ion-list>
     <ion-row (click)="openChatWindow(room)" *ngFor="let room of rooms">
       <ion-col size="2" class="p0">
-        <img
-          src="{{s3Url}}{{room.receiver.nick_name == loginUser.nick_name ? room.sender.picture : room.receiver.picture }}"
-          class="user_profilepic" alt="">
+        <img src="{{s3Url}}{{room.chatuserdata.picture}}" class="user_profilepic" alt="">
       </ion-col>
       <ion-col col="5.5">
-        <h5 class="ion-no-margin">{{room.receiver.nick_name == loginUser.nick_name ? room.sender.nick_name :
-          room.receiver.nick_name }}</h5>
+        <h5 class="ion-no-margin">{{room.chatuserdata.nick_name}}</h5>
         <!-- <p class="grey_text ion-no-margin"><small>Nice to meet you!</small></p> -->
       </ion-col>
       <ion-col size="2.5" class="p0">
-        <p class="grey_text ion-text-right"><small>2019/02/11</small></p>
+        <p class="grey_text ion-text-right"><small>{{room.created_at | date : longdate}}</small></p>
       </ion-col>
       <ion-col size="2" class="p0">
         <img src="../../assets/images/coinafter.svg" alt="" class="margin-min">
-        <p class="p-margin"><small> 999</small></p>
+        <p class="p-margin"><small> {{room.chatuserdata.coins}}</small></p>
       </ion-col>
     </ion-row>
     <ion-item-divider></ion-item-divider>

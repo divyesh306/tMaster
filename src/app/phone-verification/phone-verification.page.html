@@ -6,7 +6,7 @@
     <div class="fs-11 grey_text m-30">{{'phoneVerification.smsVerification' | translate}}</div>
     <ion-row class="p-30 row">
       <ion-col>
-        <ion-input type="tel" #otp1 maxLength="1" class="p0" (keyup)="inputChnage($event,otp2,otp1)"
+        <ion-input type="tel" #otp1 maxLength="1" class="p0" (keyup)="inputChnage($event,otp2,otp1)" 
           [ngClass]="{'red_border' : wrongCode}" [(ngModel)]="verificationCode.o1"></ion-input>
       </ion-col>
       <ion-col>
@@ -33,7 +33,7 @@
     </ion-row>
 
     <ion-row class="ion-padding mt-10 buttons">
-      <ion-button class="grey_button" (click)="resend()">{{'phoneVerification.enterCode' | translate}}</ion-button>
+      <ion-button class="grey_button" (click)="resend()">{{'phoneVerification.resendCodeBtn' | translate}}</ion-button>
       <ion-button class="green_button" [ngClass]="{'red_button' : wrongCode}" (click)="confirm(verificationCode)">
         {{'common.confirmBtn' | translate}}</ion-button>
     </ion-row>

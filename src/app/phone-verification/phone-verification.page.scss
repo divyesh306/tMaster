@@ -20,7 +20,9 @@ ion-input {
 ion-col {
     padding: 0 !important;
 }
-
+.red_border{
+    border-color: red !important;
+}
 .buttons {
     display: flex;
     justify-content: space-evenly;

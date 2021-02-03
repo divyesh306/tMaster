@@ -1,6 +1,6 @@
 {
   "name": "tmaster",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
@@ -28,6 +28,7 @@
     "@ionic-native/file-transfer": "^5.30.0",
     "@ionic-native/http": "^5.30.0",
     "@ionic-native/in-app-purchase-2": "^5.31.1",
+    "@ionic-native/keyboard": "^5.31.1",
     "@ionic-native/media-capture": "^5.30.0",
     "@ionic-native/sms-retriever": "^5.30.0",
     "@ionic-native/splash-screen": "^5.0.0",
@@ -85,7 +86,7 @@
     "karma-jasmine": "~3.3.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
-    "rxjs": "^6.5.5",
+    "rxjs": "^6.6.3",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~3.9.5"

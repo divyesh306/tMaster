@@ -28,7 +28,7 @@ const routes: Routes = [
         loadChildren: () => import('../video-detail/video-detail.module').then( m => m.VideoDetailPageModule)
       },
       {
-        path: 'letstalknow',
+        path: 'letstalknow/:userAssets',
         loadChildren: () => import('../letstalknow/letstalknow.module').then( m => m.LetstalknowPageModule)
       },
       {

@@ -13,31 +13,38 @@
     <div class="row">
       <img src="../../assets/images/hashtag-icon.svg" alt="">
       <div class="ion-text-center column">
-        <ion-label class="fs-13 font-bold">#{{'letstalknow.letstalknowLabel' | translate}}</ion-label>
-        <ion-label class="fs-11 grey_text">{{'letstalknow.popularTag' | translate}}</ion-label>
+        <ion-label class="fs-13 font-bold">{{userFilterName}}</ion-label>
+        <!-- <ion-label class="fs-11 grey_text">{{'letstalknow.popularTag' | translate}}</ion-label> -->
       </div>
     </div>
-    <div class="row" [routerLink]="['/tabs/search-result']">
-      <ion-label class="fs-11">19900</ion-label>
+    <div class="row">
+      <ion-label class="fs-11">{{user_list.length}}</ion-label>
       <ion-icon name="chevron-forward-sharp" class="grey_text"></ion-icon>
     </div>
   </div>
 
   <ion-row class="sort_popular row ion-text-center" (click)="selectOption()">
-    <ion-label class="white_text grow">{{'letstalknow.sortByPopular' | translate}}</ion-label>
+    <ion-label class="white_text grow">{{sortOption}}</ion-label>
     <img src="../../assets/images/white-arrow.svg" alt="" class="arrow_icon">
   </ion-row>
 
   <div class="sort_option" *ngIf="openSelectOption">
-    <p class="white_text"><small>{{'common.latest' | translate}}</small></p>
-    <p class="white_text ion-no-margin"><small>{{'common.lowToHigh' | translate}}</small></p>
-    <p class="white_text"><small>{{'common.latest' | translate}}</small></p>
+    <p class="white_text" (click)="sorting('Sort by popular',user_list,'favorite_user_count')">
+      <small>{{'letstalknow.sortByPopular' | translate}}</small>
+    </p>
+    <p class="white_text" (click)="sorting('Latest',user_list,'created_at')">
+      <small>{{'common.latest' | translate}}</small>
+    </p>
+    <p class="white_text" (click)="sorting('Low To High',user_list,'coins')">
+      <small>{{'common.lowToHigh' | translate}}</small>
+    </p>
   </div>
 
   <ion-row>
-    <ion-col size="4" class="video-box" *ngFor="let userdetail of user_list" (click)="gotoProfile(userdetail)">
-      <img src="{{s3Url}}{{userdetail.picture}}" alt="">
-      <ion-label class="minute-rating">{{userdetail.gender == 'male' ? 'M' : 'F'}}/{{userdetail.rating}}</ion-label>
+    <ion-col size="4" class="video-box" *ngFor="let userdetail of sortlistUser" (click)="gotoProfile(userdetail)">
+      <img src="{{s3Url}}{{userdetail.picture}}" class="userProfilepic " alt="">
+      <ion-label class="minute-rating" [ngClass]="{'counsler_minut_rating' : userdetail.type == 'counselor'}">
+        {{userdetail.gender == 'male' ? 'M' : 'F'}}/{{userdetail.rating}}</ion-label>
       <div class="name-age row">
         <ion-label>{{userdetail.nick_name}}</ion-label>
         <ion-label class="age-label"> {{calculateAge(userdetail.date_of_birth)}} {{'common.age' | translate}}
@@ -45,5 +52,4 @@
       </div>
     </ion-col>
   </ion-row>
-
 </ion-content>

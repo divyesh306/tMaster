@@ -27,17 +27,17 @@
       <ion-label class="ion-text-center grey_text">{{'hangout.sort' | translate}}</ion-label>
       <ion-row>
         <ion-col>
-          <img src="../../assets/images/client-tokmay-icon.svg" alt="" class="sort-img" [ngClass]="user_type == 'user' ? 'border-img' : ''" (click)='selectType("user")'>
+          <img src="../../assets/images/client-tokmay-icon.svg" alt="" class="sort-img" [ngClass]="sorting.client ? 'border-img' : ''" (click)='selectType("user")'>
         </ion-col>
         <ion-col>
-          <img src="../../assets/images/gender-male-icon.svg" alt="" [ngClass]="gender == 'male' ? 'border-img' : ''" (click)='selectGender("male")' class="sort-img">
+          <img src="../../assets/images/gender-male-icon.svg" alt="" [ngClass]="sorting.male ? 'border-img' : ''" (click)='selectGender("male")' class="sort-img">
         </ion-col>
         <ion-col>
-          <img src="../../assets/images/gender-female-icon.svg" alt="" [ngClass]="gender == 'female' ? 'border-img' : ''" (click)='selectGender("female")'
+          <img src="../../assets/images/gender-female-icon.svg" alt="" [ngClass]="sorting.female ? 'border-img' : ''" (click)='selectGender("female")'
             class="sort-img">
         </ion-col>
         <ion-col>
-          <img src="../../assets/images/counselor-tokmay-icon.svg" alt="" class="sort-img" [ngClass]="user_type == 'counselor' ? 'border-img' : ''" (click)='selectType("counselor")'>
+          <img src="../../assets/images/counselor-tokmay-icon.svg" alt="" class="sort-img" [ngClass]="sorting.counslor ? 'border-img' : ''" (click)='selectType("counselor")'>
         </ion-col>
       </ion-row>
       <ion-row class="row-spacing mt-10">
@@ -49,29 +49,29 @@
     <div [ngClass]="menuOpen ? 'modal-bg' : 'slider'">
       <img src="../../assets/images/fiter-banner.svg" alt="" *ngIf="!menuOpen">
     </div>
-    <div *ngFor="let user of user_list">
+    <div *ngFor="let user of user_list ; let i = index">
       <div class="row m-7">
         <img src="../../assets/images/red-pin.svg" *ngIf="user.asset == 'favorite_user'" alt="">
-        <img src="../../assets/images/categories-1.svg" *ngIf="user.asset != 'favorite_user'" alt="">
+        <img src="../../assets/images/categories-1.svg" *ngIf="user.asset != 'favorite_user'" alt=""><b style="margin-left:5px;">{{user.asset != 'favorite_user' ? i : ''}}</b>
         <div class="grow ion-text-center column">
           <ion-label class="fs-13 font-bold" *ngIf="user.asset == 'favorite_user'">{{'hangout.keepUser' | translate}}
           </ion-label>
           <ion-label class="fs-13 font-bold" *ngIf="user.asset != 'favorite_user'">{{user.asset}}</ion-label>
           <ion-label class="fs-11 grey_text">{{'hangout.nowKeepUser' | translate}}</ion-label>
         </div>
-        <div class="row" (click)="categoryDetail(user.data)">
+        <div class="row" (click)="categoryDetail(user.data , user.asset)">
           <ion-label class="fs-11 grey_text">{{user.data.length}}</ion-label>
           <ion-icon name="chevron-forward-sharp" class="grey_text"></ion-icon>
         </div>
       </div>
       <ion-row class="horizontal-scroll">
-        <ion-col size="3.2" class="video-box" *ngFor="let userdetail of user.data" (click)="gotoProfile(userdetail,user.data)">
-          <img src="{{s3Url}}{{userdetail.picture}}" alt="">
-          <ion-label class="minute-rating">{{userdetail.gender == 'male' ? 'M' : 'F'}}/{{userdetail.rating}}</ion-label>
+        <ion-col size="3.6" class="video-box" *ngFor="let userdetail of user.data" (click)="gotoProfile(userdetail,user.data)">
+          <img src="{{s3Url}}{{userdetail.picture}}" class="userProfilepic" alt="">
+          <ion-label class="minute-rating" [ngClass]="{'counsler_minut_rating' : userdetail.type == 'counselor'}">{{userdetail.gender == 'male' ? 'M' : 'F'}}/{{userdetail.rating}}</ion-label>
           <div class="name-age row">
-            <p>{{userdetail.nick_name}}</p>
-            <br />
-            <b> {{calculateAge(userdetail.date_of_birth)}} {{'common.age' | translate}}</b>
+            <ion-label>{{userdetail.nick_name}}</ion-label>
+            <ion-label class="age-label"> {{calculateAge(userdetail.date_of_birth)}} {{'common.age' | translate}}
+            </ion-label>
           </div>
         </ion-col>
       </ion-row>

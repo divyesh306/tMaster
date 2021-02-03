@@ -29,7 +29,7 @@ export class AppComponent {
   selectedLanguage = "";
   constructor(
     private platform: Platform,
-    private splashScreen: SplashScreen, private navCtrl: NavController,,
+    private splashScreen: SplashScreen, private navCtrl: NavController,
     private inAppPurchase: InAppPurchase2,
     private statusBar: StatusBar, private router: Router, private localStorage: LocalstorageService,
     private translate: TranslateService, private androidPermissions: AndroidPermissions, private file: File
