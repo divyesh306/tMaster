@@ -23,6 +23,13 @@ import { FileOpener } from "@ionic-native/file-opener/ngx";
 import { S3Controller } from './Service/upload.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { InAppPurchase2 } from '@ionic-native/in-app-purchase-2/ngx';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
+import { AuthenticationService } from './Service/authentication-service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
 // import { FCM } from '@ionic-native/fcm/ngx';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -32,7 +39,14 @@ export function createTranslateLoader(http: HttpClient) {
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule,
+  imports: [BrowserModule,
+    HttpClientModule,
+    IonicModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebase_config),
+    AppRoutingModule,
+    AngularFireModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -54,6 +68,10 @@ export function createTranslateLoader(http: HttpClient) {
     File,
     FileTransfer,
     FileOpener,
+    InAppPurchase2,
+    AngularFireAuth,
+    AngularFirestore,
+    AuthenticationService,
     // FCM
   ],
   bootstrap: [AppComponent],

@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ActionSheetController, NavController, PopoverController } from '@ionic/angular';
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
 import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture/ngx';
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 import { chats } from '../Service/chat.service';
 import { userService } from '../Service/user.service';
 import { configService } from '../Service/config.service';
@@ -12,8 +12,8 @@ import { Chooser } from '@ionic-native/chooser/ngx';
 import { S3Controller } from '../Service/upload.service';
 import { File } from '@ionic-native/file/ngx';
 import { FileViewerService } from '../Service/file-viewer.service';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { LocalstorageService } from '../Service/localstorage.service';
-import { WebrtcService } from '../Service/webrtc.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -31,6 +31,8 @@ export class ChatWindowPage implements OnInit {
   chatUser: String;
   chatUser_id: string;
   userType: string;
+  uid;
+  users;
 
   constructor(public router: Router,
     public popoverController: PopoverController,
@@ -45,8 +47,11 @@ export class ChatWindowPage implements OnInit {
     public chatService: chats,
     private file: File,
     private fileopenServcie: FileViewerService,
+    public db: AngularFireDatabase,
     private chooser: Chooser,
-  ) { }
+    public localStorage: LocalstorageService
+  ) {
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -58,7 +63,9 @@ export class ChatWindowPage implements OnInit {
         this.userType = params.userType;
       }
     });
-    console.log("Type Params : ", this.userType);
+    this.uid = this.localStorage.get('firebase_uid');
+    this.getstatus();
+
     this.MessageData.type = 'message';
     this.MessageData.nickname = this.nickname;
     firebase.database().ref('chatroom/' + this.roomkey + '/chats').on('value', resp => {
@@ -83,6 +90,13 @@ export class ChatWindowPage implements OnInit {
     });
   }
 
+  async getstatus() {
+    firebase.database().ref('users/PcEjLssysodR0yM8BCNm4t7Eaep2/status').on('value', resp => {
+      this.users = [];
+      this.users = resp.val();
+      console.log('users list Status: ', this.users);
+    });
+  }
   sendMessage(data) {
     if (!data.message.trim().length) {
       //Empty String Not Send On message

@@ -6,6 +6,7 @@ import { userService } from '../Service/user.service';
 import { configService } from '../Service/config.service';
 import { SmsRetriever } from '@ionic-native/sms-retriever/ngx'
 import { LoadingService } from '../Service/loading.service';
+import { AuthenticationService } from '../Service/authentication-service';
 
 @Component({
   selector: 'app-phone-verification',
@@ -18,7 +19,7 @@ export class PhoneVerificationPage implements OnInit {
   otp = "";
   public smsTextmessage: string = '';
   public appHashString: string = '';
-  constructor(private router: Router, private userService: userService, private loading: LoadingService,
+  constructor(private router: Router, private userService: userService, private loading: LoadingService, public authService: AuthenticationService,
     private localStorage: LocalstorageService, private configService: configService, private smsRetriever: SmsRetriever) {
     this.verificationCode = {}
   }
@@ -65,6 +66,15 @@ export class PhoneVerificationPage implements OnInit {
         if (res.data['is_register']) {
           this.localStorage.setsingel('loginToken', res.data['token']);
           this.localStorage.set('userDetail', res.data['user']);
+          let phonenumber = this.localStorage.getsingel('phonenumber')
+          let email = phonenumber + '' + '@gmail.com';
+          this.authService.RegisterUser(email, phonenumber)
+            .then((res) => {
+              console.log(res.user.uid);
+              this.localStorage.set('firebase_uid', res.user.uid);
+            }).catch((error) => {
+              window.alert(error.message)
+            })
           if (this.localStorage.getsingel('loginToken'))
             this.router.navigate(['/tabs/hangout']);
         }
@@ -101,7 +111,7 @@ export class PhoneVerificationPage implements OnInit {
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
-  
+
   confirm(otp) {
     if (!this.verificationCode.o1 || !this.verificationCode.o2 || !this.verificationCode.o3 ||
       !this.verificationCode.o4 || !this.verificationCode.o5 || !this.verificationCode.o6) {

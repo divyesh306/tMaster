@@ -4,14 +4,22 @@
 
 export const environment = {
   production: false,
+  firebase_config : {
+    apiKey: 'AIzaSyDH0CirRvPmCSQt8qsEx4bLsm_urUqtTQE',
+    authDomain: 'tmaster-d0da3.firebaseapp.com',
+    databaseURL: 'https://tmaster-d0da3-default-rtdb.firebaseio.com/',
+    projectId: 'tmaster-d0da3',
+    storageBucket: 'tmaster-d0da3.appspot.com',
+  },
+
   COGNITO_IDENTITY: {
     IDENTITY_POOL_ID: ""
   },
   S3: {
-    accessKeyId:'AKIAJRLIOBJDO2NBBLIQ' ,//'AKIATGI7CQBJGBQZQHO3',
-    secretAccessKey: '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' ,//'bI4iam0Hvvo5GfGwHD2MD2XXiRrMGzOlj13O3ToY',
-    region:'ap-south-1', //'ap-northeast-1',
-    bucketName:'matukitestimg' //'tm-video-app'
+    accessKeyId: 'AKIAJRLIOBJDO2NBBLIQ',//'AKIATGI7CQBJGBQZQHO3',
+    secretAccessKey: '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',//'bI4iam0Hvvo5GfGwHD2MD2XXiRrMGzOlj13O3ToY',
+    region: 'ap-south-1', //'ap-northeast-1',
+    bucketName: 'matukitestimg' //'tm-video-app'
   }
 };
 

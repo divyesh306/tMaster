@@ -4,9 +4,9 @@ import { NavController } from '@ionic/angular';
 import { configService } from '../Service/config.service';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
-import * as firebase from 'firebase';
 import { chats } from '../Service/chat.service';
 import { LoadingService } from '../Service/loading.service';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-video-detail',
@@ -100,6 +100,7 @@ export class VideoDetailPage implements OnInit {
           const res = result['data'].update_rooms;
           this.loading.dismiss();
           if (!res.hasError) {
+
             let newData = firebase.database().ref('chatroom/' + res.data.room_key + '/chats').push();
             newData.set({
               type: 'message',
