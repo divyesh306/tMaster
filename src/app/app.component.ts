@@ -15,6 +15,7 @@ import { AngularFireModule } from '@angular/fire';
 // for AngularFireDatabase
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { WebrtcService } from './Service/webrtc.service';
 // import { FCM } from '@ionic-native/fcm/ngx';
 
 @Component({
@@ -27,7 +28,7 @@ export class AppComponent {
   constructor(
     private platform: Platform, private firestore: AngularFirestore,
     private splashScreen: SplashScreen, private navCtrl: NavController, private inAppPurchase: InAppPurchase2, private af: AngularFireAuth,
-    private statusBar: StatusBar, private router: Router, private localStorage: LocalstorageService,
+    public webRTC: WebrtcService, private statusBar: StatusBar, private router: Router, private localStorage: LocalstorageService,
     private translate: TranslateService, private androidPermissions: AndroidPermissions, private file: File
   ) {
     if (this.localStorage.getsingel('loginToken')) {
@@ -65,6 +66,7 @@ export class AppComponent {
       this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.STORAGE, this.androidPermissions.PERMISSION.CAMERA, this.androidPermissions.PERMISSION.RECORD_AUDIO, this.androidPermissions.PERMISSION.RECORD_VIDEO, this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS, this.androidPermissions.PERMISSION.MODIFY_VIDEO_SETTINGS]);
       this.af.onAuthStateChanged(user => {
         if (user) {
+          this.webRTC.createPeer(user.uid);
           var myStatusRef = firebase.database().ref("users/" + user.uid + '/status');
           var connectedRef = firebase.database().ref(".info/connected");
           console.log('connectedRef', connectedRef);
