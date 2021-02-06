@@ -78,6 +78,7 @@ export class AppComponent {
             }
           });
         } else {
+          var myStatusRef = firebase.database().ref("users/" + user.uid + '/status');
           document.onvisibilitychange = (e) => {
             if (document.visibilityState == 'hidden') {
               myStatusRef.set('away');

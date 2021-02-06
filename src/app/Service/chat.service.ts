@@ -3,6 +3,7 @@ import { inject } from "@angular/core/testing";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NavController } from "@ionic/angular";
 import { AngularFirestore } from '@angular/fire/firestore';
+import firebase from 'firebase';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +22,7 @@ export class chats {
         console.log('chat ref', this.ref);
     }
     createRoom(data) {
-        let newData = this.ref.push();
+        let newData = firebase.database().ref('chatroom').push();
         newData.set({
             roomname: data.roomname
         });

@@ -29,13 +29,12 @@
     </ion-col>
   </ion-row>
 
-  <section class="with-chat-info chat-screen coin-box">
+  <!-- <section class="with-chat-info chat-screen coin-box">
     <div class="conversation" >
       <ul *ngFor="let chat of chats">
         <li *ngIf="chat.user == nickname">
           <div class="chat-details">
             <div class="read">
-              <!-- <p>{{'common.read' | translate}}</p> -->
               <p>{{chat.sendDate | date:'shortTime'}}</p>
             </div>
             <div class="chat-msg" *ngIf="chat.type== 'message'">
@@ -89,7 +88,6 @@
                 alt="File">
             </div>
             <div class="read">
-              <!-- <p>{{'common.read' | translate}}</p> -->
               <p>{{chat.sendDate | date:'shortTime'}}</p>
             </div>
           </div>
@@ -107,7 +105,7 @@
         <img src="images/say-frnd.svg" alt="">
       </div>
     </div>
-  </section>
+  </section> -->
   <div class="gift-icons" *ngIf="closeEye">
     <img src="../../assets/images/gift-logo.png" alt="">
     <img src="../../assets/images/gift-icon.svg" alt="">

@@ -77,8 +77,11 @@
 
     <ion-item class="item_margin">
       <ion-label position="stacked">{{'common.appealTag' | translate}}</ion-label>
-      <ion-textarea placeholder="Tag text here" formControlName="tags" rows="3">
-      </ion-textarea>
+      <ion-select multiple="true"  formControlName="tags" cancelText="Nah" okText="Okay!">
+        <ion-select-option *ngFor="let tag of tagList" value="{{tag.tag}}">{{tag.tag}}</ion-select-option>
+      </ion-select>
+      <!-- <ion-textarea placeholder="Tag text here" formControlName="tags" rows="3">
+      </ion-textarea> -->
     </ion-item>
     <span class="error ion-padding" *ngIf="isSubmitted && errorControl.tags.errors?.required">
       {{'common.tagRequired' | translate}}

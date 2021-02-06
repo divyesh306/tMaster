@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import S3 from 'aws-sdk/clients/s3';
 import { Observable, of } from 'rxjs';
-import { environment } from './enviroment';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 class FileUpload {
@@ -16,14 +16,14 @@ class FileUpload {
 }
 export class S3Controller {
     FOLDER = 'Profilevideo/';
-    BUCKET = environment.bucketName;
+    BUCKET = environment.S3.bucketName;
 
     private static getS3Bucket(): any {
         return new S3(
             {
-                accessKeyId: environment.accessKeyId,
-                secretAccessKey: environment.secretAccessKey,
-                region: environment.region
+                accessKeyId: environment.S3.accessKeyId,
+                secretAccessKey: environment.S3.secretAccessKey,
+                region: environment.S3.region
             }
         );
     }
@@ -31,9 +31,9 @@ export class S3Controller {
     public uploadFile(videoFile, filename, callback) {
         const bucket = new S3(
             {
-                accessKeyId: environment.accessKeyId,
-                secretAccessKey: environment.secretAccessKey,
-                region: environment.region
+                accessKeyId: environment.S3.accessKeyId,
+                secretAccessKey: environment.S3.secretAccessKey,
+                region: environment.S3.region
             }
         );
         const params = {
@@ -41,6 +41,7 @@ export class S3Controller {
             Key: this.FOLDER + filename,
             Body: videoFile
         };
+        console.log("User Params : ",params);
         bucket.upload(params, function (err, data) {
             if (err) {
                 console.log('There was an error uploading your file: ', err);

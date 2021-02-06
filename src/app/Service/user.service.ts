@@ -43,4 +43,10 @@ export class userService {
         }
         return this.http.post(this.server_url + "close/v2", body, { headers })
     }
+    openQuery(queryData) {
+        let body = {
+            query: `query{` + queryData.name + `}`
+        }
+        return this.http.post(this.server_url + "open", body)
+    }
 }

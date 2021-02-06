@@ -21,7 +21,7 @@ export class WebrtcService {
   };
 
   constructor() {
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    navigator.getUserMedia = navigator.getUserMedia;
   }
   createPeer(userId: string) {
     this._peer = new Peer(userId, this.getPeerJSOption());

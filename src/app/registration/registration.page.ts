@@ -29,6 +29,7 @@ export class RegistrationPage implements OnInit {
     userData;
     userEligible: boolean = false;
     filedrectory;
+    tagList;
     constructor(private router: Router,
         public authService: AuthenticationService,
         private platform: Platform,
@@ -44,30 +45,60 @@ export class RegistrationPage implements OnInit {
         private loading: LoadingService) {
         this.userData = {};
         this.platform.ready().then(() => {
-            this.file.checkDir(this.file.externalDataDirectory, 'files/videos/')
-                .then(_ => console.log('Directory exists'))
-                .catch(err => console.log('Directory doesn\'t exist'));
-
             this.filedrectory = this.file.externalDataDirectory + "files/videos/"
         })
+
+        this.loading.dismiss();
+        this.tagList = [];
         this.userData.phone = this.localStorage.getsingel('phonenumber');
 
         this.activatedRoute.params.subscribe(params => {
             this.userData.type = params['position'];
         })
-
+        // {
+        //     "nick_name": "hardik",
+        //     "date_of_birth": "2000-06-06T18:25:43.206+05:30",
+        //     "phone": "+917016473593",
+        //     "gender": "male",
+        //     "rating": "350",
+        //     "jobs": "developer",
+        //     "tags": "testing,cricket",
+        //     "type": "user",
+        //     "picture": "Profilevideo/20210206_182547.jpg",
+        //     "video": "Profilevideo/20210206_182547.mp4",
+        //     "firebase_user_id": "b4kqGpudFNboYiAQLKEj7U9fHLs2"
+        //   }
+        this.getTags();
         this.registerForm = this.formBuilder.group({
-            nick_name: ['', [Validators.required, Validators.minLength(5)]],
-            date_of_birth: ['', [Validators.required]],
+            nick_name: ['hardik', [Validators.required, Validators.minLength(5)]],
+            date_of_birth: ['2000-06-06T18:25:43.206+05:30', [Validators.required]],
             phone: [this.userData.phone],
-            gender: ['', [Validators.required]],
-            rating: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.maxLength(3), Validators.max(400)]],
-            jobs: ['', [Validators.required]],
-            tags: ['', [Validators.required]],
+            gender: ['male', [Validators.required]],
+            rating: ['350', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.maxLength(3), Validators.max(400)]],
+            jobs: ['developer', [Validators.required]],
+            tags: ['testing,cricket', [Validators.required]],
         })
     }
 
     ngOnInit() { }
+    getTags() {
+        const body = {
+            name: 'tags{id tag}'
+        }
+        this.loading.present();
+        this.userService.openQuery(body).subscribe(result => {
+            if (result['hasError']) {
+
+            } else {
+                this.tagList = result['data'].tags;
+                console.log("Tag List : ", this.tagList);
+            }
+            this.loading.dismiss();
+        }, err => {
+            this.loading.dismiss();
+        })
+    }
+
     get errorControl() {
         return this.registerForm.controls;
     }
@@ -119,11 +150,14 @@ export class RegistrationPage implements OnInit {
         } else if (!this.userEligible) {
             this.configService.sendToast('danger', 'You are not eligible now.', 'top');
         } else {
+            this.userData.picture = "Profilevideo/20210206_182547.jpg";
+            this.userData.video = "Profilevideo/20210206_182547.mp4";
             if (this.userData.picture) {
                 var userdata = this.registerForm.value;
                 userdata.type = this.userData.type;
                 userdata.picture = this.userData.picture;
                 userdata.video = this.userData.video;
+                userdata.tags = "testing,cricket";
                 this.signup(userdata);
             }
             else {
