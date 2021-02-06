@@ -14,6 +14,7 @@ import { AngularFireModule } from '@angular/fire';
 // for AngularFireDatabase
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { WebrtcService } from './Service/webrtc.service';
 // import { FCM } from '@ionic-native/fcm/ngx';
 
 @Component({
@@ -24,7 +25,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class AppComponent {
   selectedLanguage = "";
   constructor(
-    private platform: Platform, private firestore: AngularFirestore,
+    private platform: Platform, private firestore: AngularFirestore, public webRTC: WebrtcService,
     private splashScreen: SplashScreen, private navCtrl: NavController, private af: AngularFireAuth,
     private statusBar: StatusBar, private router: Router, private localStorage: LocalstorageService,
     private translate: TranslateService, private androidPermissions: AndroidPermissions, private file: File
@@ -65,6 +66,7 @@ export class AppComponent {
       this.af.onAuthStateChanged(user => {
         console.log(user);
         if (user) {
+          this.webRTC.createPeer(user.uid);
           var myStatusRef = firebase.database().ref("users/" + user.uid + '/status');
           var connectedRef = firebase.database().ref(".info/connected");
           console.log('connectedRef', connectedRef);

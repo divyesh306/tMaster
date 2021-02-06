@@ -25,8 +25,7 @@ export class VideoChatPage implements OnInit {
   partnerEl: HTMLMediaElement;
 
   constructor(public popoverController: PopoverController, public navCtrl: NavController, public webRTC: WebrtcService,
-    public localStorage: LocalstorageService, public elRef: ElementRef, public loading: LoadingService,
-    public route: ActivatedRoute) {
+    public localStorage: LocalstorageService, public elRef: ElementRef, public loading: LoadingService, public route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -42,7 +41,9 @@ export class VideoChatPage implements OnInit {
   init() {
     this.myEl = this.elRef.nativeElement.querySelector('#myVideo');
     this.partnerEl = this.elRef.nativeElement.querySelector('#partnerVideo');
-    this.webRTC.init(this.userId, this.myEl, this.partnerEl);
+    this.webRTC.init(this.myEl, this.partnerEl, () => {
+      console.log('I\'m calling');
+    });
     this.loading.present();
     setTimeout(() => {
       this.loading.dismiss();
@@ -51,7 +52,8 @@ export class VideoChatPage implements OnInit {
   }
 
   call() {
-    this.webRTC.call(this.chatUser_id);
+    this.webRTC.call('PcEjLssysodR0yM8BCNm4t7Eaep2');
+    // this.webRTC.call(this.chatUser_id);
     this.swapVideo('myVideo');
   }
 
