@@ -133,35 +133,34 @@ export class RegistrationPage implements OnInit {
         }
     }
     signup(signuserData) {
-        const mutation = {
-            name: 'signup',
-            inputtype: 'UserRegisterInputType',
-            data: signuserData
-        }
+        let phonenumber = this.localStorage.getsingel('phonenumber')
+        let email = phonenumber + '' + '@gmail.com';
         this.loading.present();
-        this.userService.sendApi(mutation).subscribe(result => {
-            const res = result['data'].signup;
-            this.loading.dismiss();
-            if (!res.hasError) {
-                this.localStorage.setsingel('loginToken', res.data['token']);
-                this.localStorage.set('userDetail', res.data['user']);
-                let phonenumber = this.localStorage.getsingel('phonenumber');
-                let email = phonenumber + '' + '@gmail.com';
-                this.authService.RegisterUser(email, phonenumber)
-                    .then((res) => {
-                        console.log(res.user.uid);
-                        this.localStorage.set('firebase_uid', res.user.uid);
-                    }).catch((error) => {
-                        this.configService.sendToast('danger', error.message, 'bottom');
-                    })
-                if (this.localStorage.getsingel('loginToken'))
-                    this.router.navigate(['/register-complete']);
-            } else {
+        this.authService.RegisterUser(email, phonenumber).then((res) => {
+            signuserData.firebase_user_id = res.user.uid;
+            const mutation = {
+                name: 'signup',
+                inputtype: 'UserRegisterInputType',
+                data: signuserData
             }
-        }, err => {
+            this.userService.sendApi(mutation).subscribe(result => {
+                const res = result['data'].signup;
+                if (!res.hasError) {
+                    this.localStorage.setsingel('loginToken', res.data['token']);
+                    this.localStorage.set('userDetail', res.data['user']);
+                    this.loading.dismiss();
+                    if (this.localStorage.getsingel('loginToken'))
+                        this.router.navigate(['/register-complete']);
+                } else {
+                    this.loading.dismiss();
+                }
+            }, err => {
+                this.loading.dismiss();
+                this.configService.sendToast('danger', 'Something Went Wrong', 'bottom');
+            });
+        }).catch((error) => {
             this.loading.dismiss();
-            this.configService.sendToast('danger', 'Something Went Wrong', 'bottom');
-        });
+        })
     }
     fillForm(option) {
         localStorage.setItem('formTitle', option);

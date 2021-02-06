@@ -6,7 +6,7 @@ import { WarningComponent } from '../component/warning/warning.component';
 import { LoadingService } from '../Service/loading.service';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { WebrtcService } from '../Service/webrtc.service';
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
 import { configService } from '../Service/config.service';
 
 @Component({
@@ -34,9 +34,9 @@ export class VideoChatPage implements OnInit {
   s3Url;
   constructor(public popoverController: PopoverController, public navCtrl: NavController, public webRTC: WebrtcService,
     public localStorage: LocalstorageService, public elRef: ElementRef, public loading: LoadingService,
-    public route: ActivatedRoute, public config:configService
-    ) {
-      this.s3Url = this.config.getS3();
+    public route: ActivatedRoute, public config: configService
+  ) {
+    this.s3Url = this.config.getS3();
   }
 
   ngOnInit() {

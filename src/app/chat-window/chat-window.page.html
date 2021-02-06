@@ -4,31 +4,15 @@
       <img src="../../assets/images/back-button.svg" alt="" [routerLink]="['/tabs/message']">
       <ion-title class="m-0 grow" (click)="presentActionSheet()">{{chatUser.nick_name}}</ion-title>
       <div class="online-tag">
-        <img src="../../assets/images/OnLine-OffLine.svg" alt="">
+        <img src="../../assets/images/OnLine-OffLine.svg" *ngIf="userstatus != 'Offline'" alt="">
       </div>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- <img src="../../assets/images/" alt="" class="background"> -->
-  <!-- <div class="background ion-padding">
-    <div class="sender-style">
-      <ion-label class="fs-10 white_text">Read 10:25am</ion-label>
-      <div class="sender">Hey! Are you available for a meeting at 2 30pm tomorrow?
-        Or maybe today at 5:45pm?</div>
-    </div>
-    <br>
-    <div class="receiver-style">
-      <div class="row">
-        <ion-avatar>
-          <img src="../../assets/avatar_img.jpg" alt=""></ion-avatar>
-        <div class="receiver">Today at 5:45pm wil be just fine!</div>
-      </div>
-      <ion-label class="fs-10 white_text">10:28am</ion-label>
-    </div>
-  </div> -->
-  <div class="background ion-padding" style="overflow: scroll; height: 100%;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+  <div class="background ion-padding" style="overflow: scroll; height: 100%;" #scrollMe
+    [scrollTop]="scrollMe.scrollHeight">
     <div class="chat-screen">
       <div class="conversation" *ngFor="let chat of chats">
         <ul>
@@ -69,7 +53,7 @@
               <div class="white-chat-msg" *ngIf="chat.type == 'message'  || chat.type == 'join'">
                 <p>{{chat.message}}</p>
               </div>
-              
+
               <div class="white-chat-msg" *ngIf="chat.type== 'SendCoin'">
                 <p>{{chat.message}} Coins</p>
               </div>

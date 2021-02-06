@@ -70,7 +70,7 @@ export function createTranslateLoader(http: HttpClient) {
     FileTransfer,
     FileOpener,
     InAppPurchase2,
-    Keyboard
+    Keyboard,
     AngularFireAuth,
     AngularFirestore,
     AuthenticationService,

@@ -64,7 +64,6 @@ export class AppComponent {
 
       this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.STORAGE, this.androidPermissions.PERMISSION.CAMERA, this.androidPermissions.PERMISSION.RECORD_AUDIO, this.androidPermissions.PERMISSION.RECORD_VIDEO, this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS, this.androidPermissions.PERMISSION.MODIFY_VIDEO_SETTINGS]);
       this.af.onAuthStateChanged(user => {
-        console.log(user);
         if (user) {
           var myStatusRef = firebase.database().ref("users/" + user.uid + '/status');
           var connectedRef = firebase.database().ref(".info/connected");
@@ -101,6 +100,7 @@ export class AppComponent {
       // });
     });
   }
+
   changeLanguage(language) {
     console.log(language);
     if (language == {}) {

@@ -28,12 +28,11 @@ export class ChatWindowPage implements OnInit {
   offStatus: boolean = false;
   openModal = false;
   fileOption = false;
-  chatUser: String;
+  chatUser;
   chatUser_id: string;
   userType: string;
   s3Url;
-  uid;
-  users;
+  userstatus;
 
   constructor(public router: Router,
     public popoverController: PopoverController,
@@ -65,7 +64,6 @@ export class ChatWindowPage implements OnInit {
         this.userType = params.userType;
       }
     });
-    this.uid = this.localStorage.get('firebase_uid');
     this.getstatus();
 
     this.MessageData.type = 'message';
@@ -105,7 +103,6 @@ export class ChatWindowPage implements OnInit {
           nickname: this.nickname,
           message: coins.toString(),
         }
-        console.log("message Params : ", message);
         this.sendMessage(message);
       } else {
         this.configService.sendToast("danger", res.message, "bottom");
@@ -118,10 +115,9 @@ export class ChatWindowPage implements OnInit {
   }
 
   async getstatus() {
-    firebase.database().ref('users/PcEjLssysodR0yM8BCNm4t7Eaep2/status').on('value', resp => {
-      this.users = [];
-      this.users = resp.val();
-      console.log('users list Status: ', this.users);
+    firebase.database().ref('users/' + this.chatUser.firebase_user_id + '/status').on('value', resp => {
+      this.userstatus = [];
+      this.userstatus = resp.val();
     });
   }
 

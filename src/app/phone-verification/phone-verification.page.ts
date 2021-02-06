@@ -79,28 +79,49 @@ export class PhoneVerificationPage implements OnInit {
     this.loading.present();
     this.userService.sendApi(mutation).subscribe(result => {
       const res = result['data'].verify_otp;
-      this.loading.dismiss();
       if (!res.hasError) {
         if (res.data['is_register']) {
           this.localStorage.setsingel('loginToken', res.data['token']);
           this.localStorage.set('userDetail', res.data['user']);
-          let phonenumber = this.localStorage.getsingel('phonenumber')
-          let email = phonenumber + '' + '@gmail.com';
-          this.authService.RegisterUser(email, phonenumber)
-            .then((res) => {
-              console.log(res.user.uid);
-              this.localStorage.set('firebase_uid', res.user.uid);
-            }).catch((error) => {
-              window.alert(error.message)
-            })
-          if (this.localStorage.getsingel('loginToken'))
-            this.router.navigate(['/tabs/hangout']);
+          if (res.data['user'].firebase_user_id) {
+            if (this.localStorage.getsingel('loginToken'))
+              this.router.navigate(['/tabs/hangout']);
+            this.loading.dismiss();
+          }
+          else {
+            let phonenumber = this.localStorage.getsingel('phonenumber')
+            let email = phonenumber + '' + '@gmail.com';
+            this.authService.SignIn(email, phonenumber)
+              .then((res) => {
+                const userData = {
+                  firebase_user_id: res.user.uid
+                }
+                this.userUpdate(userData);
+              }).catch((error) => {
+                if (error.code == "auth/user-not-found") {
+                  this.authService.RegisterUser(email, phonenumber).then((res) => {
+                    const userData = {
+                      firebase_user_id: res.user.uid
+                    }
+                    this.userUpdate(userData);
+                  }).catch((error) => {
+                    this.loading.dismiss();
+                  })
+                }
+                else {
+                  console.log(error);
+                  this.loading.dismiss();
+                }
+              })
+          }
         }
         else {
           this.router.navigate(['/select-position']);
+          this.loading.dismiss();
         }
       } else {
         this.configService.sendToast("danger", "OTP Not Verify", "bottom");
+        this.loading.dismiss();
         this.wrongCode = true;
       }
     }, err => {
@@ -108,7 +129,29 @@ export class PhoneVerificationPage implements OnInit {
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
-
+  userUpdate(signuserData) {
+    const mutation = {
+      name: 'update_profile',
+      inputtype: 'UserRegisterInputType',
+      data: signuserData
+    }
+    this.userService.CloseApi(mutation).subscribe(result => {
+      const res = result['data'].update_profile;
+      if (!res.hasError) {
+        this.localStorage.set('userDetail', res.data);
+        this.loading.dismiss();
+        if (this.localStorage.getsingel('loginToken'))
+          this.router.navigate(['/tabs/hangout']);
+      } else {
+        this.loading.dismiss();
+        if (this.localStorage.getsingel('loginToken'))
+          this.router.navigate(['/tabs/hangout']);
+      }
+    }, err => {
+      this.loading.dismiss();
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
+    });
+  }
   resend() {
     const mutation = {
       name: 'send_otp',
