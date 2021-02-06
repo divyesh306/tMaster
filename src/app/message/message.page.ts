@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import * as firebase from 'firebase';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { chats } from '../Service/chat.service';
 import { configService } from '../Service/config.service';
 import { LoadingService } from '../Service/loading.service';
@@ -23,14 +23,16 @@ export class MessagePage implements OnInit {
   loginUser;
   roomlist = [];
   s3Url;
-  ref = firebase.database().ref('chatroom/');
-
-  constructor(public router: Router, 
-    private localStorage: LocalstorageService, 
-    private ConfigService: configService, 
-    private userService: userService, 
-    private chatService: chats, 
-    private loading: LoadingService) { }
+  ref;
+  constructor(public router: Router,
+    private localStorage: LocalstorageService,
+    private ConfigService: configService,
+    private userService: userService,
+    private chatService: chats,
+    private loading: LoadingService,
+    public firestore: AngularFirestore,) {
+    this.ref = this.firestore.collection('chatroom/').snapshotChanges();
+  }
 
   ionViewDidEnter() {
     this.loginUser = this.localStorage.get('userDetail');

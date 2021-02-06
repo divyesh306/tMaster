@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import * as firebase from 'firebase';
 
 import { NavController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -10,15 +9,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { InAppPurchase2 } from '@ionic-native/in-app-purchase-2/ngx';
+import { environment } from '../environments/environment';
+import firebase from 'firebase/app';
+import { AngularFireModule } from '@angular/fire';
+// for AngularFireDatabase
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 // import { FCM } from '@ionic-native/fcm/ngx';
-
-const config = {
-  apiKey: 'AIzaSyDH0CirRvPmCSQt8qsEx4bLsm_urUqtTQE',
-  authDomain: 'tmaster-d0da3.firebaseapp.com',
-  databaseURL: 'https://tmaster-d0da3-default-rtdb.firebaseio.com/',
-  projectId: 'tmaster-d0da3',
-  storageBucket: 'tmaster-d0da3.appspot.com',
-};
 
 @Component({
   selector: 'app-root',
@@ -28,9 +25,8 @@ const config = {
 export class AppComponent {
   selectedLanguage = "";
   constructor(
-    private platform: Platform,
-    private splashScreen: SplashScreen, private navCtrl: NavController,
-    private inAppPurchase: InAppPurchase2,
+    private platform: Platform, private firestore: AngularFirestore,
+    private splashScreen: SplashScreen, private navCtrl: NavController, private inAppPurchase: InAppPurchase2, private af: AngularFireAuth,
     private statusBar: StatusBar, private router: Router, private localStorage: LocalstorageService,
     private translate: TranslateService, private androidPermissions: AndroidPermissions, private file: File
   ) {
@@ -52,7 +48,7 @@ export class AppComponent {
     }
     this.initializeApp();
     this.changeLanguage(this.selectedLanguage);
-    firebase.initializeApp(config);
+    AngularFireModule.initializeApp(environment.firebase_config);
   }
 
   initializeApp() {
@@ -67,7 +63,29 @@ export class AppComponent {
       );
 
       this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.STORAGE, this.androidPermissions.PERMISSION.CAMERA, this.androidPermissions.PERMISSION.RECORD_AUDIO, this.androidPermissions.PERMISSION.RECORD_VIDEO, this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS, this.androidPermissions.PERMISSION.MODIFY_VIDEO_SETTINGS]);
-
+      this.af.onAuthStateChanged(user => {
+        console.log(user);
+        if (user) {
+          var myStatusRef = firebase.database().ref("users/" + user.uid + '/status');
+          var connectedRef = firebase.database().ref(".info/connected");
+          console.log('connectedRef', connectedRef);
+          connectedRef.on('value', function (snap) {
+            if (snap.val() == true) {
+              myStatusRef.onDisconnect().remove();
+              myStatusRef.set('online');
+              myStatusRef.onDisconnect().set('Offline');
+            }
+          });
+        } else {
+          document.onvisibilitychange = (e) => {
+            if (document.visibilityState == 'hidden') {
+              myStatusRef.set('away');
+            } else {
+              myStatusRef.set('online');
+            }
+          }
+        }
+      })
       // this.fcm.onNotification().subscribe(data => {
       //   if (data.wasTapped) {
       //     console.log("Received in background");

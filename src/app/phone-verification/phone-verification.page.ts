@@ -7,6 +7,7 @@ import { SmsRetriever } from '@ionic-native/sms-retriever/ngx'
 import { LoadingService } from '../Service/loading.service';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { NavController } from '@ionic/angular';
+import { AuthenticationService } from '../Service/authentication-service';
 
 @Component({
   selector: 'app-phone-verification',
@@ -29,7 +30,9 @@ export class PhoneVerificationPage implements OnInit {
     private smsRetriever: SmsRetriever,
     private keyboard: Keyboard,
     public navCtrl: NavController,
+    public authService: AuthenticationService,
     public elRef: ElementRef) {
+
     this.verificationCode = {}
   }
 
@@ -81,6 +84,15 @@ export class PhoneVerificationPage implements OnInit {
         if (res.data['is_register']) {
           this.localStorage.setsingel('loginToken', res.data['token']);
           this.localStorage.set('userDetail', res.data['user']);
+          let phonenumber = this.localStorage.getsingel('phonenumber')
+          let email = phonenumber + '' + '@gmail.com';
+          this.authService.RegisterUser(email, phonenumber)
+            .then((res) => {
+              console.log(res.user.uid);
+              this.localStorage.set('firebase_uid', res.user.uid);
+            }).catch((error) => {
+              window.alert(error.message)
+            })
           if (this.localStorage.getsingel('loginToken'))
             this.router.navigate(['/tabs/hangout']);
         }

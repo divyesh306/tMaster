@@ -8,7 +8,6 @@ import { Platform } from '@ionic/angular';
   styleUrls: ['./buycoins.page.scss'],
 })
 export class BuycoinsPage implements OnInit {
-
   product: any;
   constructor(public platform: Platform, private iap2: InAppPurchase2) { }
 

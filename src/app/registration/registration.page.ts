@@ -12,6 +12,7 @@ import { File } from '@ionic-native/file/ngx';
 import { VideoEditor, CreateThumbnailOptions } from '@ionic-native/video-editor/ngx';
 import { Platform } from '@ionic/angular';
 import { LoadingService } from '../Service/loading.service';
+import { AuthenticationService } from '../Service/authentication-service';
 @Component({
     selector: 'app-registration',
     templateUrl: './registration.page.html',
@@ -29,6 +30,7 @@ export class RegistrationPage implements OnInit {
     userEligible: boolean = false;
     filedrectory;
     constructor(private router: Router,
+        public authService: AuthenticationService,
         private platform: Platform,
         private activatedRoute: ActivatedRoute,
         private localStorage: LocalstorageService,
@@ -143,6 +145,15 @@ export class RegistrationPage implements OnInit {
             if (!res.hasError) {
                 this.localStorage.setsingel('loginToken', res.data['token']);
                 this.localStorage.set('userDetail', res.data['user']);
+                let phonenumber = this.localStorage.getsingel('phonenumber');
+                let email = phonenumber + '' + '@gmail.com';
+                this.authService.RegisterUser(email, phonenumber)
+                    .then((res) => {
+                        console.log(res.user.uid);
+                        this.localStorage.set('firebase_uid', res.user.uid);
+                    }).catch((error) => {
+                        this.configService.sendToast('danger', error.message, 'bottom');
+                    })
                 if (this.localStorage.getsingel('loginToken'))
                     this.router.navigate(['/register-complete']);
             } else {
