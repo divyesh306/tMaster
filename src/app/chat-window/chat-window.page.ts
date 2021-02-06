@@ -31,6 +31,7 @@ export class ChatWindowPage implements OnInit {
   chatUser: String;
   chatUser_id: string;
   userType: string;
+  s3Url;
 
   constructor(public router: Router,
     public popoverController: PopoverController,
@@ -46,7 +47,9 @@ export class ChatWindowPage implements OnInit {
     private file: File,
     private fileopenServcie: FileViewerService,
     private chooser: Chooser,
-  ) { }
+  ) {
+    this.s3Url = this.configService.getS3();
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -244,7 +247,11 @@ export class ChatWindowPage implements OnInit {
         onClick: () => {
           let navigationExtras: NavigationExtras = {
             queryParams: {
-              chatUser_id: this.chatUser_id
+              chatUser_id: this.chatUser_id,
+              key: this.roomkey,
+              nickname: this.nickname,
+              chatUser: JSON.stringify(this.chatUser),
+              userType: this.userType
             }
           };
           this.router.navigate(['/video-chat'], navigationExtras);
@@ -263,12 +270,12 @@ export class ChatWindowPage implements OnInit {
     this.loading.present();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].add_to_favorite_user;
-      this.loading.dismiss();
       if (!res.hasError) {
         this.configService.sendToast('success', 'This User Add As a Favorite', 'bottom');
       } else {
         this.configService.sendToast('danger', res.message, 'bottom');
       }
+      this.loading.dismiss();
     }, err => {
       this.loading.dismiss();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
@@ -284,12 +291,12 @@ export class ChatWindowPage implements OnInit {
     this.loading.present();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].remove_favorite_user;
-      this.loading.dismiss();
       if (!res.hasError) {
         this.configService.sendToast('success', 'This User Remove From Favorite', 'bottom');
       } else {
         this.configService.sendToast('danger', res.message, 'bottom');
       }
+      this.loading.dismiss();
     }, err => {
       this.loading.dismiss();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
@@ -305,12 +312,12 @@ export class ChatWindowPage implements OnInit {
     this.loading.present();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].add_user_to_blocks;
-      this.loading.dismiss();
       if (!res.hasError) {
         this.configService.sendToast('success', 'User Blocked', 'bottom');
       } else {
         this.configService.sendToast('danger', res.message, 'bottom');
       }
+      this.loading.dismiss();
     }, err => {
       this.loading.dismiss();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");

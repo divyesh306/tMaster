@@ -7,19 +7,6 @@
   <video id="myVideo" (click)="swapVideo('myVideo')" autoplay playsinline
     [ngClass]="{'top-video': topVideoFrame == 'myVideo', 'main-video': topVideoFrame != 'myVideo'}">
   </video>
-  <ion-row nowrap>
-    <ion-button (click)="init()">Login As: </ion-button>
-    <ion-item>
-      <ion-input type="text" [(ngModel)]="userId" placeholder="enter your nick name"></ion-input>
-    </ion-item>
-  </ion-row>
-
-  <ion-row nowrap>
-    <ion-button (click)="call()">Call To: </ion-button>
-    <ion-item>
-      <ion-input type="text" [(ngModel)]="partnerId" placeholder="your partner nick name"></ion-input>
-    </ion-item>
-  </ion-row>
   <!-- <img src="../../assets/images/chat-background-image.svg" alt="" class="background"> -->
   <ion-row class="user_details">
     <ion-col class="ion-text-left column">
@@ -42,28 +29,73 @@
     </ion-col>
   </ion-row>
 
-  <!-- <div class="chat">
-    <div class="sender">
-      <p class="ion-no-margin">Hey! Are you available for a meeting?</p>
+  <section class="with-chat-info chat-screen coin-box">
+    <div class="conversation" >
+      <ul *ngFor="let chat of chats">
+        <li *ngIf="chat.user == nickname">
+          <div class="chat-details">
+            <div class="read">
+              <!-- <p>{{'common.read' | translate}}</p> -->
+              <p>{{chat.sendDate | date:'shortTime'}}</p>
+            </div>
+            <div class="chat-msg" *ngIf="chat.type== 'message'">
+              <p>{{chat.message}}</p>
+            </div>
+            <div class="chat-msg" *ngIf="chat.type== 'SendCoin'">
+              <p>{{chat.message}} Coins</p>
+            </div>
+            <div class="chat-msg" *ngIf="chat.type == 'Image'">
+              <img src="{{chat.message}}" height="100px" width="100px" (click)="openFile(chat.message)" alt="File">
+            </div>
+            <div class="chat-msg" *ngIf="chat.type == 'Audio'">
+              <img src="../../assets/audio.jpg" height="100px" width="100px" (click)="openFile(chat.message)"
+                alt="File">
+            </div>
+            <div class="chat-msg" *ngIf="chat.type== 'File'">
+              <img src="../../assets/file.png" height="100px" width="100px" (click)="openFile(chat.message)"
+                alt="File">
+            </div>
+            <div class="chat-msg" *ngIf="chat.type == 'Video'">
+              <img src="../../assets/video.png" height="100px" width="100px" (click)="openFile(chat.message)"
+                alt="File">
+            </div>
+          </div>
+        </li>
+        <li *ngIf="chat.user != nickname">
+          <div class="white-chat-details">
+            <div class="user-img">
+              <img src="{{s3Url}}{{chatUser.picture}}" class="user_profilepic" alt="">
+            </div>
+            <div class="white-chat-msg" *ngIf="chat.type == 'message'  || chat.type == 'join'">
+              <p>{{chat.message}}</p>
+            </div>
+            
+            <div class="white-chat-msg" *ngIf="chat.type== 'SendCoin'">
+              <p>{{chat.message}} Coins</p>
+            </div>
+            <div class="white-chat-msg" *ngIf="chat.type == 'Image'">
+              <img src="{{chat.message}}" height="100px" width="100px" (click)="openFile(chat.message)" alt="File">
+            </div>
+            <div class="white-chat-msg" *ngIf="chat.type == 'Audio'">
+              <img src="../../assets/audio.jpg" height="100px" width="100px" (click)="openFile(chat.message)"
+                alt="File">
+            </div>
+            <div class="white-chat-msg" *ngIf="chat.type== 'File'">
+              <img src="../../assets/file.png" height="100px" width="100px" (click)="openFile(chat.message)"
+                alt="File">
+            </div>
+            <div class="white-chat-msg" *ngIf="chat.type == 'Video'">
+              <img src="../../assets/video.jpg" height="100px" width="100px" (click)="openFile(chat.message)"
+                alt="File">
+            </div>
+            <div class="read">
+              <!-- <p>{{'common.read' | translate}}</p> -->
+              <p>{{chat.sendDate | date:'shortTime'}}</p>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
-    <div class="receiver">
-      <p class="ion-no-margin">Today at 5 45pm?</p>
-    </div>
-    <div class="sender">
-      <p class="ion-no-margin">Too early</p>
-    </div>
-    <div class="receiver">
-      <p class="ion-no-margin">Then maybe tomorrow at 5 45pm?</p><img src="../../assets/logo.svg" alt="" class="logo-icon">
-    </div>
-  </div> -->
-  <section class="with-chat-info">
-    <ul>
-      <li><span>Hey! Are you available for a meeting?</span></li>
-      <li><span>Today at 5:45pm?</span></li>
-      <li><span>Too early</span></li>
-      <li><span>Then maybe tomorrow at 5:45pm?<span class="img-span"><img src="images/logo.svg" alt=""></span></span>
-      </li>
-    </ul>
     <div class="extra-service">
       <div class="service-list">
         <img src="images/gift-logo.png" alt="">
@@ -90,10 +122,11 @@
 
   <ion-row class="footer">
     <ion-col size="10">
-      <ion-input placeholder="That's perfect!"></ion-input>
+      <ion-textarea type="text" placeholder="Type a Message" rows="2" [(ngModel)]="MessageData.message" name="message">
+      </ion-textarea>
     </ion-col>
     <ion-col size="2" class="ion-text-right">
-      <img src="../../assets/images/enter-icon.svg" alt="" class="send-icon">
+      <img src="../../assets/images/enter-icon.svg" alt="" class="send-icon" (click)="sendMessage(MessageData)">
     </ion-col>
   </ion-row>
 </ion-content>

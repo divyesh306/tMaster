@@ -22,7 +22,8 @@
     </ion-row>
     <ion-row class="profile_item_margin ion-text-center">
       <div>
-        <img src="../../assets/images/counselor-tokmay-icon.svg" *ngIf="userDetail.type == counselor" alt="" class="tab-img">
+        <img src="../../assets/images/counselor-tokmay-icon.svg" *ngIf="userDetail.type == counselor" alt=""
+          class="tab-img">
         <img src="../../assets/images/client-tokmay-icon.svg" *ngIf="userDetail.type == user" class="tab-img">
       </div>
       <div class="ion-margin-horizontal">
@@ -90,8 +91,11 @@
       <div class="border_div"></div>
       <ion-item class="item_margin">
         <ion-label class="grey_text" position="stacked">{{'common.appealTag' | translate}}</ion-label>
-        <ion-textarea placeholder="Tag text here" formControlName="tags" rows="3">
-        </ion-textarea>
+        <ion-select multiple="true" cancelText="Nah" okText="Okay!">
+          <ion-select-option *ngFor="let tag of tagList" value="{{tag.id}}">{{tag.tag}}</ion-select-option>
+        </ion-select>
+        <!-- <ion-textarea placeholder="Tag text here" formControlName="tags" rows="3">
+        </ion-textarea> -->
       </ion-item>
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.tags.errors?.required">
         {{'common.tagRequired' | translate}}

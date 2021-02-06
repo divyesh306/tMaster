@@ -57,7 +57,6 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.19.8",
     "aws-sdk": "^2.805.0",
-    "cc.fovea.cordova.purchase": "^10.5.3",
     "codelyzer": "^6.0.0",
     "cordova-android": "^9.0.0",
     "cordova-browser": "^6.0.0",
@@ -71,6 +70,7 @@
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-ionic-webview": "^4.2.1",
     "cordova-plugin-media-capture": "^3.0.3",
+    "cordova-plugin-purchase": "git+https://github.com/j3k0/cordova-plugin-purchase.git#v9",
     "cordova-plugin-sms-retriever-manager": "^1.0.2",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "2.4.2",
@@ -115,8 +115,8 @@
       "cordova-plugin-file-opener2": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
       },
-      "cc.fovea.cordova.purchase": {
-        "BILLING_KEY": "97865412346"
+      "cordova-plugin-purchase": {
+        "BILLING_KEY": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsyk+aebZO5RkYYBG36N5eyI4pPgS6aF6tiSk3QwMR663/tlCOUn7yWvymLuU4aXN7bjCgRtr7FtMHlBa17i4Nn9TxJeR0B8mX3jGKCH8PO4OSYLehF7qLNjw+7lxCQP0t7pxtNl9KAdZdMHniFr3/ibpUTh50wKedWYqYfmR6rsudCYDyaNHctLQr669E3fPDucRPx/CMdfOE+OUllaj4kTGSPPZpn38h2MVxBngHoU+aG1HkggqjnmBKmoAuCCFAun+7tfeKDKSMAwoWSj//lE0RAkUlyRzZ9Co9B7rI7R56XarIMMMB7o0BRjohY1WUnOG0jc/eF3SVKEinFLRwQIDAQAB"
       }
     },
     "platforms": [

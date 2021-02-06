@@ -8,15 +8,21 @@
 </ion-header>
 
 <ion-content>
-  <ion-item lines="none">
-    <ion-label position="stacked" class="label-color">{{'bugReport.email' | translate}}</ion-label>
-    <ion-input type="email" class="mt-5"></ion-input>
-  </ion-item>
-  <ion-item lines="none">
-    <ion-label position="stacked" class="label-color">{{'bugReport.comment' | translate}}</ion-label>
-    <ion-textarea type="text" rows="4"></ion-textarea>
-  </ion-item>
-  <div class="ion-text-center mt-10per">
-    <ion-button class="green_button" [routerLink]="['/setting']">{{'bugReport.submit' | translate}}</ion-button>
-  </div>
+  <form>
+    <ion-item lines="none">
+      <ion-label position="stacked" class="label-color">{{'bugReport.email' | translate}}</ion-label>
+      <ion-input type="email" class="mt-5" ngDefaultControl name="reportData.email" [(ngModel)]="reportData.email">
+      </ion-input>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label position="stacked" class="label-color">{{'bugReport.comment' |
+        translate}}</ion-label>
+      <ion-textarea type="text" rows="4" ngDefaultControl name="reportData.message" [(ngModel)]="reportData.message">
+      </ion-textarea>
+    </ion-item>
+    <div class="ion-text-center mt-10per">
+      <ion-button class="green_button" (click)="sendReport(reportData)">{{'bugReport.submitBtn' | translate}}
+      </ion-button>
+    </div>
+  </form>
 </ion-content>

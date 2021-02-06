@@ -64,7 +64,7 @@
           <li *ngIf="chat.user != nickname">
             <div class="white-chat-details">
               <div class="user-img">
-                <img src="../../assets/avatar_img.jpg" alt="">
+                <img src="{{s3Url}}{{chatUser.picture}}" class="user_profilepic" alt="">
               </div>
               <div class="white-chat-msg" *ngIf="chat.type == 'message'  || chat.type == 'join'">
                 <p>{{chat.message}}</p>
@@ -110,7 +110,7 @@
       <img src="../../assets/images/coins-icons.svg" alt="">
     </ion-col>
     <ion-col size="6" class="input_column">
-      <ion-textarea type="text" placeholder="Aa" rows="2" [(ngModel)]="MessageData.message" name="message">
+      <ion-textarea type="text" placeholder="Type a Message" rows="2" [(ngModel)]="MessageData.message" name="message">
       </ion-textarea>
       <img src="../../assets/images/enter-icon.svg" alt="" (click)="sendMessage(MessageData)">
     </ion-col>

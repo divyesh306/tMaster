@@ -6,6 +6,8 @@ import { WarningComponent } from '../component/warning/warning.component';
 import { LoadingService } from '../Service/loading.service';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { WebrtcService } from '../Service/webrtc.service';
+import * as firebase from 'firebase';
+import { configService } from '../Service/config.service';
 
 @Component({
   selector: 'app-video-chat',
@@ -23,22 +25,58 @@ export class VideoChatPage implements OnInit {
   myVideo;
   myEl: HTMLMediaElement;
   partnerEl: HTMLMediaElement;
-
+  MessageData = { type: '', nickname: '', message: '' };
+  chats = [];
+  roomkey: string;
+  nickname: string;
+  chatUser: String;
+  userType: string;
+  s3Url;
   constructor(public popoverController: PopoverController, public navCtrl: NavController, public webRTC: WebrtcService,
     public localStorage: LocalstorageService, public elRef: ElementRef, public loading: LoadingService,
-    public route: ActivatedRoute) {
+    public route: ActivatedRoute, public config:configService
+    ) {
+      this.s3Url = this.config.getS3();
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params && params.chatUser_id) {
         this.chatUser_id = params.chatUser_id;
+        this.roomkey = params.key;
+        this.nickname = params.nickname;
+        this.chatUser = JSON.parse(params.chatUser);
+        this.chatUser_id = params.chatUser_id;
+        this.userType = params.userType;
       }
     });
     this.loginUser = this.localStorage.get('userDetail');
     this.userId = this.loginUser.id;
+    this.MessageData.type = 'message';
+    this.MessageData.nickname = this.nickname;
+    firebase.database().ref('chatroom/' + this.roomkey + '/chats').on('value', resp => {
+      this.chats = [];
+      this.chats = snapshotToArray(resp);
+    });
     this.init();
   }
+
+  sendMessage(data) {
+    if (!data.message.trim().length) {
+      //Empty String Not Send On message
+    }
+    else {
+      let newData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
+      newData.set({
+        type: data.type,
+        user: data.nickname,
+        message: data.message,
+        sendDate: Date()
+      });
+    }
+    this.MessageData.message = '';
+  }
+
   init() {
     this.myEl = this.elRef.nativeElement.querySelector('#myVideo');
     this.partnerEl = this.elRef.nativeElement.querySelector('#partnerVideo');
@@ -84,3 +122,14 @@ export class VideoChatPage implements OnInit {
     // return await popover.present();
   }
 }
+
+export const snapshotToArray = snapshot => {
+  let returnArr = [];
+  snapshot.forEach(childSnapshot => {
+    let item = childSnapshot.val();
+    item.key = childSnapshot.key;
+    returnArr.push(item);
+  });
+
+  return returnArr;
+};

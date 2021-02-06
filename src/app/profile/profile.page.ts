@@ -27,6 +27,7 @@ export class ProfilePage implements OnInit {
   userDetail;
   s3Url;
   video;
+  tagList;
   constructor(private localstorage: LocalstorageService,
     private userService: userService,
     private file: File,
@@ -57,9 +58,27 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.userDetail = this.localstorage.get('userDetail'); // User Detail    
+    this.userDetail = this.localstorage.get('userDetail'); // User Detail  
+    this.getTags();  
   }
 
+  getTags() {
+    const body = {
+      name: 'tags{id tag}'
+    }
+    this.loading.present();
+    this.userService.closeQuery(body).subscribe(result => {
+      if (result['hasError']) {
+
+      } else {
+        this.tagList = result['data'].tags;
+        console.log("Tag List : ", this.tagList);
+      }
+      this.loading.dismiss();
+    }, err => {
+      this.loading.dismiss();
+    })
+  }
   next() {
     this.isSubmitted = true;
     if (!this.registerForm.valid) {
@@ -169,10 +188,12 @@ export class ProfilePage implements OnInit {
         (err: CaptureError) => console.error(err)
       );
   }
+
   playVideo() {
     this.localstorage.set('selectedUser', this.userDetail);
     this.router.navigate(['tabs/video-detail/' + this.userDetail.id]);
   }
+  
   logout() {
     this.loading.present();
     const body = {
