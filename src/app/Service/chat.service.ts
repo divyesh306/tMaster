@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { inject } from "@angular/core/testing";
+import firebase from 'firebase/app'
 import { ActivatedRoute, Router } from "@angular/router";
 import { NavController } from "@ionic/angular";
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -17,11 +18,11 @@ export class chats {
     ref;
     constructor(public router: Router, public firestore: AngularFirestore,
         public route: ActivatedRoute, public navCtrl: NavController) {
-        this.ref = this.firestore.collection('chatroom/').snapshotChanges();
+        // this.ref = ;
         console.log('chat ref', this.ref);
     }
     createRoom(data) {
-        let newData = this.ref.push();
+        let newData = firebase.database().ref('chatroom/').push();
         newData.set({
             roomname: data.roomname
         });
