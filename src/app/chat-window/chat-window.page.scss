@@ -2,17 +2,22 @@
     color: white;
     font-size: 30px;
 }
+
 .online-tag {
     color: white;
     display: flex;
     align-items: flex-end;
+    width: 40px;
+
     ion-icon {
         font-size: 25px;
     }
 }
+
 .fs-10 {
     font-size: 10px;
 }
+
 .background {
     // background: #6d97c1;
     background: url("../../assets/images/cloud-background.svg");
@@ -24,6 +29,7 @@
     overflow: scroll;
     padding-bottom: 30px;
 }
+
 .bottom-icon {
     position: fixed;
     bottom: 0;
@@ -31,10 +37,12 @@
     background: white;
     width: 100%;
     padding: 4px 8px;
+
     ion-col {
         padding: 0;
     }
 }
+
 .input_column {
     border: 1px solid #253447;
     border-radius: 6px;
@@ -42,14 +50,17 @@
     min-height: 34px;
     display: flex;
     font-size: 12px;
-    ion-textarea{
+
+    ion-textarea {
         margin: 0 !important;
     }
+
     img {
         height: 18px;
         margin: auto 2px;
     }
 }
+
 .coin-box {
     background: #6d8596;
     position: absolute;
@@ -58,6 +69,7 @@
     color: white;
     text-align: center;
 }
+
 .coin-box:before {
     content: "";
     display: block;
@@ -68,23 +80,28 @@
     bottom: 0;
     left: 53px;
 }
+
 .coin-padding {
     padding: 10px 0;
+
     img {
         padding-bottom: 5px;
     }
 }
+
 .fileupload {
     position: absolute;
     bottom: 55px;
     left: 5px;
     display: flex;
     flex-direction: column;
+
     .upload_icon {
         height: 40px;
         width: 40px;
         border-radius: 50%;
         background: #8aadce;
+
         ion-icon {
             font-size: 26px;
             padding: 6px;

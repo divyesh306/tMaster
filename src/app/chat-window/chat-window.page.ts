@@ -3,7 +3,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ActionSheetController, NavController, PopoverController } from '@ionic/angular';
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
 import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture/ngx';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { chats } from '../Service/chat.service';
 import { userService } from '../Service/user.service';
 import { configService } from '../Service/config.service';
@@ -250,26 +250,30 @@ export class ChatWindowPage implements OnInit {
   }
 
   async videoCall(ev: any) {
-    const popover = await this.popoverController.create({
-      component: VideoNoticeComponent,
-      event: ev,
-      translucent: true,
-      componentProps: {
-        onClick: () => {
-          let navigationExtras: NavigationExtras = {
-            queryParams: {
-              chatUser_id: this.chatUser_id,
-              key: this.roomkey,
-              nickname: this.nickname,
-              chatUser: JSON.stringify(this.chatUser),
-              userType: this.userType
-            }
-          };
-          this.router.navigate(['/video-chat'], navigationExtras);
+    if (this.userstatus == 'Offline') {
+      this.configService.sendToast('danger', "You can't call this user, because user is offline", 'bottom');
+    } else {
+      const popover = await this.popoverController.create({
+        component: VideoNoticeComponent,
+        event: ev,
+        translucent: true,
+        componentProps: {
+          onClick: () => {
+            let navigationExtras: NavigationExtras = {
+              queryParams: {
+                chatUser_id: this.chatUser_id,
+                key: this.roomkey,
+                nickname: this.nickname,
+                chatUser: JSON.stringify(this.chatUser),
+                userType: this.userType
+              }
+            };
+            this.router.navigate(['/video-chat'], navigationExtras);
+          }
         }
-      }
-    });
-    return await popover.present();
+      });
+      return await popover.present();
+    }
   }
 
   addFavorite(type) {

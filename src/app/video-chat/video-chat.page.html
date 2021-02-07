@@ -29,17 +29,13 @@
     </ion-col>
   </ion-row>
 
-  <section class="with-chat-info chat-screen coin-box">
-    <div class="conversation" >
+  <section class="with-chat-info chat-screen" style="overflow: scroll;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+    <div class="conversation">
       <ul *ngFor="let chat of chats">
         <li *ngIf="chat.user == nickname">
           <div class="chat-details">
-            <div class="read">
-              <!-- <p>{{'common.read' | translate}}</p> -->
-              <p>{{chat.sendDate | date:'shortTime'}}</p>
-            </div>
             <div class="chat-msg" *ngIf="chat.type== 'message'">
-              <p>{{chat.message}}</p>
+              <p class="ion-no-margin">{{chat.message}}</p>
             </div>
             <div class="chat-msg" *ngIf="chat.type== 'SendCoin'">
               <p>{{chat.message}} Coins</p>
@@ -52,8 +48,7 @@
                 alt="File">
             </div>
             <div class="chat-msg" *ngIf="chat.type== 'File'">
-              <img src="../../assets/file.png" height="100px" width="100px" (click)="openFile(chat.message)"
-                alt="File">
+              <img src="../../assets/file.png" height="100px" width="100px" (click)="openFile(chat.message)" alt="File">
             </div>
             <div class="chat-msg" *ngIf="chat.type == 'Video'">
               <img src="../../assets/video.png" height="100px" width="100px" (click)="openFile(chat.message)"
@@ -63,13 +58,10 @@
         </li>
         <li *ngIf="chat.user != nickname">
           <div class="white-chat-details">
-            <div class="user-img">
-              <img src="{{s3Url}}{{chatUser.picture}}" class="user_profilepic" alt="">
-            </div>
             <div class="white-chat-msg" *ngIf="chat.type == 'message'  || chat.type == 'join'">
-              <p>{{chat.message}}</p>
+              <p class="ion-no-margin">{{chat.message}}</p>
             </div>
-            
+
             <div class="white-chat-msg" *ngIf="chat.type== 'SendCoin'">
               <p>{{chat.message}} Coins</p>
             </div>
@@ -81,29 +73,24 @@
                 alt="File">
             </div>
             <div class="white-chat-msg" *ngIf="chat.type== 'File'">
-              <img src="../../assets/file.png" height="100px" width="100px" (click)="openFile(chat.message)"
-                alt="File">
+              <img src="../../assets/file.png" height="100px" width="100px" (click)="openFile(chat.message)" alt="File">
             </div>
             <div class="white-chat-msg" *ngIf="chat.type == 'Video'">
               <img src="../../assets/video.jpg" height="100px" width="100px" (click)="openFile(chat.message)"
                 alt="File">
             </div>
-            <div class="read">
-              <!-- <p>{{'common.read' | translate}}</p> -->
-              <p>{{chat.sendDate | date:'shortTime'}}</p>
-            </div>
           </div>
         </li>
       </ul>
     </div>
-    <div class="extra-service">
-      <div class="service-list">
+    <div class="extra-service h-0">
+      <div class="service-list h-0">
         <img src="images/gift-logo.png" alt="">
       </div>
-      <div class="service-list">
+      <div class="service-list h-0">
         <img src="images/gift-icon.svg" alt="">
       </div>
-      <div class="service-list">
+      <div class="service-list h-0">
         <img src="images/say-frnd.svg" alt="">
       </div>
     </div>
@@ -121,7 +108,7 @@
   </div>
 
   <ion-row class="footer">
-    <ion-col size="10">
+    <ion-col size="10" class="input_column">
       <ion-textarea type="text" placeholder="Type a Message" rows="2" [(ngModel)]="MessageData.message" name="message">
       </ion-textarea>
     </ion-col>

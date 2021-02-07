@@ -10,18 +10,23 @@
   max-width: 100px;
   z-index: 2;
 }
-.coin-box{
+
+.coin-box {
   background: #6d8596;
-    position: absolute;
-    bottom: 52px;
-    width: 100%;
-    color: white;
-    text-align: center;
+  position: absolute;
+  bottom: 52px;
+  width: 100%;
+  color: white;
+  text-align: center;
 }
 
 .main-video {
   width: 100%;
   height: 100%;
+}
+
+.h-0 {
+  height: 0;
 }
 
 .user_details {
@@ -41,6 +46,30 @@
   left: 0;
   right: 0;
   opacity: .4;
+}
+
+.chat-screen .conversation ul li .chat-details .chat-msg {
+  border-radius: 8px 0 8px 8px !important;
+  padding: 8px !important;
+}
+
+.chat-screen .conversation ul li .white-chat-details .white-chat-msg {
+  border-radius: 0 8px 8px 8px !important;
+  padding: 8px !important;
+  margin-left: 0 !important;
+}
+
+.chat-screen .conversation ul li .chat-details {
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
+
+.chat-screen .conversation ul li .chat-msg:after {
+  background: none !important;
+}
+
+.chat-screen .conversation ul li .white-chat-msg:after {
+  background: none !important;
 }
 
 .end_call {
@@ -95,18 +124,32 @@
   height: 20px;
 }
 
+.input_column {
+  border: 1px solid white;
+  border-radius: 25px;
+  max-height: 45px;
+  min-height: 34px;
+  display: flex;
+  font-size: 12px;
+
+  ion-textarea {
+    margin: 0 !important;
+    color: white;
+  }
+
+  img {
+    height: 18px;
+    margin: auto 2px;
+  }
+}
+
 .footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-
-  ion-input {
-    border: 1px solid white;
-    border-radius: 50px;
-    color: white;
-    height: 40px;
-    margin-left: 10px;
-  }
+  align-items: center;
+  padding: 1px 0px 1px 10px;
+  background: rgba(37, 52, 71, 0.34);
 
   .send-icon {
     border: 1px solid white;
@@ -118,10 +161,12 @@
 }
 
 .with-chat-info {
-  padding: 15px 12px;
+  padding: 0 20px 10px;
   position: fixed;
-  bottom: 0;
+  bottom: 60px;
   width: 100%;
+  height: 45%;
+  overflow: scroll;
 }
 
 .with-chat-info ul {
