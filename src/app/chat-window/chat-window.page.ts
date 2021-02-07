@@ -14,6 +14,7 @@ import { File } from '@ionic-native/file/ngx';
 import { FileViewerService } from '../Service/file-viewer.service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { LocalstorageService } from '../Service/localstorage.service';
+import { WebrtcService } from '../Service/webrtc.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -33,7 +34,8 @@ export class ChatWindowPage implements OnInit {
   userType: string;
   s3Url;
   userstatus;
-
+  userDetail;
+  socket:any;
   constructor(public router: Router,
     public popoverController: PopoverController,
     public actionSheetController: ActionSheetController,
@@ -49,9 +51,13 @@ export class ChatWindowPage implements OnInit {
     private fileopenServcie: FileViewerService,
     public db: AngularFireDatabase,
     private chooser: Chooser,
+    private videdoservice: WebrtcService,
     public localStorage: LocalstorageService
   ) {
     this.s3Url = this.configService.getS3();
+    this.userDetail = this.localStorage.get('userDetail');
+    this.socket = this.configService.getSocket();
+    this.socket.on(this.userDetail.firebase_user_id, (data) => { alert('Data'); console.log('data', data); })
   }
 
   ngOnInit() {
@@ -64,8 +70,10 @@ export class ChatWindowPage implements OnInit {
         this.userType = params.userType;
       }
     });
+    this.fireinit();
     this.getstatus();
 
+    // this.webRTC.createPeer(this.userDetail.firebase_user_id)
     this.MessageData.type = 'message';
     this.MessageData.nickname = this.nickname;
     firebase.database().ref('chatroom/' + this.roomkey + '/chats').on('value', resp => {
@@ -87,6 +95,10 @@ export class ChatWindowPage implements OnInit {
     });
   }
 
+  
+  fireinit() {   
+    this.videdoservice.createPeer(this.userDetail.firebase_user_id);
+  }
   sendCoins(coins) {
     const mutation = {
       name: 'coin_management',

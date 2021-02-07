@@ -66,7 +66,7 @@ export class AppComponent {
       this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.STORAGE, this.androidPermissions.PERMISSION.CAMERA, this.androidPermissions.PERMISSION.RECORD_AUDIO, this.androidPermissions.PERMISSION.RECORD_VIDEO, this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS, this.androidPermissions.PERMISSION.MODIFY_VIDEO_SETTINGS]);
       this.af.onAuthStateChanged(user => {
         if (user) {
-          this.webRTC.createPeer(user.uid);
+          // this.webRTC.createPeer(user.uid);
           var myStatusRef = firebase.database().ref("users/" + user.uid + '/status');
           var connectedRef = firebase.database().ref(".info/connected");
           console.log('connectedRef', connectedRef);
@@ -78,7 +78,7 @@ export class AppComponent {
             }
           });
         } else {
-          var myStatusRef = firebase.database().ref("users/" + user.uid + '/status');
+          // var myStatusRef = firebase.database().ref("users/" + user.uid + '/status');
           document.onvisibilitychange = (e) => {
             if (document.visibilityState == 'hidden') {
               myStatusRef.set('away');
@@ -88,19 +88,6 @@ export class AppComponent {
           }
         }
       })
-      // this.fcm.onNotification().subscribe(data => {
-      //   if (data.wasTapped) {
-      //     console.log("Received in background");
-      //   } else {
-      //     console.log("Received in foreground");
-      //   };
-      // });
-
-      // this.fcm.onTokenRefresh().subscribe(token => {
-      //   console.log(token);
-      //   // Register your new token in your back-end if you want
-      //   // backend.registerToken(token);
-      // });
     });
   }
 

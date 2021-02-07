@@ -9,7 +9,7 @@ export class WebrtcService {
   private _peer: Peer;
   private _localStream: any;
   private _existingCall: any;
-
+  incomingCallId:any;
   myEl: HTMLMediaElement;
   otherEl: HTMLMediaElement;
   onCalling: Function;
@@ -27,11 +27,11 @@ export class WebrtcService {
   }
   createPeer(userId: string) {
     this._peer = new Peer(userId, this.getPeerJSOption());
+    console.log("Peer : ",this._peer);
   }
   getPeerJSOption(): Peer.PeerJSOption {
     return {
-      key: this.userDetail.firebase_user_id,
-      debug: 3,
+      debug: 0,
       secure: false,
       config: {
         iceServers: [
@@ -40,41 +40,54 @@ export class WebrtcService {
       }
     }
   }
+
   async init(myEl: HTMLMediaElement, otherEl: HTMLMediaElement, onCalling: Function) {
     this.myEl = myEl;
     this.otherEl = otherEl;
     this.onCalling = onCalling;
     this._peer.on('call', (call) => {
-      console.log(this._peer);
+      console.log("On Calling : ", this._peer);
       call.answer(this._localStream);
       this._step3(call);
     });
     this._peer.on('error', (err) => {
-      console.log(err.message);
+      console.log("Create Peer Error : ", err);
       if (this.onCalling) {
         this.onCalling();
       }
     });
     this._step1();
   }
+  
   call(otherUserId: string) {
+    console.log("otherUserId Data : ", otherUserId);
     var call = this._peer.call(otherUserId, this._localStream);
+    this.incomingCallId = call;
+    console.log("Calling Data : ", call);
     this._step3(call);
   }
 
   endCall() {
+    this._peer.disconnect();
     this._existingCall.close();
     if (this.onCalling) {
       this.onCalling();
     }
   }
 
+  AnswerCall(incomingCallId) {
+    this._peer.connect(incomingCallId);
+    // this.nativeAudio.stop('uniqueI1').then(() => { }, () => { });
+
+    // this.UpdateControlsOnAnswer();
+  }
+
   private _step1() {
     // Get audio/video stream
     navigator.getUserMedia({ audio: true, video: true }, (stream) => {
-      console.log(stream);
+      console.log("Streaming : ", stream);
       // Set your video displays
-      this.myEl.src = URL.createObjectURL(stream);
+      this.myEl.srcObject = stream;
 
       this._localStream = stream;
       // this._step2();
@@ -82,7 +95,7 @@ export class WebrtcService {
         this.onCalling();
       }
     }, (error) => {
-      console.log(error);
+      console.log("step 1 : ", error);
     });
   }
 
@@ -94,7 +107,7 @@ export class WebrtcService {
 
     // Wait for stream on the call, then set peer video display
     call.on('stream', (stream) => {
-      this.otherEl.src = URL.createObjectURL(stream);
+      this.otherEl.srcObject = stream;
     });
 
     // UI stuff
