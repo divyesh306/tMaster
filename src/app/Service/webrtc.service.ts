@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Peer from 'peerjs';
+import { LocalstorageService } from './localstorage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class WebrtcService {
   myEl: HTMLMediaElement;
   otherEl: HTMLMediaElement;
   onCalling: Function;
-
+  userDetail;
   stun = 'stun.l.google.com:19302';
   mediaConnection: Peer.MediaConnection;
   options: Peer.PeerJSOption;
@@ -20,15 +21,16 @@ export class WebrtcService {
     urls: 'stun:' + this.stun,
   };
 
-  constructor() {
+  constructor(private localStorage: LocalstorageService) {
     navigator.getUserMedia = navigator.getUserMedia;
+    this.userDetail = this.localStorage.get('userDetail');
   }
   createPeer(userId: string) {
     this._peer = new Peer(userId, this.getPeerJSOption());
   }
   getPeerJSOption(): Peer.PeerJSOption {
     return {
-      key: 'cd1ft79ro8g833di',
+      key: this.userDetail.firebase_user_id,
       debug: 3,
       secure: false,
       config: {

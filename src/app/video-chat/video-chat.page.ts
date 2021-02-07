@@ -29,7 +29,7 @@ export class VideoChatPage implements OnInit {
   chats = [];
   roomkey: string;
   nickname: string;
-  chatUser: String;
+  chatUser;
   userType: string;
   s3Url;
   constructor(public popoverController: PopoverController, public navCtrl: NavController, public webRTC: WebrtcService,
@@ -91,7 +91,8 @@ export class VideoChatPage implements OnInit {
   }
 
   call() {
-    this.webRTC.call('PcEjLssysodR0yM8BCNm4t7Eaep2');
+    console.log("Video CCall : ", this.chatUser.firebase_user_id);
+    this.webRTC.call(this.chatUser.firebase_user_id);
     // this.webRTC.call(this.chatUser_id);
     this.swapVideo('myVideo');
   }
