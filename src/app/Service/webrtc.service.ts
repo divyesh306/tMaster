@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import Peer from 'peerjs';
+import { LocalstorageService } from './localstorage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebrtcService {
-  peer: Peer;
-  myStream: MediaStream;
+  private _peer: Peer;
+  private _localStream: any;
+  private _existingCall: any;
+  incomingCallId:any;
   myEl: HTMLMediaElement;
-  partnerEl: HTMLMediaElement;
-
+  otherEl: HTMLMediaElement;
+  onCalling: Function;
+  userDetail;
   stun = 'stun.l.google.com:19302';
   mediaConnection: Peer.MediaConnection;
   options: Peer.PeerJSOption;
@@ -17,89 +21,104 @@ export class WebrtcService {
     urls: 'stun:' + this.stun,
   };
 
-  constructor() {
-    this.options = {  // not used, by default it'll use peerjs server
-      key: 'cd1ft79ro8g833di',
-      debug: 3
-    };
+  constructor(private localStorage: LocalstorageService) {
+    navigator.getUserMedia = navigator.getUserMedia;
+    this.userDetail = this.localStorage.get('userDetail');
+  }
+  createPeer(userId: string) {
+    this._peer = new Peer(userId, this.getPeerJSOption());
+    console.log("Peer : ",this._peer);
+  }
+  getPeerJSOption(): Peer.PeerJSOption {
+    return {
+      debug: 0,
+      secure: false,
+      config: {
+        iceServers: [
+          this.stunServer
+        ]
+      }
+    }
   }
 
-  getMedia() {
-    navigator.getUserMedia({ audio: true, video: true }, (stream) => {
-       this.myStream = stream;
-    this.myEl.srcObject = stream;
-    }, (error) => {
-      this.handleError(error);
-    });
-  }
-
-  async init(userId: string, myEl: HTMLMediaElement, partnerEl: HTMLMediaElement) {
+  async init(myEl: HTMLMediaElement, otherEl: HTMLMediaElement, onCalling: Function) {
     this.myEl = myEl;
-    this.partnerEl = partnerEl;
-    console.log(userId);
-    console.log(this.myEl);
-    console.log(this.partnerEl);
-    try {
-      this.getMedia();
-    } catch (e) {
-      this.handleError(e);
-    }
-    await this.createPeer(userId);
-  }
-
-  async createPeer(userId: string) {
-    this.peer = new Peer(userId);
-    console.log(this.peer);
-    this.peer.on('open', () => {
-      this.wait();
+    this.otherEl = otherEl;
+    this.onCalling = onCalling;
+    this._peer.on('call', (call) => {
+      console.log("On Calling : ", this._peer);
+      call.answer(this._localStream);
+      this._step3(call);
     });
-  }
-
-  call(partnerId: string) {
-    console.log(partnerId);
-    const call = this.peer.call(partnerId, this.myStream);
-    console.log(call);
-
-    call.on('stream', (stream) => {
-      this.partnerEl.srcObject = stream;
+    this._peer.on('error', (err) => {
+      console.log("Create Peer Error : ", err);
+      if (this.onCalling) {
+        this.onCalling();
+      }
     });
+    this._step1();
+  }
+  
+  call(otherUserId: string) {
+    console.log("otherUserId Data : ", otherUserId);
+    var call = this._peer.call(otherUserId, this._localStream);
+    this.incomingCallId = call;
+    console.log("Calling Data : ", call);
+    this._step3(call);
   }
 
-  wait() {
-    this.peer.on('call', (call) => {
-      call.answer(this.myStream);
-      call.on('stream', (stream) => {
-        this.partnerEl.srcObject = stream;
-      });
-    });
-  }
   endCall() {
-    this.peer.destroy();
-    this.myStream.getTracks().forEach(function (track) { track.stop();});
-  }
-  handleSuccess(stream: MediaStream) {
-    this.myStream = stream;
-    this.myEl.srcObject = stream;
-  }
-
-  handleError(error: any) {
-    if (error.name === 'ConstraintNotSatisfiedError') {
-      // const v = constraints.video;
-      // this.errorMsg(`The resolution ${v.width.exact}x${v.height.exact} px is not supported by your device.`);
-      this.errorMsg(`The resolution px is not supported by your device.`);
-    } else if (error.name === 'PermissionDeniedError') {
-      this.errorMsg('Permissions have not been granted to use your camera and ' +
-        'microphone, you need to allow the page access to your devices in ' +
-        'order for the demo to work.');
-    }
-    this.errorMsg(`getUserMedia error: ${error.name}`, error);
-  }
-
-  errorMsg(msg: string, error?: any) {
-    const errorElement = document.querySelector('#errorMsg');
-    errorElement.innerHTML += `<p>${msg}</p>`;
-    if (typeof error !== 'undefined') {
-      console.error(error);
+    this._peer.disconnect();
+    this._existingCall.close();
+    if (this.onCalling) {
+      this.onCalling();
     }
   }
+
+  AnswerCall(incomingCallId) {
+    this._peer.connect(incomingCallId);
+    // this.nativeAudio.stop('uniqueI1').then(() => { }, () => { });
+
+    // this.UpdateControlsOnAnswer();
+  }
+
+  private _step1() {
+    // Get audio/video stream
+    navigator.getUserMedia({ audio: true, video: true }, (stream) => {
+      console.log("Streaming : ", stream);
+      // Set your video displays
+      this.myEl.srcObject = stream;
+
+      this._localStream = stream;
+      // this._step2();
+      if (this.onCalling) {
+        this.onCalling();
+      }
+    }, (error) => {
+      console.log("step 1 : ", error);
+    });
+  }
+
+  private _step3(call) {
+    // Hang up on an existing call if present
+    if (this._existingCall) {
+      this._existingCall.close();
+    }
+
+    // Wait for stream on the call, then set peer video display
+    call.on('stream', (stream) => {
+      this.otherEl.srcObject = stream;
+    });
+
+    // UI stuff
+    this._existingCall = call;
+    // $('#their-id').text(call.peer);
+    call.on('close', () => {
+      // this._step2();
+      if (this.onCalling) {
+        this.onCalling();
+      }
+    });
+  }
+
 }

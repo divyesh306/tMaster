@@ -46,7 +46,7 @@ export class VideoDetailPage implements OnInit {
     const mutation = {
       name: 'add_to_favorite_user',
       inputtype: 'AddFavoriteUserInputType',
-      data: { favorite_user: this.userDetail._id, type: 'favorite' },
+      data: { favorite_user: this.userDetail.id, type: 'favorite' },
     }
     this.loading.present();
     this.userService.CloseApi(mutation).subscribe(result => {
@@ -127,7 +127,6 @@ export class VideoDetailPage implements OnInit {
           const res = result['data'].update_rooms;
           this.loading.dismiss();
           if (!res.hasError) {
-
             let newData = firebase.database().ref('chatroom/' + res.data.room_key + '/chats').push();
             newData.set({
               type: 'message',
