@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import firebase from 'firebase/app';
 @Injectable({
     providedIn: 'root'
 })
@@ -9,6 +10,22 @@ export class configService {
     constructor(public toastController: ToastController) {
         this.SERVER_URL = "http://54.248.130.122:3008/api/";
         this.s3 = "https://matukitestimg.s3.ap-south-1.amazonaws.com/" //https://matukitestimg.s3.ap-south-1.amazonaws.com/Profilevideo/20201231_171245.jpg
+    }
+    setStatus(userId) {
+        var myStatusRef = firebase.database().ref("users/" + userId + '/status');
+        var connectedRef = firebase.database().ref(".info/connected");
+        connectedRef.on('value', function (snap) {
+            if (snap.val() == true) {
+                myStatusRef.onDisconnect().remove();
+                myStatusRef.set('online');
+                myStatusRef.onDisconnect().set('Offline');
+            }
+        });
+    }
+    getStatus(userId) {
+        return firebase.database().ref('users/' + userId + '/status').on('value', resp => {
+            return resp.val();
+          });
     }
     getServerUrl(): String {
         return this.SERVER_URL;

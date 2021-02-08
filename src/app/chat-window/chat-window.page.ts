@@ -65,7 +65,6 @@ export class ChatWindowPage implements OnInit {
       }
     });
     this.getstatus();
-
     this.MessageData.type = 'message';
     this.MessageData.nickname = this.nickname;
     firebase.database().ref('chatroom/' + this.roomkey + '/chats').on('value', resp => {
@@ -115,10 +114,7 @@ export class ChatWindowPage implements OnInit {
   }
 
   async getstatus() {
-    firebase.database().ref('users/' + this.chatUser.firebase_user_id + '/status').on('value', resp => {
-      this.userstatus = [];
-      this.userstatus = resp.val();
-    });
+    this.userstatus = this.configService.getStatus(this.chatUser.firebase_user_id);
   }
 
   sendMessage(data) {

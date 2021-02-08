@@ -36,6 +36,7 @@ export class MessagePage implements OnInit {
 
   ionViewDidEnter() {
     this.loginUser = this.localStorage.get('userDetail');
+    this.ConfigService.setStatus(this.loginUser.firebase_user_id);
     this.s3Url = this.ConfigService.getS3();
     const body = {
       name: 'room_list(id:"' + this.loginUser.id + '"){sender_id receiver_id room_id room_key created_at receiver{nick_name picture coins firebase_user_id} sender{nick_name picture coins firebase_user_id} type}'
@@ -73,7 +74,9 @@ export class MessagePage implements OnInit {
     return res;
   };
 
-  ngOnInit() { }
+  ngOnInit() {
+    
+  }
 
   selectTab(roomArray, tab) {
     this.activeTab = tab;
