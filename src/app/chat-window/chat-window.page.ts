@@ -15,7 +15,7 @@ import { FileViewerService } from '../Service/file-viewer.service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { WebrtcService } from '../Service/webrtc.service';
-
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-chat-window',
   templateUrl: './chat-window.page.html',
@@ -35,7 +35,7 @@ export class ChatWindowPage implements OnInit {
   s3Url;
   userstatus;
   userDetail;
-  socket:any;
+  socket: any;
   constructor(public router: Router,
     public popoverController: PopoverController,
     public actionSheetController: ActionSheetController,
@@ -57,7 +57,6 @@ export class ChatWindowPage implements OnInit {
     this.s3Url = this.configService.getS3();
     this.userDetail = this.localStorage.get('userDetail');
     this.socket = this.configService.getSocket();
-    this.socket.on(this.userDetail.firebase_user_id, (data) => { alert('Data'); console.log('data', data); })
   }
 
   ngOnInit() {
@@ -72,7 +71,8 @@ export class ChatWindowPage implements OnInit {
     });
     this.fireinit();
     this.getstatus();
-
+    console.log("Socket : ", this.socket);
+    this.newMessageReceived();
     // this.webRTC.createPeer(this.userDetail.firebase_user_id)
     this.MessageData.type = 'message';
     this.MessageData.nickname = this.nickname;
@@ -94,9 +94,20 @@ export class ChatWindowPage implements OnInit {
       }
     });
   }
+  newMessageReceived() {
 
-  
-  fireinit() {   
+    // this.socket.on("videocall", (data) => { console.log('Socket data', data); alert('Data'); })
+    let observable = new Observable<{ room_id: string, type: string }>(observer => {
+      this.socket.on('videocall', (data) => {
+        console.log("Video Call : ", data);
+        observer.next(data);
+      });
+      return () => { this.socket.disconnect(); }
+    });
+    return observable;
+  }
+
+  fireinit() {
     this.videdoservice.createPeer(this.userDetail.firebase_user_id);
   }
   sendCoins(coins) {
