@@ -251,10 +251,11 @@ ion-picker.select_country {
 .alert-button.sc-ion-alert-ios {
     color: #72ca2f !important;
 }
+
 .alert-wrapper.sc-ion-alert-md,
 .alert-wrapper.sc-ion-alert-ios {
-    height: 70% !important;
-    min-height: 70% !important;
+    // height: 70% !important;
+    max-height: 70% !important;
 }
 .alert-radio-group.sc-ion-alert-md,
 .alert-checkbox-group.sc-ion-alert-md,
@@ -262,6 +263,12 @@ ion-picker.select_country {
 .alert-checkbox-group.sc-ion-alert-ios {
     height: 80% !important;
     min-height: 80% !important;
+}
+
+[aria-checked="true"].sc-ion-alert-md .alert-checkbox-icon.sc-ion-alert-md,
+[aria-checked="true"].sc-ion-alert-ios .alert-checkbox-icon.sc-ion-alert-ios {
+    border-color: #72ca2f;
+    background-color: #72ca2f;
 }
 
 

@@ -1,10 +1,10 @@
 <ion-content id="myContent">
   <div id="errorMsg"></div>
 
-  <video id="partnerVideo" (click)="swapVideo('partnerVideo')" autoplay playsinline muted volume="0"
+  <video id="partnerVideo" (click)="swapVideo('partnerVideo')" autoplay playsinline muted
     [ngClass]="{'top-video': topVideoFrame == 'partnerVideo', 'main-video': topVideoFrame != 'partnerVideo'}">
   </video>
-  <video id="myVideo" (click)="swapVideo('myVideo')" autoplay playsinline muted volume="0"
+  <video id="myVideo" (click)="swapVideo('myVideo')" autoplay playsinline muted style="display: none;"
     [ngClass]="{'top-video': topVideoFrame == 'myVideo', 'main-video': topVideoFrame != 'myVideo'}">
   </video>
   <ion-row class="user_details">

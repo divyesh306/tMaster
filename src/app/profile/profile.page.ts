@@ -1,4 +1,4 @@
-import { Component,ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { userService } from '../Service/user.service';
@@ -28,6 +28,7 @@ export class ProfilePage implements OnInit {
   s3Url;
   video;
   tagList;
+  userTagsList=[];
   constructor(private localstorage: LocalstorageService,
     private userService: userService,
     private file: File,
@@ -60,7 +61,7 @@ export class ProfilePage implements OnInit {
 
   ionViewDidEnter() {
     this.userDetail = this.localstorage.get('userDetail'); // User Detail  
-    this.getTags();  
+    this.getTags();
   }
 
   getTags() {
@@ -76,6 +77,9 @@ export class ProfilePage implements OnInit {
         console.log("Tag List : ", this.tagList);
       }
       this.loading.dismiss();
+      let tags = this.userDetail.tags;
+      this.userTagsList = tags.split(',');
+      console.log(this.userTagsList);
     }, err => {
       this.loading.dismiss();
     })
@@ -198,7 +202,7 @@ export class ProfilePage implements OnInit {
     this.localstorage.set('selectedUser', this.userDetail);
     this.router.navigate(['tabs/video-detail/' + this.userDetail.id]);
   }
-  
+
   logout() {
     this.loading.present();
     const body = {

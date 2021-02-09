@@ -91,8 +91,8 @@
       <div class="border_div"></div>
       <ion-item class="item_margin">
         <ion-label class="grey_text" position="stacked">{{'common.appealTag' | translate}}</ion-label>
-        <ion-select multiple="true" formControlName="tags" cancelText="Nah" okText="Okay!">
-          <ion-select-option *ngFor="let tag of tagList" value="{{tag.tag}}">{{tag.tag}}</ion-select-option>
+        <ion-select multiple="true" formControlName="tags" cancelText="Nah" okText="Okay!" [value]="userTagsList">
+          <ion-select-option *ngFor="let tag of tagList">{{tag.tag}}</ion-select-option>
         </ion-select>
         <!-- <ion-textarea placeholder="Tag text here" formControlName="tags" rows="3">
         </ion-textarea> -->
