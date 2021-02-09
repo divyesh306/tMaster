@@ -142,7 +142,9 @@ export class ChatWindowPage implements OnInit {
   }
 
   async getstatus() {
-    this.userstatus = this.configService.getStatus(this.chatUser.firebase_user_id);
+    firebase.database().ref('users/' + this.chatUser.firebase_user_id + '/status').on('value', resp => {
+      this.userstatus = resp.val();
+    });
   }
 
   sendMessage(data) {
