@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,ElementRef, OnInit } from '@angular/core';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { userService } from '../Service/user.service';
@@ -38,6 +38,7 @@ export class ProfilePage implements OnInit {
     private videoEditor: VideoEditor,
     private router: Router,
     public videoPlayer: VideoPlayer,
+    public elRef: ElementRef,
     private loading: LoadingService) {
     this.s3Url = this.configService.getS3(); // amazone bucket Url
     this.userDetail = this.localstorage.get('userDetail');
@@ -89,6 +90,8 @@ export class ProfilePage implements OnInit {
       userdata.picture = this.userDetail.picture;
       userdata.rating = userdata.rating.toString();
       userdata.video = this.userDetail.video;
+      const tags = userdata.tags.map(tag => tag);
+      userdata.tags = tags.toString();
       this.signup(userdata);
     }
   }
@@ -106,6 +109,8 @@ export class ProfilePage implements OnInit {
       if (!res.hasError) {
         this.localstorage.set('userDetail', res.data);
         this.userDetail = this.localstorage.get('userDetail');
+        this.video = this.elRef.nativeElement.querySelector('#myVideo');
+        this.video.src = this.s3Url + this.userDetail.video;
         this.configService.sendToast('success', 'Profile Updated', 'bottom');
       } else {
 

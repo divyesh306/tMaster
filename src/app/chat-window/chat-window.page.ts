@@ -15,7 +15,6 @@ import { FileViewerService } from '../Service/file-viewer.service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { WebrtcService } from '../Service/webrtc.service';
-import { Observable } from 'rxjs';
 @Component({
   selector: 'app-chat-window',
   templateUrl: './chat-window.page.html',
@@ -71,7 +70,23 @@ export class ChatWindowPage implements OnInit {
     });
     this.fireinit();
     this.getstatus();
-    this.newMessageReceived();
+    this.configService.joincallroom({ room_key: this.roomkey, user: this.userDetail.firebase_user_id });
+    this.configService.newMessageReceived()
+      .subscribe(datas => {
+        if (datas['user_id'] == this.userDetail.firebase_user_id) {
+          let navigationExtras: NavigationExtras = {
+            queryParams: {
+              chatUser_id: this.chatUser_id,
+              key: this.roomkey,
+              nickname: this.nickname,
+              chatUser: JSON.stringify(this.chatUser),
+              userType: this.userType
+            }
+          };
+          this.router.navigate(['/video-chat'], navigationExtras);
+        }
+        console.log("socket Data : ", datas);
+      });
     this.MessageData.type = 'message';
     this.MessageData.nickname = this.nickname;
     firebase.database().ref('chatroom/' + this.roomkey + '/chats').on('value', resp => {
@@ -92,18 +107,7 @@ export class ChatWindowPage implements OnInit {
       }
     });
   }
-  newMessageReceived() {
 
-    // this.socket.on("videocall", (data) => { console.log('Socket data', data); alert('Data'); })
-    let observable = new Observable<{ room_id: string, type: string }>(observer => {
-      this.socket.on('videocall', (data) => {
-        console.log("Video Call : ", data);
-        observer.next(data);
-      });
-      return () => { this.socket.disconnect(); }
-    });
-    return observable;
-  }
 
   fireinit() {
     this.videdoservice.createPeer(this.userDetail.firebase_user_id);

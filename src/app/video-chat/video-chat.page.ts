@@ -10,6 +10,7 @@ import firebase from 'firebase/app';
 import { configService } from '../Service/config.service';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { Platform } from '@ionic/angular';
+import { element } from 'protractor';
 
 declare var RTCMultiConnection;
 @Component({
@@ -119,6 +120,8 @@ export class VideoChatPage implements OnInit {
 
   webrtc() {
     let content = document.querySelector('#myContent') as HTMLElement;
+    let partnerVideo = this.elRef.nativeElement.querySelector('#partnerVideo');
+    let myVideo = this.elRef.nativeElement.querySelector('#myVideo');
     this.connection = new RTCMultiConnection(); // this line is VERY_important 
     this.connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'; // if you want text chat 
     this.connection.session = { data: true } // all below lines are optional; however recommended. 
@@ -126,12 +129,22 @@ export class VideoChatPage implements OnInit {
     this.connection.onMediaError = function (error) { };
     this.connection.sdpConstraints.mandatory = { OfferToReceiveAudio: true, OfferToReceiveVideo: true };
     this.connection.onstream = function (event) {
-      content.appendChild(event.mediaElement);
+      console.log("Video : ", event);
+      if (!myVideo.srcObject)
+        myVideo.srcObject = event.stream;
+      else if (!partnerVideo.srcObject && myVideo.srcObject)
+        partnerVideo.srcObject = event.stream;
+      // content.appendChild(event.mediaElement);
     };
     this.connection.onmessage = function (event) {
       alert(event);
     };
   }
+
+  swapVideo(topVideo: string) {
+    this.topVideoFrame = topVideo;
+  }
+  
   // init() {
   //   this.myEl = this.elRef.nativeElement.querySelector('#myVideo');
   //   this.partnerEl = this.elRef.nativeElement.querySelector('#partnerVideo');

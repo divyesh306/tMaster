@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-setting',
@@ -8,20 +9,26 @@ import { Router } from '@angular/router';
 })
 export class SettingPage implements OnInit {
 
-  constructor(public router:Router) { }
+  constructor(public router: Router, private iab: InAppBrowser) { }
 
   ngOnInit() {
   }
-  blockList(){
+
+  openTerms() {
+    const browser = this.iab.create('https://tokmay.com/termsandconditions/');
+    browser.executeScript;
+  }
+
+  blockList() {
     this.router.navigate(['/blocklist']);
   }
-  selectLanguages(){
+  selectLanguages() {
     this.router.navigate(['/language']);
   }
-  bugReport(){
+  bugReport() {
     this.router.navigate(['/bugreport']);
   }
-  deleteAccount(){
+  deleteAccount() {
     this.router.navigate(['/delete-account']);
   }
 }

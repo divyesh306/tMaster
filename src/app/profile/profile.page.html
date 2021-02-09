@@ -11,7 +11,7 @@
   <ion-grid class="slider">
     <ion-row class="profile_item_margin">
       <ion-avatar class="p-relative">
-        <video class="video-profile" (click)="playVideo()" preload="auto" autoplay="autoplay" [muted]="'muted'" loop>
+        <video  id="myVideo" class="video-profile" (click)="playVideo()" preload="auto" autoplay="autoplay" [muted]="'muted'" loop>
           <source src="{{s3Url}}{{userDetail.video}}" type="video/mp4" />
           <source src="{{s3Url}}{{userDetail.video}}" type="video/3gpp" />
         </video>
@@ -91,8 +91,8 @@
       <div class="border_div"></div>
       <ion-item class="item_margin">
         <ion-label class="grey_text" position="stacked">{{'common.appealTag' | translate}}</ion-label>
-        <ion-select multiple="true" cancelText="Nah" okText="Okay!">
-          <ion-select-option *ngFor="let tag of tagList" value="{{tag.id}}">{{tag.tag}}</ion-select-option>
+        <ion-select multiple="true" formControlName="tags" cancelText="Nah" okText="Okay!">
+          <ion-select-option *ngFor="let tag of tagList" value="{{tag.tag}}">{{tag.tag}}</ion-select-option>
         </ion-select>
         <!-- <ion-textarea placeholder="Tag text here" formControlName="tags" rows="3">
         </ion-textarea> -->

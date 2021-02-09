@@ -1,20 +1,20 @@
 <ion-content id="myContent">
   <div id="errorMsg"></div>
 
-  <!-- <video id="partnerVideo" (click)="swapVideo('partnerVideo')" autoplay playsinline
+  <video id="partnerVideo" (click)="swapVideo('partnerVideo')" autoplay playsinline
     [ngClass]="{'top-video': topVideoFrame == 'partnerVideo', 'main-video': topVideoFrame != 'partnerVideo'}">
   </video>
   <video id="myVideo" (click)="swapVideo('myVideo')" autoplay playsinline
     [ngClass]="{'top-video': topVideoFrame == 'myVideo', 'main-video': topVideoFrame != 'myVideo'}">
-  </video> -->
+  </video>
   <!-- <img src="../../assets/images/chat-background-image.svg" alt="" class="background"> -->
   <ion-row class="user_details">
     <ion-col class="ion-text-left column">
-      <small class="white_text fs-11">Mikachan</small>
+      <small class="white_text fs-11">{{chatUser.nick_name}}</small>
       <small class="white_text">TIME: 2:21</small>
     </ion-col>
     <ion-col class="ion-text-right column">
-      <small class="white_text fs-11">10,000 coins</small>
+      <small class="white_text fs-11">{{chatUser.coins}} coins</small>
       <small class="white_text">BUY COINS</small>
     </ion-col>
   </ion-row>
@@ -25,7 +25,7 @@
       <img src="../../assets/images/hide-icon.svg" alt="" (click)="changeBeautifyOption()">
     </ion-col>
     <ion-col class="ion-text-right">
-      <img src="../../assets/images/end-call.svg" alt="" (click)="endCall()">
+      <img src="../../assets/images/end-call.svg" alt="" (click)="close()">
     </ion-col>
   </ion-row>
 
@@ -94,7 +94,7 @@
         <img src="images/say-frnd.svg" alt="">
       </div>
     </div>
-  </section> -->
+  </section>
   <div class="gift-icons" *ngIf="closeEye">
     <img src="../../assets/images/gift-logo.png" alt="">
     <img src="../../assets/images/gift-icon.svg" alt="">

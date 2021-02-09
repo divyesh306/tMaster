@@ -32,6 +32,7 @@ import { AuthenticationService } from './Service/authentication-service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 // import { FCM } from '@ionic-native/fcm/ngx';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -75,7 +76,8 @@ export function createTranslateLoader(http: HttpClient) {
     AngularFireAuth,
     AngularFirestore,
     AuthenticationService,
-    Diagnostic
+    Diagnostic,
+    InAppBrowser
     // FCM
   ],
   bootstrap: [AppComponent],
