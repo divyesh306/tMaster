@@ -15,6 +15,8 @@ import { FileViewerService } from '../Service/file-viewer.service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { WebrtcService } from '../Service/webrtc.service';
+import { VideocallreceiveComponent } from '../component/videocallreceive/videocallreceive.component';
+
 @Component({
   selector: 'app-chat-window',
   templateUrl: './chat-window.page.html',
@@ -297,7 +299,27 @@ export class ChatWindowPage implements OnInit {
       return await popover.present();
     }
   }
-
+  async videoCallBtn() {
+    const popover = await this.popoverController.create({
+      component: VideocallreceiveComponent,
+      translucent: true,
+      componentProps: {
+        onClick: () => {
+          let navigationExtras: NavigationExtras = {
+            queryParams: {
+              chatUser_id: this.chatUser_id,
+              key: this.roomkey,
+              nickname: this.nickname,
+              chatUser: JSON.stringify(this.chatUser),
+              userType: this.userType
+            }
+          };
+          this.router.navigate(['/video-chat'], navigationExtras);
+        }
+      }
+    });
+    return await popover.present();
+  }
   addFavorite(type) {
     const mutation = {
       name: 'add_to_favorite_user',
