@@ -76,16 +76,7 @@ export class ChatWindowPage implements OnInit {
     this.configService.newMessageReceived()
       .subscribe(datas => {
         if (datas['user_id'] == this.userDetail.firebase_user_id) {
-          let navigationExtras: NavigationExtras = {
-            queryParams: {
-              chatUser_id: this.chatUser_id,
-              key: this.roomkey,
-              nickname: this.nickname,
-              chatUser: JSON.stringify(this.chatUser),
-              userType: this.userType
-            }
-          };
-          this.router.navigate(['/video-chat'], navigationExtras);
+          this.videoCallBtn();
         }
         console.log("socket Data : ", datas);
       });

@@ -114,12 +114,12 @@ export class VideoChatPage implements OnInit {
 
   close() {
     this.connection.getAllParticipants().forEach(function (participantId) {
-      console.log(participantId); this.connection.disconnectWith(participantId);
+       this.connection.disconnectWith(participantId);
     });
   }
 
   webrtc() {
-    let content = document.querySelector('#myContent') as HTMLElement;
+    // let content = document.querySelector('#myContent') as HTMLElement;
     let partnerVideo = this.elRef.nativeElement.querySelector('#partnerVideo');
     let myVideo = this.elRef.nativeElement.querySelector('#myVideo');
     this.connection = new RTCMultiConnection(); // this line is VERY_important 
@@ -129,7 +129,6 @@ export class VideoChatPage implements OnInit {
     this.connection.onMediaError = function (error) { };
     this.connection.sdpConstraints.mandatory = { OfferToReceiveAudio: true, OfferToReceiveVideo: true };
     this.connection.onstream = function (event) {
-      console.log("Video : ", event);
       if (!myVideo.srcObject)
         myVideo.srcObject = event.stream;
       else if (!partnerVideo.srcObject && myVideo.srcObject)
@@ -145,55 +144,7 @@ export class VideoChatPage implements OnInit {
     this.topVideoFrame = topVideo;
   }
   
-  // init() {
-  //   this.myEl = this.elRef.nativeElement.querySelector('#myVideo');
-  //   this.partnerEl = this.elRef.nativeElement.querySelector('#partnerVideo');
-  //   this.webRTC.init(this.myEl, this.partnerEl, () => {
-  //     console.log('I\'m calling');
-  //   });
-  //   this.loading.present();
-  //   setTimeout(() => {
-  //     this.loading.dismiss();
-  //     this.call();
-  //   }, 5000);
-  // }
-
-  // call() {
-  //   console.log("Video Call : ", this.chatUser.firebase_user_id);
-  //   this.webRTC.call(this.chatUser.firebase_user_id);
-  //   // this.webRTC.call(this.chatUser_id);s
-  //   this.swapVideo('myVideo');
-  // }
-
-  // swapVideo(topVideo: string) {
-  //   this.topVideoFrame = topVideo;
-  // }
-  // changeBeautifyOption() {
-  //   this.closeEye = !this.closeEye;
-  // }
-  // async endCall(ev) {
-  //   const popover = await this.popoverController.create({
-  //     component: CloseVideoComponent,
-  //     cssClass: 'custom-popover',
-  //     event: ev,
-  //     translucent: true,
-  //     componentProps: {
-  //       onClick: () => {
-  //         this.webRTC.endCall();
-  //         this.navCtrl.pop();
-  //       }
-  //     }
-  //   });
-  //   return await popover.present();
-  //   // const popover = await this.popoverController.create({
-  //   //   component: WarningComponent,
-  //   //   cssClass: 'warning-popover',
-  //   //   event: ev,
-  //   //   translucent: true,
-  //   // });
-  //   // return await popover.present();
-  // }
-}
+  }
 
 export const snapshotToArray = snapshot => {
   let returnArr = [];
