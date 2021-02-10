@@ -1,43 +1,39 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="dark_toolbar">
     <div class="row">
-      <ion-input type="text" (ionChange)='onSearch($event.target.value)'></ion-input>
-      <!-- <ion-menu-toggle (click)="toggleMenu()"></ion-menu-toggle> -->
+      <ion-searchbar animated placeholder="Select Tag"  [(ngModel)]="search_term"
+      (ionChange)="onSearch($event.target.value)"></ion-searchbar>
       <img src="../../assets/images/menu-icon.svg" alt="" (click)="toggleMenu()" menuToggle class="menu-icon">
+    </div>
+    <div class="row">
+      <ion-list class="tags" *ngIf="isItemAvailable" >
+        <ion-item  *ngFor="let tag of filtertagList" (click)="selectItem(tag.tag)">
+          {{ tag.tag }}
+        </ion-item>
+      </ion-list>
     </div>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div *ngIf="searchModal" class="searchBox">
-    <h3 class="grey_text">{{'hangout.popularTags' | translate}}</h3>
-    <h6><small>#anyonehere</small></h6>
-    <h6><small>#comeonebaby</small></h6>
-    <h6><small>#lover</small></h6>
-    <h6><small>#dancechat</small></h6>
-    <h6><small>#sexyme</small></h6>
-    <h6><small>#teenager</small></h6>
-    <h6><small>#allnight</small></h6>
-    <h6><small>#clubsoundchat</small></h6>
-    <h6><small>#eurobeat</small></h6>
-    <h6><small>#i-pop</small></h6>
-    <h6><small>#nude</small></h6>
-  </div>
   <div *ngIf="!searchModal">
     <div class="menu-modal ion-text-center mt-10" *ngIf="menuOpen">
       <ion-label class="ion-text-center grey_text">{{'hangout.sort' | translate}}</ion-label>
       <ion-row>
         <ion-col>
-          <img src="../../assets/images/client-tokmay-icon.svg" alt="" class="sort-img" [ngClass]="sorting.client ? 'border-img' : ''" (click)='selectType("user")'>
+          <img src="../../assets/images/client-tokmay-icon.svg" alt="" class="sort-img"
+            [ngClass]="sorting.client ? 'border-img' : ''" (click)='selectType("user")'>
         </ion-col>
         <ion-col>
-          <img src="../../assets/images/gender-male-icon.svg" alt="" [ngClass]="sorting.male ? 'border-img' : ''" (click)='selectGender("male")' class="sort-img">
+          <img src="../../assets/images/gender-male-icon.svg" alt="" [ngClass]="sorting.male ? 'border-img' : ''"
+            (click)='selectGender("male")' class="sort-img">
         </ion-col>
         <ion-col>
-          <img src="../../assets/images/gender-female-icon.svg" alt="" [ngClass]="sorting.female ? 'border-img' : ''" (click)='selectGender("female")'
-            class="sort-img">
+          <img src="../../assets/images/gender-female-icon.svg" alt="" [ngClass]="sorting.female ? 'border-img' : ''"
+            (click)='selectGender("female")' class="sort-img">
         </ion-col>
         <ion-col>
-          <img src="../../assets/images/counselor-tokmay-icon.svg" alt="" class="sort-img" [ngClass]="sorting.counslor ? 'border-img' : ''" (click)='selectType("counselor")'>
+          <img src="../../assets/images/counselor-tokmay-icon.svg" alt="" class="sort-img"
+            [ngClass]="sorting.counslor ? 'border-img' : ''" (click)='selectType("counselor")'>
         </ion-col>
       </ion-row>
       <ion-row class="row-spacing mt-10">
@@ -52,7 +48,8 @@
     <div *ngFor="let user of user_list ; let i = index">
       <div class="row m-7">
         <img src="../../assets/images/red-pin.svg" *ngIf="user.asset == 'favorite_user'" alt="">
-        <img src="../../assets/images/categories-1.svg" *ngIf="user.asset != 'favorite_user'" alt=""><b style="margin-left:5px;">{{user.asset != 'favorite_user' ? i : ''}}</b>
+        <img src="../../assets/images/categories-1.svg" *ngIf="user.asset != 'favorite_user'" alt=""><b
+          style="margin-left:5px;">{{user.asset != 'favorite_user' ? i : ''}}</b>
         <div class="grow ion-text-center column">
           <ion-label class="fs-13 font-bold" *ngIf="user.asset == 'favorite_user'">{{'hangout.keepUser' | translate}}
           </ion-label>
@@ -65,9 +62,11 @@
         </div>
       </div>
       <ion-row class="horizontal-scroll">
-        <ion-col size="3.6" class="video-box" *ngFor="let userdetail of user.data" (click)="gotoProfile(userdetail,user.data)">
+        <ion-col size="3.6" class="video-box" *ngFor="let userdetail of user.data"
+          (click)="gotoProfile(userdetail,user.data)">
           <img src="{{s3Url}}{{userdetail.picture}}" class="userProfilepic" alt="">
-          <ion-label class="minute-rating" [ngClass]="{'counsler_minut_rating' : userdetail.type == 'counselor'}">{{userdetail.gender == 'male' ? 'M' : 'F'}}/{{userdetail.rating}}</ion-label>
+          <ion-label class="minute-rating" [ngClass]="{'counsler_minut_rating' : userdetail.type == 'counselor'}">
+            {{userdetail.gender == 'male' ? 'M' : 'F'}}/{{userdetail.rating}}</ion-label>
           <div class="name-age row">
             <ion-label>{{userdetail.nick_name}}</ion-label>
             <ion-label class="age-label"> {{calculateAge(userdetail.date_of_birth)}} {{'common.age' | translate}}

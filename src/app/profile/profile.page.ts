@@ -79,7 +79,6 @@ export class ProfilePage implements OnInit {
       this.loading.dismiss();
       let tags = this.userDetail.tags;
       this.userTagsList = tags.split(',');
-      console.log(this.userTagsList);
     }, err => {
       this.loading.dismiss();
     })

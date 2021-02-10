@@ -14,7 +14,7 @@ export class HangoutPage implements OnInit {
   menuOpen = false;
   searchModal = false;
   search_term = '';
-  gender;
+  gender = '';
   user_type = '';
   sorting = {
     male: false,
@@ -23,10 +23,13 @@ export class HangoutPage implements OnInit {
     counslor: false,
   }
   user_list = [];
+  tagList;
+  filtertagList;
   s3Url;
+  isItemAvailable = false;
   constructor(private router: Router, private localStorage: LocalstorageService,
     private userService: userService, private configService: configService, public loadingservice: LoadingService) {
-
+    this.getTags();
   }
 
   ngOnInit() {
@@ -66,15 +69,20 @@ export class HangoutPage implements OnInit {
     this.userService.closeQuery(body).subscribe(result => {
       if (result['hasError']) {
         this.loadingservice.dismiss();
+        this.isItemAvailable = false;
       } else {
         this.user_list = this.splitKeyValue(result['data'].user_list);
-        console.log("User List : ", this.user_list);
+        this.isItemAvailable = false;
       }
     }, err => {
       this.loadingservice.dismiss();
       if (err['status'] == 401)
         this.router.navigate(['/verify-number']);
     })
+  }
+  selectItem(value) {
+    this.search_term = value;
+    this.getUsers(this.search_term, this.gender, this.user_type);
   }
   splitKeyValue = (obj) => {
     const keys = Object.keys(obj);
@@ -88,6 +96,22 @@ export class HangoutPage implements OnInit {
     this.loadingservice.dismiss();
     return res;
   };
+
+  getTags() {
+    const body = {
+      name: 'tags{id tag}'
+    }
+    this.userService.closeQuery(body).subscribe(result => {
+      if (result['hasError']) {
+
+      } else {
+        this.tagList = result['data'].tags;
+        this.filtertagList = result['data'].tags;
+      }
+    }, err => {
+    })
+  }
+
   gotoProfile(selectuser, userList) {
     this.router.navigate(['tabs/video-detail/' + selectuser.id]);
     this.localStorage.set('selectedUser', selectuser);
@@ -103,14 +127,23 @@ export class HangoutPage implements OnInit {
     this.menuOpen = false;
   }
   onSearch(value) {
-    console.log(value);
-    this.search_term = value;
-    // this.searchModal = true;
+    var val = value;
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.isItemAvailable = true;
+      this.filtertagList = this.tagList.filter((item) => {
+        return (item.tag.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+    else {
+      this.isItemAvailable = false;
+    }
+
   }
-  categoryDetail(userList,userassets) {
+  categoryDetail(userList, userassets) {
     this.localStorage.set('categoryUser', userList);
     if (this.localStorage.get('categoryUser'))
-      this.router.navigate(['tabs/letstalknow/'+userassets]);
+      this.router.navigate(['tabs/letstalknow/' + userassets]);
   }
   calculateAge(bdate) {
     const dobDate = new Date(bdate);
