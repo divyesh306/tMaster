@@ -15,7 +15,7 @@ declare var RTCMultiConnection;
   styleUrls: ['./video-chat.page.scss'],
 })
 export class VideoChatPage implements OnInit {
-  closeEye = true;
+  changeEyeIcon = true;
   userDetail: any;
   topVideoFrame = 'partnerVideo';
   userId: string;
@@ -27,6 +27,7 @@ export class VideoChatPage implements OnInit {
   myVideo;
   MessageData = { type: '', nickname: '', message: '' };
   chats = [];
+  openModal = false;
   roomkey: string;
   nickname: string;
   chatUser;
@@ -51,6 +52,7 @@ export class VideoChatPage implements OnInit {
   }
 
   ngOnInit() {
+    console.log("You r invideo")
     this.route.queryParams.subscribe(params => {
       if (params && params.chatUser_id) {
         this.chatUser_id = params.chatUser_id;
@@ -103,14 +105,37 @@ export class VideoChatPage implements OnInit {
   }
 
   join(roomid) {
-    
     this.connection.openOrJoin(roomid);
   }
+  changeBeautifyOption() {
+    this.changeEyeIcon = !this.changeEyeIcon;
+  }
+  openCoinModal() {
+    this.openModal = !this.openModal;
+  }
+  closeCoinModal() {
+    this.openModal = false;
+  }
+  sendCoins(coins) {
+  }
+  async close() {
+    // this.connection.onstream = function (event) {
+    //   if (!myVideo.srcObject)
+    //     myVideo.srcObject = event.stream;
+    //   else if (!partnerVideo.srcObject && myVideo.srcObject)
+    //     partnerVideo.srcObject = event.stream;
+    //   // content.appendChild(event.mediaElement);
+    // };
+    var stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+    console.log(stream);
 
-  close() {
-    this.connection.getAllParticipants().forEach(function (participantId) {
-      this.connection.disconnectWith(participantId);
+    stream.getTracks().forEach(function (track) {
+      track.stop();
     });
+    // console.log(this.connection);
+    // this.connection.getAllParticipants().forEach(function (participantId) {
+    //   this.connection.disconnectWith(participantId);
+    // });
   }
 
   webrtc() {
@@ -120,9 +145,9 @@ export class VideoChatPage implements OnInit {
     this.connection = new RTCMultiConnection(); // this line is VERY_important 
     this.connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'; // if you want text chat 
     this.connection.session = { data: true } // all below lines are optional; however recommended. 
-    this.connection.session = { audio: true, video: true };
+    this.connection.session = { audio: false, video: true };
     this.connection.onMediaError = function (error) { };
-    this.connection.sdpConstraints.mandatory = { OfferToReceiveAudio: true, OfferToReceiveVideo: true };
+    this.connection.sdpConstraints.mandatory = { OfferToReceiveAudio: false, OfferToReceiveVideo: true };
     this.connection.onstream = function (event) {
       if (!myVideo.srcObject)
         myVideo.srcObject = event.stream;

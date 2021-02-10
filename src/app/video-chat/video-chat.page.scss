@@ -3,7 +3,11 @@
   width: 100%;
 }
 
-.top-video  #myVideo{
+.video-height {
+  height: 100%;
+}
+
+.top-video {
   position: absolute;
   top: 100px;
   right: 100px;
@@ -18,6 +22,17 @@
   width: 100%;
   color: white;
   text-align: center;
+}
+
+.coin-box:before {
+  content: "";
+  display: block;
+  background-image: url("../../assets/images/uparrow.svg");
+  width: 16px;
+  height: 4px;
+  position: absolute;
+  bottom: 0;
+  left: 53px;
 }
 
 .main-video {
@@ -165,7 +180,7 @@
   position: fixed;
   bottom: 60px;
   width: 100%;
-  height: 45%;
+  height: 30%;
   overflow: scroll;
 }
 

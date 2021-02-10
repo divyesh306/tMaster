@@ -107,7 +107,7 @@
   </ion-row>
   <!-- <ion-button (click)="videoCallBtn()" class="float_right">video call</ion-button> -->
   <div *ngIf="openModal" class="coin-box">
-    <ion-icon name="close-outline" class="row back-arrow" (click)=closeCoinModal()></ion-icon>
+    <ion-icon name="close-outline" class="row back-arrow" (click)="closeCoinModal()"></ion-icon>
     <ion-row>
       <ion-col class="column">
         <img src="../../assets/images/1.svg" alt="" (click)="sendCoins(50)">
