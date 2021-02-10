@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { VideoChatPageRoutingModule } from './video-chat-routing.module';
 
 import { VideoChatPage } from './video-chat.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VideoChatPageRoutingModule
+    VideoChatPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [VideoChatPage]
 })
-export class VideoChatPageModule {}
+export class VideoChatPageModule { }

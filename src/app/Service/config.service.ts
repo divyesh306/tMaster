@@ -28,23 +28,18 @@ export class configService {
             }
         });
     }
-    joincallroom(data){       
-        this.socket.emit('join',data);
+    joincallroom(data) {
+        this.socket.emit('join', data);
     }
     newMessageReceived() {
         // this.socket.on("videocall", (data) => { console.log('Socket data', data); alert('Data'); })
         let observable = new Observable<{ room_id: string, type: string }>(observer => {
-          this.socket.on('videocall', (data) => {
-            observer.next(data);
-          });
-          return () => { this.socket.disconnect(); }
+            this.socket.on('videocall', (data) => {
+                observer.next(data);
+            });
+            return () => { this.socket.disconnect(); }
         });
         return observable;
-      }
-    getStatus(userId) {
-        return firebase.database().ref('users/' + userId + '/status').on('value', resp => {
-            return resp.val();
-          });
     }
     getServerUrl(): String {
         return this.SERVER_URL;

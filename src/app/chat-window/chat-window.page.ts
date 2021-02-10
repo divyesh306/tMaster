@@ -125,7 +125,10 @@ export class ChatWindowPage implements OnInit {
   }
 
   async getstatus() {
-    this.userstatus = this.configService.getStatus(this.chatUser.firebase_user_id);
+    firebase.database().ref('users/' + this.chatUser.firebase_user_id + '/status').on('value', resp => {
+      this.userstatus = resp.val();
+      console.log(this.userstatus);
+    });
   }
 
   sendMessage(data) {
@@ -272,9 +275,10 @@ export class ChatWindowPage implements OnInit {
                 key: this.roomkey,
                 nickname: this.nickname,
                 chatUser: JSON.stringify(this.chatUser),
-                userType: this.userType
+                userType: this.userType || 'Know'
               }
             };
+            console.log(navigationExtras);
             this.socket.emit('call', JSON.stringify({ room_id: this.roomkey, user_id: this.chatUser.firebase_user_id }));
             this.router.navigate(['/video-chat'], navigationExtras);
           }

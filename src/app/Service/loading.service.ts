@@ -11,7 +11,7 @@ export class LoadingService {
     async present() {
         this.loader = await this.loadingCtrl.create({
             message: 'Please wait...',
-            duration: 20000
+            duration: 10000
         });
         await this.loader.present();
     }
