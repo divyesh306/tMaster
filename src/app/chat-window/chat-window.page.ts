@@ -14,7 +14,6 @@ import { File } from '@ionic-native/file/ngx';
 import { FileViewerService } from '../Service/file-viewer.service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { LocalstorageService } from '../Service/localstorage.service';
-import { WebrtcService } from '../Service/webrtc.service';
 import { VideocallreceiveComponent } from '../component/videocallreceive/videocallreceive.component';
 
 @Component({
@@ -52,7 +51,6 @@ export class ChatWindowPage implements OnInit {
     private fileopenServcie: FileViewerService,
     public db: AngularFireDatabase,
     private chooser: Chooser,
-    private videdoservice: WebrtcService,
     public localStorage: LocalstorageService
   ) {
     this.s3Url = this.configService.getS3();
@@ -70,7 +68,6 @@ export class ChatWindowPage implements OnInit {
         this.userType = params.userType;
       }
     });
-    this.fireinit();
     this.getstatus();
     this.configService.joincallroom({ room_key: this.roomkey, user: this.userDetail.firebase_user_id });
     this.configService.newMessageReceived()
@@ -78,7 +75,6 @@ export class ChatWindowPage implements OnInit {
         if (datas['user_id'] == this.userDetail.firebase_user_id) {
           this.videoCallBtn();
         }
-        console.log("socket Data : ", datas);
       });
     this.MessageData.type = 'message';
     this.MessageData.nickname = this.nickname;
@@ -101,10 +97,6 @@ export class ChatWindowPage implements OnInit {
     });
   }
 
-
-  fireinit() {
-    this.videdoservice.createPeer(this.userDetail.firebase_user_id);
-  }
   sendCoins(coins) {
     const mutation = {
       name: 'coin_management',
@@ -283,6 +275,7 @@ export class ChatWindowPage implements OnInit {
                 userType: this.userType
               }
             };
+            this.socket.emit('call', JSON.stringify({ room_id: this.roomkey, user_id: this.chatUser.firebase_user_id }));
             this.router.navigate(['/video-chat'], navigationExtras);
           }
         }

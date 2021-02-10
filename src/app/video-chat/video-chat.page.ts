@@ -1,16 +1,12 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, PopoverController } from '@ionic/angular';
-import { CloseVideoComponent } from '../component/close-video/close-video.component';
-import { WarningComponent } from '../component/warning/warning.component';
 import { LoadingService } from '../Service/loading.service';
 import { LocalstorageService } from '../Service/localstorage.service';
-import { WebrtcService } from '../Service/webrtc.service';
 import firebase from 'firebase/app';
 import { configService } from '../Service/config.service';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { Platform } from '@ionic/angular';
-import { element } from 'protractor';
 
 declare var RTCMultiConnection;
 @Component({
@@ -25,8 +21,6 @@ export class VideoChatPage implements OnInit {
   userId: string;
   chatUser_id: string;
   loginUser: any;
-  calluserId: string;
-  partnerId: string;
   myEl: HTMLMediaElement;
   partnerEl: HTMLMediaElement;
   partnerVideo;
@@ -42,8 +36,11 @@ export class VideoChatPage implements OnInit {
   connection: any;
   socket: any;
 
-  constructor(public popoverController: PopoverController, public navCtrl: NavController, public webRTC: WebrtcService,
-    public localStorage: LocalstorageService, public elRef: ElementRef, public loading: LoadingService,
+  constructor(public popoverController: PopoverController,
+    public navCtrl: NavController,
+    public localStorage: LocalstorageService,
+    public elRef: ElementRef,
+    public loading: LoadingService,
     public route: ActivatedRoute,
     public config: configService,
     private diagnostic: Diagnostic,
@@ -65,8 +62,6 @@ export class VideoChatPage implements OnInit {
       }
     });
     this.loginUser = this.localStorage.get('userDetail');
-    this.calluserId = this.loginUser.firebase_user_id;
-    this.partnerId = this.chatUser.firebase_user_id;
     this.webrtc();
     this.join(this.roomkey);
     this.userId = this.loginUser.id;
@@ -108,13 +103,13 @@ export class VideoChatPage implements OnInit {
   }
 
   join(roomid) {
-    this.socket.emit('call', JSON.stringify({ room_id: roomid, user_id: this.chatUser.firebase_user_id }));
+    
     this.connection.openOrJoin(roomid);
   }
 
   close() {
     this.connection.getAllParticipants().forEach(function (participantId) {
-       this.connection.disconnectWith(participantId);
+      this.connection.disconnectWith(participantId);
     });
   }
 
@@ -143,8 +138,8 @@ export class VideoChatPage implements OnInit {
   swapVideo(topVideo: string) {
     this.topVideoFrame = topVideo;
   }
-  
-  }
+
+}
 
 export const snapshotToArray = snapshot => {
   let returnArr = [];
