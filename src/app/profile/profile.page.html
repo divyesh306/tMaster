@@ -22,9 +22,9 @@
     </ion-row>
     <ion-row class="profile_item_margin ion-text-center">
       <div>
-        <img src="../../assets/images/counselor-tokmay-icon.svg" *ngIf="userDetail.type == counselor" alt=""
+        <img src="../../assets/images/counselor-tokmay-icon.svg" *ngIf="userDetail.type == 'counselor'" alt=""
           class="tab-img">
-        <img src="../../assets/images/client-tokmay-icon.svg" *ngIf="userDetail.type == user" class="tab-img">
+        <img src="../../assets/images/client-tokmay-icon.svg" *ngIf="userDetail.type == 'user'" class="tab-img">
       </div>
       <div class="ion-margin-horizontal">
         <ion-label class="white_text">{{userDetail.type}}</ion-label>

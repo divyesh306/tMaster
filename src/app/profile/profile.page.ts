@@ -60,7 +60,24 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.userDetail = this.localstorage.get('userDetail'); // User Detail  
+    const body = {
+      name: 'me{id type date_of_birth phone gender rating tags jobs picture coins firebase_user_id}'
+    }
+    this.loading.present();
+    this.userService.closeQuery(body).subscribe(result => {
+      if (result['hasError']) {
+
+      } else {
+        this.userDetail = result['data'].me;
+        console.log("Tag List : ", this.userDetail);
+      }
+      this.loading.dismiss();
+      let tags = this.userDetail.tags;
+      this.userTagsList = tags.split(',');
+    }, err => {
+      this.loading.dismiss();
+    })
+    // this.userDetail = this.localstorage.get('userDetail'); // User Detail  
     this.getTags();
   }
 
@@ -93,13 +110,13 @@ export class ProfilePage implements OnInit {
       userdata.picture = this.userDetail.picture;
       userdata.rating = userdata.rating.toString();
       userdata.video = this.userDetail.video;
-      const tags = userdata.tags.map(tag => tag);
-      userdata.tags = tags.toString();
       this.signup(userdata);
     }
   }
 
   signup(signuserData) {
+    const tags = signuserData.tags.map(tag => tag);
+    signuserData.tags = tags.toString();
     this.loading.present();
     const mutation = {
       name: 'update_profile',
