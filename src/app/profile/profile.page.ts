@@ -28,7 +28,7 @@ export class ProfilePage implements OnInit {
   s3Url;
   video;
   tagList;
-  userTagsList=[];
+  userTagsList = [];
   constructor(private localstorage: LocalstorageService,
     private userService: userService,
     private file: File,
@@ -61,7 +61,7 @@ export class ProfilePage implements OnInit {
 
   ionViewDidEnter() {
     const body = {
-      name: 'me{id type date_of_birth phone gender rating tags jobs picture coins firebase_user_id}'
+      name: 'me{type date_of_birth phone gender rating tags jobs picture coins firebase_user_id}'
     }
     this.loading.present();
     this.userService.closeQuery(body).subscribe(result => {
@@ -71,9 +71,6 @@ export class ProfilePage implements OnInit {
         this.userDetail = result['data'].me;
         console.log("Tag List : ", this.userDetail);
       }
-      this.loading.dismiss();
-      let tags = this.userDetail.tags;
-      this.userTagsList = tags.split(',');
     }, err => {
       this.loading.dismiss();
     })
@@ -85,7 +82,6 @@ export class ProfilePage implements OnInit {
     const body = {
       name: 'tags{id tag}'
     }
-    this.loading.present();
     this.userService.closeQuery(body).subscribe(result => {
       if (result['hasError']) {
 
@@ -115,8 +111,12 @@ export class ProfilePage implements OnInit {
   }
 
   signup(signuserData) {
-    const tags = signuserData.tags.map(tag => tag);
-    signuserData.tags = tags.toString();
+    if (signuserData.tags === this.userDetail.tags) {
+      
+    }else{
+      const tags = signuserData.tags.map(tag => tag);
+      signuserData.tags = tags.toString();
+    }
     this.loading.present();
     const mutation = {
       name: 'update_profile',

@@ -142,8 +142,6 @@ export class RegistrationPage implements OnInit {
                 userdata.type = this.userData.type;
                 userdata.picture = this.userData.picture;
                 userdata.video = this.userData.video;
-                const tags = userdata.tags.map(tag => tag);
-                userdata.tags = tags;
                 this.signup(userdata);
             }
             else {
@@ -153,34 +151,54 @@ export class RegistrationPage implements OnInit {
         }
     }
     signup(signuserData) {
+        const tags = signuserData.tags.map(tag => tag);
+        signuserData.tags = tags.toString();
         let phonenumber = this.localStorage.getsingel('phonenumber')
         let email = phonenumber + '' + '@gmail.com';
         this.loading.present();
         this.authService.RegisterUser(email, phonenumber).then((res) => {
             signuserData.firebase_user_id = res.user.uid;
-            const mutation = {
-                name: 'signup',
-                inputtype: 'UserRegisterInputType',
-                data: signuserData
-            }
-            this.userService.sendApi(mutation).subscribe(result => {
-                const res = result['data'].signup;
-                if (!res.hasError) {
-                    this.localStorage.setsingel('loginToken', res.data['token']);
-                    this.localStorage.set('userDetail', res.data['user']);
-                    this.loading.dismiss();
-                    if (this.localStorage.getsingel('loginToken'))
-                        this.router.navigate(['/register-complete']);
-                } else {
-                    this.loading.dismiss();
-                }
-            }, err => {
-                this.loading.dismiss();
-                this.configService.sendToast('danger', 'Something Went Wrong', 'bottom');
-            });
+            this.userUpdate(signuserData);
+
         }).catch((error) => {
+            if (error.code === "auth/email-already-in-use") {
+                this.authService.SignIn(email, phonenumber)
+                    .then((res) => {
+                        signuserData.firebase_user_id = res.user.uid;
+                        this.userUpdate(signuserData);
+                    }).catch((error) => {
+
+                        this.loading.dismiss();
+                    })
+            }
+            else {
+
+                this.loading.dismiss();
+            }
             this.loading.dismiss();
         })
+    }
+    userUpdate(data) {
+        const mutation = {
+            name: 'signup',
+            inputtype: 'UserRegisterInputType',
+            data: data
+        }
+        this.userService.sendApi(mutation).subscribe(result => {
+            const res = result['data'].signup;
+            if (!res.hasError) {
+                this.localStorage.setsingel('loginToken', res.data['token']);
+                this.localStorage.set('userDetail', res.data['user']);
+                this.loading.dismiss();
+                if (this.localStorage.getsingel('loginToken'))
+                    this.router.navigate(['/register-complete']);
+            } else {
+                this.loading.dismiss();
+            }
+        }, err => {
+            this.loading.dismiss();
+            this.configService.sendToast('danger', 'Something Went Wrong', 'bottom');
+        });
     }
     fillForm(option) {
         localStorage.setItem('formTitle', option);

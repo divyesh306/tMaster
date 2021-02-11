@@ -1,11 +1,9 @@
 <ion-content id="myContent">
   <div id="errorMsg"></div>
 
-  <video id="partnerVideo" (click)="swapVideo('partnerVideo')" autoplay playsinline muted="true" class="video-height"
-    [ngClass]="{'top-video': topVideoFrame == 'partnerVideo', 'main-video': topVideoFrame != 'partnerVideo'}">
+  <video id="partnerVideo" class="video-height" autoplay playsinline muted="true">
   </video>
-  <video id="myVideo" (click)="swapVideo('myVideo')" autoplay playsinline muted="true" style="display: none;"
-    [ngClass]="{'top-video': topVideoFrame == 'myVideo', 'main-video': topVideoFrame != 'myVideo'}">
+  <video id="myVideo" autoplay playsinline muted="true" style="display: none;">
   </video>
   <ion-row class="user_details">
     <ion-col class="ion-text-left column">
@@ -96,7 +94,7 @@
   </section>
   <div class="gift-icons" *ngIf="changeEyeIcon">
     <img src="../../assets/images/gift-logo.png" alt="" (click)="openCoinModal()">
-    <img src="../../assets/images/gift-icon.svg" alt="">
+    <img src="../../assets/images/gift-icon.svg" alt="" (click)="sendCoins(50)">
     <img src="../../assets/images/say-frnd.svg" alt="">
   </div>
 

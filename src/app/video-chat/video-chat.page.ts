@@ -7,6 +7,7 @@ import firebase from 'firebase/app';
 import { configService } from '../Service/config.service';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { Platform } from '@ionic/angular';
+import { userService } from '../Service/user.service';
 
 declare var RTCMultiConnection;
 @Component({
@@ -45,7 +46,8 @@ export class VideoChatPage implements OnInit {
     public route: ActivatedRoute,
     public config: configService,
     private diagnostic: Diagnostic,
-    private platform: Platform
+    private platform: Platform,
+    private userService: userService
   ) {
     this.s3Url = this.config.getS3();
     this.socket = this.config.getSocket();
@@ -103,7 +105,41 @@ export class VideoChatPage implements OnInit {
       .catch((err) => { })
       .finally(() => { this.webrtc(); });
   }
-
+  sendCoins(coins) {
+    if (!this.changeEyeIcon) {
+      const message = {
+        type: 'message',
+        nickname: this.nickname,
+        message: "Send Me " + coins.toString() + " Coins",
+      }
+      this.sendMessage(message);
+    } else {
+      const mutation = {
+        name: 'coin_management',
+        inputtype: 'CoinManagementInputType',
+        data: { user_id: this.chatUser_id, coin: coins, type: "message" }
+      }
+      this.loading.present();
+      this.userService.CloseApi(mutation).subscribe(result => {
+        const res = result['data'].coin_management;
+        this.loading.dismiss();
+        if (!res.hasError) {
+          const message = {
+            type: 'SendCoin',
+            nickname: this.nickname,
+            message: coins.toString(),
+          }
+          this.sendMessage(message);
+        } else {
+          this.config.sendToast("danger", res.message, "bottom");
+        }
+        this.closeCoinModal();
+      }, err => {
+        this.loading.dismiss();
+        this.config.sendToast("danger", "Something Went Wrong" + err, "bottom");
+      });
+    }
+  }
   join(roomid) {
     this.connection.openOrJoin(roomid);
   }
@@ -116,26 +152,10 @@ export class VideoChatPage implements OnInit {
   closeCoinModal() {
     this.openModal = false;
   }
-  sendCoins(coins) {
-  }
-  async close() {
-    // this.connection.onstream = function (event) {
-    //   if (!myVideo.srcObject)
-    //     myVideo.srcObject = event.stream;
-    //   else if (!partnerVideo.srcObject && myVideo.srcObject)
-    //     partnerVideo.srcObject = event.stream;
-    //   // content.appendChild(event.mediaElement);
-    // };
-    var stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-    console.log(stream);
-
-    stream.getTracks().forEach(function (track) {
-      track.stop();
-    });
-    // console.log(this.connection);
-    // this.connection.getAllParticipants().forEach(function (participantId) {
-    //   this.connection.disconnectWith(participantId);
-    // });
+  close() {
+    console.log("You are In Close");
+    const params = "key=" + this.roomkey + "@nickname=" + this.nickname + "&chatUser=" + JSON.stringify(this.chatUser) + "&chatUser_id=" + this.chatUser_id + "&userType=" + this.userType;
+    this.navCtrl.navigateRoot(`/chat-window?${params}`)
   }
 
   webrtc() {
@@ -147,7 +167,7 @@ export class VideoChatPage implements OnInit {
     this.connection.session = { data: true } // all below lines are optional; however recommended. 
     this.connection.session = { audio: false, video: true };
     this.connection.onMediaError = function (error) { };
-    this.connection.sdpConstraints.mandatory = { OfferToReceiveAudio: false, OfferToReceiveVideo: true };
+    this.connection.sdpConstraints.mandatory = { OfferToReceiveAudio: true, OfferToReceiveVideo: true };
     this.connection.onstream = function (event) {
       if (!myVideo.srcObject)
         myVideo.srcObject = event.stream;
@@ -158,6 +178,13 @@ export class VideoChatPage implements OnInit {
     this.connection.onmessage = function (event) {
       alert(event);
     };
+    this.connection.onstreamended = function (event) {
+      if (partnerVideo)
+        partnerVideo.parentNode.removeChild(partnerVideo);
+
+      const params = "key=" + this.roomkey + "@nickname=" + this.nickname + "&chatUser=" + JSON.stringify(this.chatUser) + "&chatUser_id=" + this.chatUser_id + "&userType=" + this.userType;
+      this.navCtrl.navigateRoot(`/chat-window?${params}`)
+    }
   }
 
   swapVideo(topVideo: string) {

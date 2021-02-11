@@ -3,7 +3,7 @@
     <ion-label class="fs-25 grey_text">{{'welcompage.welcomeText' | translate}}</ion-label>
     <img src="../../assets/logo.svg" alt="" class="logo">
     <p class="fs-11 grey_text ion-no-margin">{{'welcompage.agreeContinue' | translate}} </p>
-    <div class="fs-11 green_text mt-5">{{'welcompage.servicePolicy' | translate}}</div>
+    <div class="fs-11 green_text mt-5" (click)="openService()">{{'welcompage.servicePolicy' | translate}}</div>
     <ion-button class="green_button mt-20per" (click)="accept()">{{'welcompage.acceptContinue' | translate}}</ion-button>
   </div>
 </ion-content>
