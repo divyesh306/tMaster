@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NavController, PopoverController } from '@ionic/angular';
 import { LoadingService } from '../Service/loading.service';
 import { LocalstorageService } from '../Service/localstorage.service';
@@ -44,10 +44,11 @@ export class VideoChatPage implements OnInit {
     public elRef: ElementRef,
     public loading: LoadingService,
     public route: ActivatedRoute,
+    public router: Router,
     public config: configService,
     private diagnostic: Diagnostic,
     private platform: Platform,
-    private userService: userService
+    private userService: userService,
   ) {
     this.s3Url = this.config.getS3();
     this.socket = this.config.getSocket();
@@ -154,10 +155,16 @@ export class VideoChatPage implements OnInit {
   }
   close() {
     console.log("You are In Close");
+    var videoEl = this.elRef.nativeElement.querySelector('#myVideo');
+    const stream = videoEl.srcObject;
+    const tracks = stream.getTracks();
+    tracks.forEach(function (track) {
+      track.stop();
+    });
+    videoEl.srcObject = null;
     const params = "key=" + this.roomkey + "@nickname=" + this.nickname + "&chatUser=" + JSON.stringify(this.chatUser) + "&chatUser_id=" + this.chatUser_id + "&userType=" + this.userType;
-    this.navCtrl.navigateRoot(`/chat-window?${params}`)
+    this.navCtrl.navigateRoot(`/chat-window?${params}`);
   }
-
   webrtc() {
     // let content = document.querySelector('#myContent') as HTMLElement;
     let partnerVideo = this.elRef.nativeElement.querySelector('#partnerVideo');
@@ -179,11 +186,25 @@ export class VideoChatPage implements OnInit {
       alert(event);
     };
     this.connection.onstreamended = function (event) {
-      if (partnerVideo)
-        partnerVideo.parentNode.removeChild(partnerVideo);
-
-      const params = "key=" + this.roomkey + "@nickname=" + this.nickname + "&chatUser=" + JSON.stringify(this.chatUser) + "&chatUser_id=" + this.chatUser_id + "&userType=" + this.userType;
-      this.navCtrl.navigateRoot(`/chat-window?${params}`)
+      const stream = myVideo.srcObject;
+      const tracks = stream.getTracks();
+      tracks.forEach(function (track) {
+        track.stop();
+      });
+      myVideo.srcObject = null;
+      partnerVideo.srcObject = null;
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          key: this.roomkey,
+          nickname: this.nickname,
+          chatUser: JSON.stringify(this.chatUser),
+          chatUser_id: this.chatUser_id,
+          userType: this.userType
+        }
+      };
+      this.router.navigate(['/chat-window'], navigationExtras);
+      // const params = "key=" + this.roomkey + "@nickname=" + this.nickname + "&chatUser=" + JSON.stringify(this.chatUser) + "&chatUser_id=" + this.chatUser_id + "&userType=" + this.userType;
+      // this.navCtrl.navigateRoot(`/chat-window?${params}`)
     }
   }
 
