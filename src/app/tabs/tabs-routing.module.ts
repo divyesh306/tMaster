@@ -32,10 +32,6 @@ const routes: Routes = [
         loadChildren: () => import('../letstalknow/letstalknow.module').then( m => m.LetstalknowPageModule)
       },
       {
-        path: 'search-result',
-        loadChildren: () => import('../search-result/search-result.module').then( m => m.SearchResultPageModule)
-      },    
-      {
         path: '',
         redirectTo: 'tabs/hangout',
         pathMatch: 'full'

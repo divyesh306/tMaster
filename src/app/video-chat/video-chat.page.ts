@@ -48,7 +48,7 @@ export class VideoChatPage implements OnInit {
     public config: configService,
     private diagnostic: Diagnostic,
     private platform: Platform,
-    private userService: userService,
+    private userService: userService
   ) {
     this.s3Url = this.config.getS3();
     this.socket = this.config.getSocket();
