@@ -137,8 +137,8 @@ export class HangoutPage implements OnInit {
     }
     else {
       this.isItemAvailable = false;
+      this.getUsers('', '', '');
     }
-
   }
   categoryDetail(userList, userassets) {
     this.localStorage.set('categoryUser', userList);

@@ -157,7 +157,7 @@ export class VideoChatPage implements OnInit {
     const params = "key=" + this.roomkey + "@nickname=" + this.nickname + "&chatUser=" + JSON.stringify(this.chatUser) + "&chatUser_id=" + this.chatUser_id + "&userType=" + this.userType;
     this.navCtrl.navigateRoot(`/chat-window?${params}`)
   }
-
+  latencytime: any;
   webrtc() {
     // let content = document.querySelector('#myContent') as HTMLElement;
     let partnerVideo = this.elRef.nativeElement.querySelector('#partnerVideo');
@@ -165,14 +165,22 @@ export class VideoChatPage implements OnInit {
     this.connection = new RTCMultiConnection(); // this line is VERY_important 
     this.connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'; // if you want text chat 
     this.connection.session = { data: true } // all below lines are optional; however recommended. 
-    this.connection.session = { audio: false, video: true };
+    this.connection.session = { screen: true, audio: false, video: true };
+    this.connection.maxParticipantsAllowed = 1;
     this.connection.onMediaError = function (error) { };
+    this.connection.mediaConstraints = { video: true, audio: true };
     this.connection.sdpConstraints.mandatory = { OfferToReceiveAudio: true, OfferToReceiveVideo: true };
     this.connection.onstream = function (event) {
       if (!myVideo.srcObject)
         myVideo.srcObject = event.stream;
       else if (!partnerVideo.srcObject && myVideo.srcObject)
         partnerVideo.srcObject = event.stream;
+
+      if (event.type === 'remote') {
+        const heJoinedAt = new Date(event.extra.joinedAt).getTime();
+        const currentDate = new Date().getTime();
+        this.latencytime = currentDate - heJoinedAt;
+      }
       // content.appendChild(event.mediaElement);
     };
     this.connection.onmessage = function (event) {
@@ -182,6 +190,7 @@ export class VideoChatPage implements OnInit {
       if (partnerVideo)
         partnerVideo.parentNode.removeChild(partnerVideo);
 
+      console.log("time : ", this.latencytime);
       const params = "key=" + this.roomkey + "@nickname=" + this.nickname + "&chatUser=" + JSON.stringify(this.chatUser) + "&chatUser_id=" + this.chatUser_id + "&userType=" + this.userType;
       this.navCtrl.navigateRoot(`/chat-window?${params}`)
     }
