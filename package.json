@@ -76,7 +76,6 @@
     "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-inappbrowser": "^4.1.0",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
-    "cordova-plugin-ionic-webview": "^4.2.1",
     "cordova-plugin-media-capture": "^3.0.3",
     "cordova-plugin-purchase": "git+https://github.com/j3k0/cordova-plugin-purchase.git#v9",
     "cordova-plugin-sms-retriever-manager": "^1.0.2",
@@ -107,9 +106,6 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-ionic-webview": {
-        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
-      },
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-sms-retriever-manager": {},
       "cordova-plugin-media-capture": {},

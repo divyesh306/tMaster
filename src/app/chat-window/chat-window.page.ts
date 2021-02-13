@@ -70,12 +70,11 @@ export class ChatWindowPage implements OnInit {
     });
     this.getstatus();
     this.configService.joincallroom({ room_key: this.roomkey, user: this.userDetail.firebase_user_id });
-    this.configService.newMessageReceived()
-      .subscribe(datas => {
-        if (datas['user_id'] == this.userDetail.firebase_user_id) {
-          this.videoCallBtn();
-        }
-      });
+    this.configService.newMessageReceived().subscribe(datas => {
+      if (datas['user_id'] == this.userDetail.firebase_user_id) {
+        this.videoCallBtn();
+      }
+    });
     this.MessageData.type = 'message';
     this.MessageData.nickname = this.nickname;
     firebase.database().ref('chatroom/' + this.roomkey + '/chats').on('value', resp => {
