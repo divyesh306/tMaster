@@ -20,16 +20,15 @@ export class BlocklistPage implements OnInit {
   }
 
   getBloackList() {
-    this.loading.present();
+    this.loading.showLoader();
     const body = {
       name: 'blocked_users{id updated_at status blocked_user_id blocked_user{nick_name picture} user{nick_name picture}}'
     }
     this.userService.closeQuery(body).subscribe(result => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.blockUserList = result['data'].blocked_users;
-      console.log("Block User : ", this.blockUserList);
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.ConfigService.sendToast('danger', "Something Went Wrong : " + err, 'bottom');
     })
   }
@@ -40,10 +39,10 @@ export class BlocklistPage implements OnInit {
       inputtype: 'RemoveBlockedUserInputType',
       data: { blocked_user_id: userId }
     }
-    this.loading.present();
+    this.loading.showLoader();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].remove_blocked_user;
-      this.loading.dismiss();
+      this.loading.hideLoader();
       if (!res.hasError) {
         this.ConfigService.sendToast('success', 'User Remove From Blocked', 'bottom');
         this.getBloackList();
@@ -51,7 +50,7 @@ export class BlocklistPage implements OnInit {
 
       }
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.ConfigService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }

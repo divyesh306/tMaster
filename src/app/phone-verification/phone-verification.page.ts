@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
 import { configService } from '../Service/config.service';
-import { SmsRetriever } from '@ionic-native/sms-retriever/ngx'
 import { LoadingService } from '../Service/loading.service';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { NavController } from '@ionic/angular';
@@ -27,7 +26,6 @@ export class PhoneVerificationPage implements OnInit {
     private loading: LoadingService,
     private localStorage: LocalstorageService,
     private configService: configService,
-    private smsRetriever: SmsRetriever,
     private keyboard: Keyboard,
     public navCtrl: NavController,
     public authService: AuthenticationService,
@@ -37,16 +35,7 @@ export class PhoneVerificationPage implements OnInit {
   }
 
   ngOnInit() {
-    this.getHashCode();
     this.focused = true;
-  }
-
-  getHashCode() {
-    this.smsRetriever.getAppHash()
-      .then((res: any) => {
-        this.appHashString = res;
-      })
-      .catch((error: any) => console.error(error));
   }
 
   inputChnage(event, nextInput, prvInput) {
@@ -76,7 +65,7 @@ export class PhoneVerificationPage implements OnInit {
         otp: otp
       }
     }
-    this.loading.present();
+    this.loading.showLoader();
     this.userService.sendApi(mutation).subscribe(result => {
       const res = result['data'].verify_otp;
       if (!res.hasError) {
@@ -86,7 +75,7 @@ export class PhoneVerificationPage implements OnInit {
           if (res.data['user'].firebase_user_id) {
             if (this.localStorage.getsingel('loginToken'))
               this.router.navigate(['/tabs/hangout']);
-            this.loading.dismiss();
+            this.loading.hideLoader();
           }
           else {
             let phonenumber = this.localStorage.getsingel('phonenumber')
@@ -105,27 +94,26 @@ export class PhoneVerificationPage implements OnInit {
                     }
                     this.userUpdate(userData);
                   }).catch((error) => {
-                    this.loading.dismiss();
+                    this.loading.hideLoader();
                   })
                 }
                 else {
-                  console.log(error);
-                  this.loading.dismiss();
+                  this.loading.hideLoader();
                 }
               })
           }
         }
         else {
           this.router.navigate(['/select-position']);
-          this.loading.dismiss();
+          this.loading.hideLoader();
         }
       } else {
         this.configService.sendToast("danger", "OTP Not Verify", "bottom");
-        this.loading.dismiss();
+        this.loading.hideLoader();
         this.wrongCode = true;
       }
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
@@ -139,16 +127,16 @@ export class PhoneVerificationPage implements OnInit {
       const res = result['data'].update_profile;
       if (!res.hasError) {
         this.localStorage.set('userDetail', res.data);
-        this.loading.dismiss();
+        this.loading.hideLoader();
         if (this.localStorage.getsingel('loginToken'))
           this.router.navigate(['/tabs/hangout']);
       } else {
-        this.loading.dismiss();
+        this.loading.hideLoader();
         if (this.localStorage.getsingel('loginToken'))
           this.router.navigate(['/tabs/hangout']);
       }
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
@@ -160,15 +148,15 @@ export class PhoneVerificationPage implements OnInit {
         phone: this.localStorage.getsingel('phonenumber')
       }
     }
-    this.loading.present();
+    this.loading.showLoader();
     this.userService.sendApi(mutation).subscribe(data => {
       const res = data['data'].send_otp;
-      this.loading.dismiss();
+      this.loading.hideLoader();
       if (!res.hasError) {
         this.configService.sendToast("dark", "Otp Resend Successfully", "bottom");
       }
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }

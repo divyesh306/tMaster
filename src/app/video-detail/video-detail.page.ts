@@ -6,7 +6,6 @@ import { LocalstorageService } from '../Service/localstorage.service';
 import { userService } from '../Service/user.service';
 import { chats } from '../Service/chat.service';
 import { LoadingService } from '../Service/loading.service';
-import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-video-detail',
@@ -16,10 +15,12 @@ import firebase from 'firebase/app';
 export class VideoDetailPage implements OnInit {
   // @Input() video:string = "";
   userDetail;
+  loginUserDetail;
   s3Url;
   video: HTMLMediaElement;
   userData;
   usersList = [];
+  isuserFavorite = false;
   currentUserIndex: number;
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -35,11 +36,11 @@ export class VideoDetailPage implements OnInit {
       // this.userId.type = params['userId'];
     })
     this.s3Url = this.configService.getS3();
+    this.loginUserDetail = this.localStorage.get('userDetail');
     this.userDetail = this.localStorage.get('selectedUser');
-
+    this.checkuserFavourite(this.localStorage.get('selectedUser'));
     this.usersList = this.localStorage.get('categoryUser');
     this.userData = this.localStorage.get('userDetail'); // User Detail
-    this.video = this.s3Url + this.userDetail.video;
   }
 
   addFavorite() {
@@ -48,36 +49,30 @@ export class VideoDetailPage implements OnInit {
       inputtype: 'AddFavoriteUserInputType',
       data: { favorite_user: this.userDetail.id, type: 'favorite' },
     }
-    this.loading.present();
+    this.loading.showLoader();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].add_to_favorite_user;
-      this.loading.dismiss();
+      this.loading.hideLoader();
       if (!res.hasError) {
         this.configService.sendToast('success', 'This User Add As a Favorite', 'bottom');
       } else { }
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
 
   onSwipeLeft($event) {
     this.currentUserIndex = this.usersList.findIndex(x => x.id == this.userDetail.id);
-    console.log(this.currentUserIndex);
     if (this.currentUserIndex != 0 && this.currentUserIndex < this.usersList.length) {
-      this.userDetail = this.usersList[this.currentUserIndex - 1];
-      this.video = this.elRef.nativeElement.querySelector('#myVideo');
-      this.video.src = this.s3Url + this.userDetail.video;
+      this.checkuserFavourite(this.usersList[this.currentUserIndex - 1]);
     }
   }
 
   onSwipeRight($event) {
     this.currentUserIndex = this.usersList.findIndex(x => x.id == this.userDetail.id);
-    console.log(this.currentUserIndex);
     if (this.currentUserIndex + 1 < this.usersList.length) {
-      this.userDetail = this.usersList[this.currentUserIndex + 1];
-      this.video = this.elRef.nativeElement.querySelector('#myVideo');
-      this.video.src = this.s3Url + this.userDetail.video;
+      this.checkuserFavourite(this.usersList[this.currentUserIndex + 1]);
     }
   }
   calculateAge(bdate) {
@@ -92,6 +87,28 @@ export class VideoDetailPage implements OnInit {
     this.navCtrl.back();
   }
 
+  checkuserFavourite(userdetaildata) {
+    const body = {
+      name: 'is_user_favorited(id:"' + userdetaildata.id + '"){hasError,message,userErrors,data}'
+    }
+    this.loading.showLoader();
+    this.userService.closeQuery(body).subscribe(result => {
+      const res = result['data'].is_user_favorited;
+      if (!res.hasError) {
+        this.isuserFavorite = res.data.isExists;
+        this.userDetail = userdetaildata;
+        this.video = this.elRef.nativeElement.querySelector('#myVideo');
+        this.video.src = this.s3Url + this.userDetail.video;
+      }
+      else {
+        this.isuserFavorite = false;
+      }
+      this.loading.hideLoader();
+    }, err => {
+      this.loading.hideLoader();
+      this.configService.sendToast('danger', "Something Went Wrong : " + err, 'bottom');
+    })
+  }
   ngOnInit() {
   }
 
@@ -103,10 +120,10 @@ export class VideoDetailPage implements OnInit {
         'receiver_id': this.userDetail.id
       }
     }
-    this.loading.present();
+    this.loading.showLoader();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].create_rooms;
-      this.loading.dismiss();
+      this.loading.hideLoader();
       if (!res.hasError) {
         const data = {
           roomname: res.data.room_id
@@ -122,21 +139,21 @@ export class VideoDetailPage implements OnInit {
             'room_key': room.ref.key,
           }
         }
-        this.loading.present();
+        this.loading.showLoader();
         this.userService.CloseApi(mutation).subscribe(result => {
           const res = result['data'].update_rooms;
-          this.loading.dismiss();
+          this.loading.hideLoader();
           if (!res.hasError) {
-            let newData = firebase.database().ref('chatroom/' + res.data.room_key + '/chats').push();
-            newData.set({
+            const messagedata = {
               type: 'message',
               user: this.userData.nick_name,
               message: 'hello',
               sendDate: Date()
-            });
+            }
+            this.chatService.sendMessage(messagedata, res.data.room_key)
           }
         }, err => {
-          this.loading.dismiss();
+          this.loading.hideLoader();
           this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
         });
         this.configService.sendToast('success', 'Room Created', 'bottom');
@@ -144,6 +161,29 @@ export class VideoDetailPage implements OnInit {
         this.configService.sendToast('success', 'You Sent message this user before', 'bottom');
       }
     }, err => {
+      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
+    });
+  }
+
+
+  removeFavorite() {
+    const mutation = {
+      name: 'remove_favorite_user',
+      inputtype: 'RemoveFavoriteUserInputType',
+      data: { favorite_user: this.userDetail.id }
+    }
+    this.loading.showLoader();
+    this.userService.CloseApi(mutation).subscribe(result => {
+      const res = result['data'].remove_favorite_user;
+      if (!res.hasError) {
+        this.loading.hideLoader();
+        this.configService.sendToast('success', 'This User Remove From Favorite', 'bottom');
+      } else {
+        this.loading.hideLoader();
+        this.configService.sendToast('danger', res.message, 'bottom');
+      }
+    }, err => {
+      this.loading.hideLoader();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }

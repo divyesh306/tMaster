@@ -5,22 +5,34 @@ import { LoadingController } from '@ionic/angular';
 })
 export class LoadingService {
     loader: any;
+    isLoading = false;
     // loader: HTMLIonLoadingElement;
     constructor(public loadingCtrl: LoadingController) {
     }
-    async present() {
-        this.loader = await this.loadingCtrl.create({
+
+    // Show the loader for infinite time
+    showLoader() {
+        this.loadingCtrl.create({
             message: 'Please wait...',
-            duration: 10000
+            duration: 10000,
+        }).then((res) => {
+            res.present().then(() => {
+                if (!this.isLoading) {
+                    res.dismiss();
+                }
+            });;
         });
-        await this.loader.present();
+
     }
-    async dismiss() {
-        // await this.loader.dismiss();
-        this.loadingCtrl.getTop().then(loader => {
-            if (loader) {
-                loader.dismiss();
-            }
+
+    // Hide the loader if already created otherwise return error
+    hideLoader() {
+        this.isLoading = false;
+        this.loadingCtrl.dismiss().then((res) => {
+            console.log('Loading dismissed!', res);
+        }).catch((error) => {
+            console.log('error', error);
         });
+
     }
 }

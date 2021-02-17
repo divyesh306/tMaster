@@ -1,14 +1,14 @@
 <ion-content id="myContent">
   <div id="errorMsg"></div>
 
-  <video id="partnerVideo" class="video-height" autoplay playsinline muted="true">
+  <video id="partnerVideo" class="video-height" autoplay playsinline muted="true" >
   </video>
   <video id="myVideo" autoplay playsinline muted="true" style="display: none;">
   </video>
   <ion-row class="user_details">
     <ion-col class="ion-text-left column">
       <small class="white_text fs-11">{{chatUser.nick_name}}</small>
-      <small class="white_text">TIME: 2:21</small>
+      <small class="white_text" id="time"></small>
     </ion-col>
     <ion-col class="ion-text-right column">
       <small class="white_text fs-11">{{chatUser.coins}} coins</small>
@@ -35,6 +35,22 @@
               <p class="ion-no-margin">{{chat.message}}</p>
             </div>
             <div class="chat-msg" *ngIf="chat.type== 'SendCoin'">
+              <img src="../../assets/images/1.svg" height="100px" width="100px" *ngIf="chat.message== '50'"
+                  alt="File">
+                <img src="../../assets/images/2.svg" height="100px" width="100px" *ngIf="chat.message== '100'"
+                  alt="File">
+                <img src="../../assets/images/3.svg" height="100px" width="100px" *ngIf="chat.message== '300'"
+                  alt="File">
+                <img src="../../assets/images/4.svg" height="100px" width="100px" *ngIf="chat.message== '500'"
+                  alt="File">
+                <img src="../../assets/images/5.svg" height="100px" width="100px" *ngIf="chat.message== '1000'"
+                  alt="File">
+                <img src="../../assets/images/6.svg" height="100px" width="100px" *ngIf="chat.message== '3000'"
+                  alt="File">
+                <img src="../../assets/images/7.svg" height="100px" width="100px" *ngIf="chat.message== '5000'"
+                  alt="File">
+                <img src="../../assets/images/8.svg" height="100px" width="100px" *ngIf="chat.message== '10000'"
+                  alt="File">
               <p>{{chat.message}} Coins</p>
             </div>
             <div class="chat-msg" *ngIf="chat.type == 'Image'">
@@ -60,6 +76,22 @@
             </div>
 
             <div class="white-chat-msg" *ngIf="chat.type== 'SendCoin'">
+              <img src="../../assets/images/1.svg" height="100px" width="100px" *ngIf="chat.message== '50'"
+                  alt="File">
+                <img src="../../assets/images/2.svg" height="100px" width="100px" *ngIf="chat.message== '100'"
+                  alt="File">
+                <img src="../../assets/images/3.svg" height="100px" width="100px" *ngIf="chat.message== '300'"
+                  alt="File">
+                <img src="../../assets/images/4.svg" height="100px" width="100px" *ngIf="chat.message== '500'"
+                  alt="File">
+                <img src="../../assets/images/5.svg" height="100px" width="100px" *ngIf="chat.message== '1000'"
+                  alt="File">
+                <img src="../../assets/images/6.svg" height="100px" width="100px" *ngIf="chat.message== '3000'"
+                  alt="File">
+                <img src="../../assets/images/7.svg" height="100px" width="100px" *ngIf="chat.message== '5000'"
+                  alt="File">
+                <img src="../../assets/images/8.svg" height="100px" width="100px" *ngIf="chat.message== '10000'"
+                  alt="File">
               <p>{{chat.message}} Coins</p>
             </div>
             <div class="white-chat-msg" *ngIf="chat.type == 'Image'">

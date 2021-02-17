@@ -3,11 +3,10 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NavController, PopoverController } from '@ionic/angular';
 import { LoadingService } from '../Service/loading.service';
 import { LocalstorageService } from '../Service/localstorage.service';
-import firebase from 'firebase/app';
 import { configService } from '../Service/config.service';
-import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { Platform } from '@ionic/angular';
 import { userService } from '../Service/user.service';
+import { chats } from '../Service/chat.service';
 
 declare var RTCMultiConnection;
 @Component({
@@ -34,7 +33,9 @@ export class VideoChatPage implements OnInit {
   chatUser;
   userType: string;
   s3Url;
-
+  timecount = 0;
+  minutes = 0;
+  interval: any;
   connection: any;
   socket: any;
 
@@ -46,16 +47,15 @@ export class VideoChatPage implements OnInit {
     public route: ActivatedRoute,
     public router: Router,
     public config: configService,
-    private diagnostic: Diagnostic,
     private platform: Platform,
-    private userService: userService
+    private userService: userService,
+    private chatService: chats,
   ) {
     this.s3Url = this.config.getS3();
     this.socket = this.config.getSocket();
   }
 
   ngOnInit() {
-    console.log("You r invideo")
     this.route.queryParams.subscribe(params => {
       if (params && params.chatUser_id) {
         this.chatUser_id = params.chatUser_id;
@@ -72,39 +72,29 @@ export class VideoChatPage implements OnInit {
     this.userId = this.loginUser.id;
     this.MessageData.type = 'message';
     this.MessageData.nickname = this.nickname;
-    firebase.database().ref('chatroom/' + this.roomkey + '/chats').on('value', resp => {
+    this.chatService.getChatList(this.roomkey).subscribe(value => {
       this.chats = [];
-      this.chats = snapshotToArray(resp);
-    });
-    // this.init();
+      this.chats = value;
+    })
   }
   sendMessage(data) {
     if (!data.message.trim().length) {
       //Empty String Not Send On message
     }
     else {
-      let newData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
-      newData.set({
+      const messagedata = {
         type: data.type,
         user: data.nickname,
         message: data.message,
         sendDate: Date()
-      });
+      }
+      this.chatService.sendMessage(messagedata, this.roomkey);
     }
     this.MessageData.message = '';
   }
   ngAfterViewInit() {
     this.platform.ready().then(() => {
-      this.getPermission();
     });
-  }
-  getPermission() {
-    this.diagnostic.requestCameraAuthorization().then((res) => {
-      return this.diagnostic.requestMicrophoneAuthorization()
-    })
-      .then((res) => { })
-      .catch((err) => { })
-      .finally(() => { this.webrtc(); });
   }
   sendCoins(coins) {
     if (!this.changeEyeIcon) {
@@ -120,11 +110,12 @@ export class VideoChatPage implements OnInit {
         inputtype: 'CoinManagementInputType',
         data: { user_id: this.chatUser_id, coin: coins, type: "message" }
       }
-      this.loading.present();
+      this.loading.showLoader();
       this.userService.CloseApi(mutation).subscribe(result => {
         const res = result['data'].coin_management;
-        this.loading.dismiss();
+        this.loading.hideLoader();
         if (!res.hasError) {
+          this.loginUser.coins = this.userDetail.coins - coins;
           const message = {
             type: 'SendCoin',
             nickname: this.nickname,
@@ -136,7 +127,7 @@ export class VideoChatPage implements OnInit {
         }
         this.closeCoinModal();
       }, err => {
-        this.loading.dismiss();
+        this.loading.hideLoader();
         this.config.sendToast("danger", "Something Went Wrong" + err, "bottom");
       });
     }
@@ -154,7 +145,6 @@ export class VideoChatPage implements OnInit {
     this.openModal = false;
   }
   close() {
-    console.log("You are In Close");
     var videoEl = this.elRef.nativeElement.querySelector('#myVideo');
     const stream = videoEl.srcObject;
     const tracks = stream.getTracks();
@@ -165,56 +155,81 @@ export class VideoChatPage implements OnInit {
     const params = "key=" + this.roomkey + "@nickname=" + this.nickname + "&chatUser=" + JSON.stringify(this.chatUser) + "&chatUser_id=" + this.chatUser_id + "&userType=" + this.userType;
     this.navCtrl.navigateRoot(`/chat-window?${params}`);
   }
-  latencytime: any;
   webrtc() {
     // let content = document.querySelector('#myContent') as HTMLElement;
+    const chatUser_id = this.chatUser_id;
+    const userService = this.userService;
+    const interval = this.interval;
+    const userdetail = this.loginUser;
+    const localStorage = this.localStorage.getsingel('callerType');
     let partnerVideo = this.elRef.nativeElement.querySelector('#partnerVideo');
     let myVideo = this.elRef.nativeElement.querySelector('#myVideo');
+    let time = this.elRef.nativeElement.querySelector('#time');
     this.connection = new RTCMultiConnection(); // this line is VERY_important 
     this.connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'; // if you want text chat 
     this.connection.session = { data: true } // all below lines are optional; however recommended. 
-    this.connection.session = { screen: true, audio: false, video: true };
-    this.connection.maxParticipantsAllowed = 1;
+    this.connection.session = { audio: false, video: true };
+    this.connection.maxParticipantsAllowed = 2;
     this.connection.onMediaError = function (error) { };
-    this.connection.mediaConstraints = { video: true, audio: true };
-    this.connection.sdpConstraints.mandatory = { OfferToReceiveAudio: true, OfferToReceiveVideo: true };
+    this.connection.mediaConstraints = { video: true, audio: false };
+    this.connection.sdpConstraints.mandatory = { OfferToReceiveAudio: false, OfferToReceiveVideo: true };
     this.connection.onstream = function (event) {
       if (!myVideo.srcObject)
         myVideo.srcObject = event.stream;
       else if (!partnerVideo.srcObject && myVideo.srcObject)
         partnerVideo.srcObject = event.stream;
 
-      if (event.type === 'remote') {
-        const heJoinedAt = new Date(event.extra.joinedAt).getTime();
-        const currentDate = new Date().getTime();
-        this.latencytime = currentDate - heJoinedAt;
+      if (event.type === "remote") {
+        this.timecount = 0;
+        this.minutes = 0;
+        this.interval = setInterval(() => {
+          this.timecount++;
+          if (this.timecount == 60) {
+            this.minutes++;
+            this.timecount = 0;
+            deductcoin(50);
+          }
+          time.innerHTML = `TIME:${this.minutes}:${this.timecount}`;
+        }, 1000)
       }
       // content.appendChild(event.mediaElement);
     };
-    this.connection.onmessage = function (event) {
-      alert(event);
-    };
     this.connection.onstreamended = function (event) {
-      console.log("time : ", this.latencytime);
       const stream = myVideo.srcObject;
       const tracks = stream.getTracks();
       tracks.forEach(function (track) {
         track.stop();
       });
-      myVideo.srcObject = null;
+      clearInterval(this.interval);
       partnerVideo.srcObject = null;
-      let navigationExtras: NavigationExtras = {
-        queryParams: {
-          key: this.roomkey,
-          nickname: this.nickname,
-          chatUser: JSON.stringify(this.chatUser),
-          chatUser_id: this.chatUser_id,
-          userType: this.userType
+      myVideo.srcObject = null;
+    }
+
+    function deductcoin(coins) {
+      if (localStorage === "sender") {
+        const mutation = {
+          name: 'coin_management',
+          inputtype: 'CoinManagementInputType',
+          data: { user_id: chatUser_id, coin: coins, type: "message" }
         }
-      };
-      this.router.navigate(['/chat-window'], navigationExtras);
-      // const params = "key=" + this.roomkey + "@nickname=" + this.nickname + "&chatUser=" + JSON.stringify(this.chatUser) + "&chatUser_id=" + this.chatUser_id + "&userType=" + this.userType;
-      // this.navCtrl.navigateRoot(`/chat-window?${params}`)
+        userService.CloseApi(mutation).subscribe(result => {
+          const res = result['data'].coin_management;
+          if (!res.hasError) {
+            userdetail.coins = userdetail.coins - coins;
+          } else {
+            const stream = myVideo.srcObject;
+            const tracks = stream.getTracks();
+            tracks.forEach(function (track) {
+              track.stop();
+            });
+            clearInterval(interval);
+            partnerVideo.srcObject = null;
+            myVideo.srcObject = null;
+          }
+        }, err => {
+          this.config.sendToast("danger", "Something Went Wrong" + err, "bottom");
+        });
+      }
     }
   }
 
@@ -223,14 +238,3 @@ export class VideoChatPage implements OnInit {
   }
 
 }
-
-export const snapshotToArray = snapshot => {
-  let returnArr = [];
-  snapshot.forEach(childSnapshot => {
-    let item = childSnapshot.val();
-    item.key = childSnapshot.key;
-    returnArr.push(item);
-  });
-
-  return returnArr;
-};

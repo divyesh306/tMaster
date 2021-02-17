@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { NavParams, PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-video-notice',
@@ -7,19 +7,22 @@ import { PopoverController } from '@ionic/angular';
   styleUrls: ['./video-notice.component.scss'],
 })
 export class VideoNoticeComponent implements OnInit {
-  wantToVideoChat=false;
-  @Input() onClick=()=>{};
-  constructor(private popoverCtrl:PopoverController) { }
-
-  ngOnInit() {}
-  acceptNotice(){
-    this.wantToVideoChat=true;
+  wantToVideoChat = false;
+  @Input() onClick = () => { };
+  user: any;
+  constructor(private popoverCtrl: PopoverController, private navParams: NavParams) {
+    this.user = this.navParams.get('user');
   }
-  start(){
+
+  ngOnInit() { }
+  acceptNotice() {
+    this.wantToVideoChat = true;
+  }
+  start() {
     this.popoverCtrl.dismiss();
     this.onClick();
   }
-  cancel(){
+  cancel() {
     this.popoverCtrl.dismiss();
   }
 }

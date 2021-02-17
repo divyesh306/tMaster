@@ -10,7 +10,6 @@ import { File } from '@ionic-native/file/ngx';
 import { VideoEditor, CreateThumbnailOptions } from '@ionic-native/video-editor/ngx';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { Router } from '@angular/router';
-import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { LoadingService } from '../Service/loading.service';
 
 @Component({
@@ -38,7 +37,6 @@ export class ProfilePage implements OnInit {
     private configService: configService,
     private videoEditor: VideoEditor,
     private router: Router,
-    public videoPlayer: VideoPlayer,
     public elRef: ElementRef,
     private loading: LoadingService) {
     this.s3Url = this.configService.getS3(); // amazone bucket Url
@@ -61,18 +59,23 @@ export class ProfilePage implements OnInit {
 
   ionViewDidEnter() {
     const body = {
-      name: 'me{type date_of_birth phone gender rating tags jobs picture coins firebase_user_id}'
+      name: 'me{type date_of_birth phone gender rating tags jobs picture video coins firebase_user_id nick_name}'
     }
-    this.loading.present();
+    this.loading.showLoader();
     this.userService.closeQuery(body).subscribe(result => {
       if (result['hasError']) {
-
+        this.userDetail = this.localstorage.get('userDetail');
+        this.video = this.elRef.nativeElement.querySelector('#myVideo');
+        this.video.src = this.s3Url + this.userDetail.video;
+        this.loading.hideLoader();
       } else {
-        this.userDetail = result['data'].me;
-        console.log("Tag List : ", this.userDetail);
+        this.localstorage.set('userDetail', result['data'].me);
+        this.userDetail = this.localstorage.get('userDetail');
+        this.video = this.elRef.nativeElement.querySelector('#myVideo');
+        this.video.src = this.s3Url + this.userDetail.video;
       }
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
     })
     // this.userDetail = this.localstorage.get('userDetail'); // User Detail  
     this.getTags();
@@ -87,13 +90,12 @@ export class ProfilePage implements OnInit {
 
       } else {
         this.tagList = result['data'].tags;
-        console.log("Tag List : ", this.tagList);
       }
-      this.loading.dismiss();
+      this.loading.hideLoader();
       let tags = this.userDetail.tags;
       this.userTagsList = tags.split(',');
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
     })
   }
   next() {
@@ -112,12 +114,12 @@ export class ProfilePage implements OnInit {
 
   signup(signuserData) {
     if (signuserData.tags === this.userDetail.tags) {
-      
-    }else{
+
+    } else {
       const tags = signuserData.tags.map(tag => tag);
       signuserData.tags = tags.toString();
     }
-    this.loading.present();
+    this.loading.showLoader();
     const mutation = {
       name: 'update_profile',
       inputtype: 'UserRegisterInputType',
@@ -125,7 +127,7 @@ export class ProfilePage implements OnInit {
     }
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].update_profile;
-      this.loading.dismiss();
+      this.loading.hideLoader();
       if (!res.hasError) {
         this.localstorage.set('userDetail', res.data);
         this.userDetail = this.localstorage.get('userDetail');
@@ -136,7 +138,7 @@ export class ProfilePage implements OnInit {
 
       }
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
@@ -179,7 +181,7 @@ export class ProfilePage implements OnInit {
     this.mediaCapture.captureVideo(options)
       .then(
         async (data: MediaFile[]) => {
-          this.loading.present();
+          this.loading.showLoader();
           var path = data[0].fullPath.replace('/private', 'file:///');
           const newBaseFilesystemPath = this.file.externalDataDirectory + "files/videos/";
           const videofilename = path.substr(path.lastIndexOf('/') + 1);
@@ -188,10 +190,10 @@ export class ProfilePage implements OnInit {
           this.file.readAsArrayBuffer(videopath, videofilename).then((body) => {
             this.uploadservice.uploadFile(body, videofilename, (url) => {
               this.userDetail.video = url.Key;
-              this.loading.dismiss();
+              this.loading.hideLoader();
             });
           }).catch(err => {
-            this.loading.dismiss();
+            this.loading.hideLoader();
             alert('readAsDataURL failed: (' + err.code + ")" + err.message);
           })
 
@@ -206,7 +208,7 @@ export class ProfilePage implements OnInit {
               this.profileImg = this.configService.getS3() + url.Key;
             });
           }).catch(err => {
-            this.loading.dismiss();
+            this.loading.hideLoader();
             console.log('readAsDataURL failed: ( ' + err.code + ' ) ' + err.message);
           })
         },
@@ -220,17 +222,16 @@ export class ProfilePage implements OnInit {
   }
 
   logout() {
-    this.loading.present();
+    this.loading.showLoader();
     const body = {
       name: 'logout'
     }
     this.userService.closeQuery(body).subscribe(result => {
-      this.loading.dismiss();
-      console.log("Block User : ", result['data'].logout);
+      this.loading.hideLoader();
       this.localstorage.clear();
       this.router.navigate(['verify-number']);
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.configService.sendToast('danger', "Something Went Wrong : " + err, 'bottom');
     })
   }

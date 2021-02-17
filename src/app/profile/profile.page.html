@@ -58,7 +58,7 @@
       <div class="border_div"></div>
       <ion-item class="item_margin">
         <ion-label class="grey_text" position="stacked">{{'common.nickname' | translate}}</ion-label>
-        <ion-input placeholder="Nickname" formControlName="nick_name"></ion-input>
+        <ion-input placeholder="Nickname" formControlName="nick_name" [(ngModel)]="userDetail.nick_name"></ion-input>
       </ion-item>
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.nick_name.errors?.required">
         {{'common.nicknameRequired' | translate}}
@@ -68,14 +68,14 @@
       </span>
       <ion-item class="item_margin">
         <ion-label class="grey_text" position="stacked">{{'common.job' | translate}}</ion-label>
-        <ion-input placeholder="Job" formControlName="jobs"></ion-input>
+        <ion-input placeholder="Job" formControlName="jobs" [(ngModel)]="userDetail.jobs"></ion-input>
       </ion-item>
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.jobs.errors?.required">
         {{'common.jobRequired' | translate}}
       </span>
       <ion-item class="item_margin">
         <ion-label class="grey_text" position="stacked">{{'common.minuteRating' | translate}}</ion-label>
-        <ion-input type="tel" placeholder="Minute Rating" max=400 formControlName="rating"></ion-input>
+        <ion-input type="tel" placeholder="Minute Rating" max=400  [(ngModel)]="userDetail.rating" formControlName="rating"></ion-input>
       </ion-item>
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rating.errors?.required">
         {{'common.minuteRatingRequired' | translate}}

@@ -65,17 +65,18 @@ export class HangoutPage implements OnInit {
     const body = {
       name: 'user_list(search_term:"' + search_terms + '" ,gender:"' + gender + '",type:"' + type + '")'
     }
-    this.loadingservice.present();
+    this.loadingservice.showLoader();
     this.userService.closeQuery(body).subscribe(result => {
       if (result['hasError']) {
-        this.loadingservice.dismiss();
+        this.loadingservice.hideLoader();
         this.isItemAvailable = false;
       } else {
         this.user_list = this.splitKeyValue(result['data'].user_list);
         this.isItemAvailable = false;
+        this.loadingservice.hideLoader();
       }
     }, err => {
-      this.loadingservice.dismiss();
+      this.loadingservice.hideLoader();
       if (err['status'] == 401)
         this.router.navigate(['/verify-number']);
     })
@@ -93,7 +94,7 @@ export class HangoutPage implements OnInit {
         'data': obj[keys[i]]
       });
     };
-    this.loadingservice.dismiss();
+    this.loadingservice.hideLoader();
     return res;
   };
 

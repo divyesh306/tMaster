@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-import firebase from 'firebase/app';
 import { io } from 'socket.io-client';
 import { Observable } from 'rxjs';
 
@@ -17,22 +16,10 @@ export class configService {
         // this.SERVER_URL = "http://192.168.1.69:3008/api/";
         this.s3 = "https://matukitestimg.s3.ap-south-1.amazonaws.com/" //https://matukitestimg.s3.ap-south-1.amazonaws.com/Profilevideo/20201231_171245.jpg
     }
-    setStatus(userId) {
-        var myStatusRef = firebase.database().ref("users/" + userId + '/status');
-        var connectedRef = firebase.database().ref(".info/connected");
-        connectedRef.on('value', function (snap) {
-            if (snap.val() == true) {
-                myStatusRef.onDisconnect().remove();
-                myStatusRef.set('online');
-                myStatusRef.onDisconnect().set('Offline');
-            }
-        });
-    }
     joincallroom(data) {
         this.socket.emit('join', data);
     }
     newMessageReceived() {
-        // this.socket.on("videocall", (data) => { console.log('Socket data', data); alert('Data'); })
         let observable = new Observable<{ room_id: string, type: string }>(observer => {
             this.socket.on('videocall', (data) => {
                 observer.next(data);

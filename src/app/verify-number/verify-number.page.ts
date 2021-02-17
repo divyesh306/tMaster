@@ -1268,10 +1268,10 @@ export class VerifyNumberPage implements OnInit {
         phone: phonenumber
       }
     }
-    this.loading.present();
+    this.loading.showLoader();
     this.userService.sendApi(mutation).subscribe(data => {
       const res = data['data'].send_otp;
-      this.loading.dismiss();
+      this.loading.hideLoader();
       if (!res.hasError) {
         this.localStorage.clear();
         this.localStorage.setsingel('phonenumber', phonenumber);
@@ -1279,7 +1279,7 @@ export class VerifyNumberPage implements OnInit {
       }
     }, err => {
       // alert(err.message);
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }

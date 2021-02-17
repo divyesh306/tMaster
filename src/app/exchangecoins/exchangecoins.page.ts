@@ -13,7 +13,6 @@ export class ExchangecoinsPage implements OnInit {
   ngOnInit() {
   }
   changeBankOption(event){
-    console.log(event.target.value);
     this.selectedMethod=event.target.value;
   }
   apply(){

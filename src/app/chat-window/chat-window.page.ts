@@ -3,7 +3,6 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ActionSheetController, NavController, PopoverController } from '@ionic/angular';
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
 import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture/ngx';
-import firebase from 'firebase/app';
 import { chats } from '../Service/chat.service';
 import { userService } from '../Service/user.service';
 import { configService } from '../Service/config.service';
@@ -12,7 +11,6 @@ import { Chooser } from '@ionic-native/chooser/ngx';
 import { S3Controller } from '../Service/upload.service';
 import { File } from '@ionic-native/file/ngx';
 import { FileViewerService } from '../Service/file-viewer.service';
-import { AngularFireDatabase } from '@angular/fire/database';
 import { LocalstorageService } from '../Service/localstorage.service';
 import { VideocallreceiveComponent } from '../component/videocallreceive/videocallreceive.component';
 
@@ -49,7 +47,6 @@ export class ChatWindowPage implements OnInit {
     public chatService: chats,
     private file: File,
     private fileopenServcie: FileViewerService,
-    public db: AngularFireDatabase,
     private chooser: Chooser,
     public localStorage: LocalstorageService
   ) {
@@ -77,9 +74,9 @@ export class ChatWindowPage implements OnInit {
     });
     this.MessageData.type = 'message';
     this.MessageData.nickname = this.nickname;
-    firebase.database().ref('chatroom/' + this.roomkey + '/chats').on('value', resp => {
+    this.chatService.getChatList(this.roomkey).subscribe(value => {
       this.chats = [];
-      this.chats = snapshotToArray(resp);
+      this.chats = value;
       if (this.chats) {
         if (!this.userType || this.userType == "know") {
           let nickname, otherUser;
@@ -93,40 +90,45 @@ export class ChatWindowPage implements OnInit {
           }
         }
       }
-    });
+    })
   }
 
   sendCoins(coins) {
-    const mutation = {
-      name: 'coin_management',
-      inputtype: 'CoinManagementInputType',
-      data: { user_id: this.chatUser_id, coin: coins, type: "message" }
+    if (this.userDetail.coins < this.chatUser.rating) {
+      this.configService.sendToast('danger', "You Don't Have Enough Coin Please Buy Coin !", 'bottom');
     }
-    this.loading.present();
-    this.userService.CloseApi(mutation).subscribe(result => {
-      const res = result['data'].coin_management;
-      this.loading.dismiss();
-      if (!res.hasError) {
-        const message = {
-          type: 'SendCoin',
-          nickname: this.nickname,
-          message: coins.toString(),
-        }
-        this.sendMessage(message);
-      } else {
-        this.configService.sendToast("danger", res.message, "bottom");
+    else {
+      const mutation = {
+        name: 'coin_management',
+        inputtype: 'CoinManagementInputType',
+        data: { user_id: this.chatUser_id, coin: coins, type: "message" }
       }
-      this.closeCoinModal();
-    }, err => {
-      this.loading.dismiss();
-      this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
-    });
+      this.loading.showLoader();
+      this.userService.CloseApi(mutation).subscribe(result => {
+        const res = result['data'].coin_management;
+        this.loading.hideLoader();
+        if (!res.hasError) {
+          this.userDetail.coins = this.userDetail.coins - coins;
+          const message = {
+            type: 'SendCoin',
+            nickname: this.nickname,
+            message: coins.toString(),
+          }
+          this.sendMessage(message);
+        } else {
+          this.configService.sendToast("danger", res.message, "bottom");
+        }
+        this.closeCoinModal();
+      }, err => {
+        this.loading.hideLoader();
+        this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
+      });
+    }
   }
 
   async getstatus() {
-    firebase.database().ref('users/' + this.chatUser.firebase_user_id + '/status').on('value', resp => {
+    this.chatService.getStatus(this.chatUser.firebase_user_id).on('value', resp => {
       this.userstatus = resp.val();
-      console.log(this.userstatus);
     });
   }
 
@@ -135,13 +137,13 @@ export class ChatWindowPage implements OnInit {
       //Empty String Not Send On message
     }
     else {
-      let newData = firebase.database().ref('chatroom/' + this.roomkey + '/chats').push();
-      newData.set({
+      const messagedata = {
         type: data.type,
         user: data.nickname,
         message: data.message,
         sendDate: Date()
-      });
+      }
+      this.chatService.sendMessage(messagedata, this.roomkey);
     }
     this.MessageData.message = '';
   }
@@ -173,7 +175,7 @@ export class ChatWindowPage implements OnInit {
     this.chooser.getFile()
       .then(file => {
         if (file) {
-          this.loading.present();
+          this.loading.showLoader();
           var type;
           if (file.mediaType == "video/mp4" || file.mediaType == "video/mpeg" || file.mediaType == "video/x-msvideo" || file.mediaType == "video/webm") {
             type = "Video"
@@ -186,7 +188,7 @@ export class ChatWindowPage implements OnInit {
           }
           this.uploadservice.uploadFile(file.data, file.name, (url) => {
             const se3url = url.Location;
-            this.loading.dismiss();
+            this.loading.hideLoader();
             const message = {
               type: type,
               nickname: this.nickname,
@@ -204,14 +206,14 @@ export class ChatWindowPage implements OnInit {
     this.mediaCapture.captureImage()
       .then(
         async (data: MediaFile[]) => {
-          this.loading.present();
+          this.loading.showLoader();
           var path = data[0].fullPath;//.replace('/private', 'file:///');
           const audiofilename = path.substr(path.lastIndexOf('/') + 1);
           const audiopath = path.substr(0, path.lastIndexOf('/') + 1);
           this.file.readAsArrayBuffer(audiopath, data[0].name).then((body) => {
             this.uploadservice.uploadFile(body, audiofilename, async (url) => {
               const se3url = url.Location;
-              this.loading.dismiss();
+              this.loading.hideLoader();
               const message = {
                 type: "Image",
                 nickname: this.nickname,
@@ -221,7 +223,7 @@ export class ChatWindowPage implements OnInit {
 
             });
           }).catch(err => {
-            this.loading.dismiss();
+            this.loading.hideLoader();
             this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
           });
         },
@@ -233,14 +235,14 @@ export class ChatWindowPage implements OnInit {
     this.mediaCapture.captureAudio()
       .then(
         async (data: MediaFile[]) => {
-          this.loading.present();
+          this.loading.showLoader();
           var path = data[0].fullPath;//.replace('/private', 'file:///');
           const audiofilename = path.substr(path.lastIndexOf('/') + 1);
           const audiopath = path.substr(0, path.lastIndexOf('/') + 1);
           this.file.readAsArrayBuffer(audiopath, data[0].name).then((body) => {
             this.uploadservice.uploadFile(body, audiofilename, async (url) => {
               const se3url = url.Location;
-              this.loading.dismiss();
+              this.loading.hideLoader();
               const message = {
                 type: "Audio",
                 nickname: this.nickname,
@@ -250,7 +252,7 @@ export class ChatWindowPage implements OnInit {
 
             });
           }).catch(err => {
-            this.loading.dismiss();
+            this.loading.hideLoader();
             this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
           });
         },
@@ -261,7 +263,12 @@ export class ChatWindowPage implements OnInit {
   async videoCall(ev: any) {
     if (this.userstatus == 'Offline') {
       this.configService.sendToast('danger', "You can't call this user, because user is offline", 'bottom');
+    }
+    else if (this.userDetail.coins < this.chatUser.rating) {
+      this.configService.sendToast('danger', "You Don't Have Enough Coin Please Buy Coin !", 'bottom');
     } else {
+      this.localStorage.removesingel('callerType');
+      this.localStorage.setsingel('callerType', "sender");
       const popover = await this.popoverController.create({
         component: VideoNoticeComponent,
         event: ev,
@@ -277,10 +284,10 @@ export class ChatWindowPage implements OnInit {
                 userType: this.userType || 'Know'
               }
             };
-            console.log(navigationExtras);
             this.socket.emit('call', JSON.stringify({ room_id: this.roomkey, user_id: this.chatUser.firebase_user_id }));
             this.router.navigate(['/video-chat'], navigationExtras);
-          }
+          },
+          user: this.chatUser
         }
       });
       return await popover.present();
@@ -301,6 +308,8 @@ export class ChatWindowPage implements OnInit {
               userType: this.userType
             }
           };
+          this.localStorage.removesingel('callerType');
+          this.localStorage.setsingel('callerType', "receiver");
           this.router.navigate(['/video-chat'], navigationExtras);
         }
       }
@@ -313,17 +322,18 @@ export class ChatWindowPage implements OnInit {
       inputtype: 'AddFavoriteUserInputType',
       data: { favorite_user: this.chatUser_id, type: type }
     }
-    this.loading.present();
+    this.loading.showLoader();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].add_to_favorite_user;
       if (!res.hasError) {
         this.configService.sendToast('success', 'This User Add As a Favorite', 'bottom');
+        this.loading.hideLoader();
       } else {
+        this.loading.hideLoader();
         this.configService.sendToast('danger', res.message, 'bottom');
       }
-      this.loading.dismiss();
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
@@ -334,17 +344,18 @@ export class ChatWindowPage implements OnInit {
       inputtype: 'RemoveFavoriteUserInputType',
       data: { favorite_user: this.chatUser_id }
     }
-    this.loading.present();
+    this.loading.showLoader();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].remove_favorite_user;
       if (!res.hasError) {
+        this.loading.hideLoader();
         this.configService.sendToast('success', 'This User Remove From Favorite', 'bottom');
       } else {
+        this.loading.hideLoader();
         this.configService.sendToast('danger', res.message, 'bottom');
       }
-      this.loading.dismiss();
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
@@ -355,17 +366,18 @@ export class ChatWindowPage implements OnInit {
       inputtype: 'BlockUserInputType',
       data: { blocked_user_id: this.chatUser_id }
     }
-    this.loading.present();
+    this.loading.showLoader();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].add_user_to_blocks;
       if (!res.hasError) {
+        this.loading.hideLoader();
         this.configService.sendToast('success', 'User Blocked', 'bottom');
       } else {
+        this.loading.hideLoader();
         this.configService.sendToast('danger', res.message, 'bottom');
       }
-      this.loading.dismiss();
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }
@@ -376,17 +388,17 @@ export class ChatWindowPage implements OnInit {
   //     inputtype: 'RemoveBlockedUserInputType',
   //     data: { blocked_user_id: this.chatUser_id }
   //   }
-  //   this.loading.present();
+  //   this.loading.showLoader();
   //   this.userService.CloseApi(mutation).subscribe(result => {
   //     const res = result['data'].remove_blocked_user;
-  //     this.loading.dismiss();
+  //     this.loading.hideLoader();
   //     if (!res.hasError) {
   //       this.configService.sendToast('success', 'User Remove From Blocked', 'bottom');
   //     } else {
   //       this.configService.sendToast('danger', res.message, 'bottom');
   //     }
   //   }, err => {
-  //     this.loading.dismiss();
+  //     this.loading.hideLoader();
   //     this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
   //   });
   // }
@@ -422,14 +434,3 @@ export class ChatWindowPage implements OnInit {
     await actionSheet.present();
   }
 }
-export const snapshotToArray = snapshot => {
-  let returnArr = [];
-  snapshot.forEach(childSnapshot => {
-    let item = childSnapshot.val();
-    item.key = childSnapshot.key;
-    returnArr.push(item);
-  });
-
-  return returnArr;
-};
-

@@ -48,7 +48,7 @@ export class RegistrationPage implements OnInit {
             this.filedrectory = this.file.externalDataDirectory + "files/videos/"
         })
 
-        this.loading.dismiss();
+        this.loading.hideLoader();
         this.tagList = [];
         this.userData.phone = this.localStorage.getsingel('phonenumber');
 
@@ -72,17 +72,16 @@ export class RegistrationPage implements OnInit {
         const body = {
             name: 'tags{id tag}'
         }
-        this.loading.present();
+        this.loading.showLoader();
         this.userService.openQuery(body).subscribe(result => {
             if (result['hasError']) {
 
             } else {
                 this.tagList = result['data'].tags;
-                console.log("Tag List : ", this.tagList);
             }
-            this.loading.dismiss();
+            this.loading.hideLoader();
         }, err => {
-            this.loading.dismiss();
+            this.loading.hideLoader();
         })
     }
 
@@ -96,7 +95,7 @@ export class RegistrationPage implements OnInit {
         this.mediaCapture.captureVideo(options)
             .then(
                 async (data: MediaFile[]) => {
-                    this.loading.present();
+                    this.loading.showLoader();
                     var path = data[0].fullPath.replace('/private', 'file:///');
                     // const newBaseFilesystemPath = this.file.externalDataDirectory + "files/videos/";
                     const videofilename = path.substr(path.lastIndexOf('/') + 1);
@@ -110,19 +109,19 @@ export class RegistrationPage implements OnInit {
                             const tempFilename = tempImage.substr(tempImage.lastIndexOf('/') + 1);
                             const tempBaseFilesystemPath = tempImage.substr(0, tempImage.lastIndexOf('/') + 1);
                             if (this.userData.video)
-                                this.loading.dismiss();
+                                this.loading.hideLoader();
                             this.file.readAsArrayBuffer(newBaseFilesystemPath, tempFilename).then((b64str) => {
                                 this.uploadservice.uploadFile(b64str, tempFilename, (url) => {
                                     this.userData.picture = url.Key;
                                     this.profileImg = this.configService.getS3() + url.Key;
                                 });
                             }).catch(err => {
-                                this.loading.dismiss();
+                                this.loading.hideLoader();
                                 this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
                             })
                         });
                     }).catch(err => {
-                        this.loading.dismiss();
+                        this.loading.hideLoader();
                         this.configService.sendToast('danger', 'readAsDataURL failed: (' + err.code + ")" + err.message, 'bottom');
                     });
                 },
@@ -155,7 +154,7 @@ export class RegistrationPage implements OnInit {
         signuserData.tags = tags.toString();
         let phonenumber = this.localStorage.getsingel('phonenumber')
         let email = phonenumber + '' + '@gmail.com';
-        this.loading.present();
+        this.loading.showLoader();
         this.authService.RegisterUser(email, phonenumber).then((res) => {
             signuserData.firebase_user_id = res.user.uid;
             this.userUpdate(signuserData);
@@ -168,14 +167,14 @@ export class RegistrationPage implements OnInit {
                         this.userUpdate(signuserData);
                     }).catch((error) => {
 
-                        this.loading.dismiss();
+                        this.loading.hideLoader();
                     })
             }
             else {
 
-                this.loading.dismiss();
+                this.loading.hideLoader();
             }
-            this.loading.dismiss();
+            this.loading.hideLoader();
         })
     }
     userUpdate(data) {
@@ -189,14 +188,14 @@ export class RegistrationPage implements OnInit {
             if (!res.hasError) {
                 this.localStorage.setsingel('loginToken', res.data['token']);
                 this.localStorage.set('userDetail', res.data['user']);
-                this.loading.dismiss();
+                this.loading.hideLoader();
                 if (this.localStorage.getsingel('loginToken'))
                     this.router.navigate(['/register-complete']);
             } else {
-                this.loading.dismiss();
+                this.loading.hideLoader();
             }
         }, err => {
-            this.loading.dismiss();
+            this.loading.hideLoader();
             this.configService.sendToast('danger', 'Something Went Wrong', 'bottom');
         });
     }
@@ -210,7 +209,6 @@ export class RegistrationPage implements OnInit {
         // }
     }
     changeDate(dt) {
-        console.log(this.datePicker);
     }
     calculateAge() {
         var bdate = this.registerForm.value.date_of_birth;

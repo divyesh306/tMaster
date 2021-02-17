@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { chats } from '../Service/chat.service';
 import { configService } from '../Service/config.service';
 import { LoadingService } from '../Service/loading.service';
@@ -23,28 +22,25 @@ export class MessagePage implements OnInit {
   loginUser;
   roomlist = [];
   s3Url;
-  ref;
   constructor(public router: Router,
     private localStorage: LocalstorageService,
     private ConfigService: configService,
     private userService: userService,
     private chatService: chats,
-    private loading: LoadingService,
-    public firestore: AngularFirestore,) {
-    this.ref = this.firestore.collection('chatroom/').snapshotChanges();
+    private loading: LoadingService,) {
   }
 
   ionViewDidEnter() {
     this.loginUser = this.localStorage.get('userDetail');
-    this.ConfigService.setStatus(this.loginUser.firebase_user_id);
+    this.chatService.setStatus(this.loginUser.firebase_user_id);
     this.s3Url = this.ConfigService.getS3();
     const body = {
-      name: 'room_list(id:"' + this.loginUser.id + '"){sender_id receiver_id room_id room_key created_at receiver{nick_name picture coins firebase_user_id} sender{nick_name picture coins firebase_user_id} type}'
+      name: 'room_list(id:"' + this.loginUser.id + '"){sender_id receiver_id room_id room_key created_at receiver{nick_name picture coins firebase_user_id rating} sender{nick_name picture coins firebase_user_id rating} type}'
     }
-    this.loading.present();
+    this.loading.showLoader();
     this.activeTab = 'know'
     this.userService.closeQuery(body).subscribe(result => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.roomlist = result['data'].room_list;//this.splitKeyValue(result['data'].room_list);
       this.roomlist.forEach(element => {
         element.chatuserdata = {};
@@ -55,7 +51,7 @@ export class MessagePage implements OnInit {
       });
       this.rooms = this.roomlist.filter(element => element.type == this.activeTab || element.type == "" || element.type == null);
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.ConfigService.sendToast('danger', "Something Went Wrong : " + err, 'bottom');
     })
 
@@ -75,7 +71,7 @@ export class MessagePage implements OnInit {
   };
 
   ngOnInit() {
-    
+
   }
 
   selectTab(roomArray, tab) {
@@ -125,23 +121,4 @@ export class MessagePage implements OnInit {
     this.addNewUser = true;
   }
 
-  addName() {
-    this.addNewUser = false;
-    let newData = this.ref.push();
-    newData.set({
-      roomname: this.data.roomname
-    });
-  }
 }
-
-export const snapshotToArray = snapshot => {
-  let returnArr = [];
-
-  snapshot.forEach(childSnapshot => {
-    let item = childSnapshot.val();
-    item.key = childSnapshot.key;
-    returnArr.push(item);
-  });
-
-  return returnArr;
-};

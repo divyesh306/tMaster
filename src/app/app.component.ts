@@ -35,12 +35,6 @@ export class AppComponent {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.selectedLanguage = localStorage.get('selectedLanguage');
-    if (this.platform.is('cordova')) {
-      console.log("I am an cordova Device");
-    }
-    else {
-      console.log("I am an Browser");
-    }
     this.initializeApp();
     this.changeLanguage(this.selectedLanguage);
     AngularFireModule.initializeApp(environment.firebase_config);
@@ -48,21 +42,37 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.androidPermissions.requestPermissions(
+        [
+          this.androidPermissions.PERMISSION.CAMERA,
+          this.androidPermissions.PERMISSION.READ_PHONE_STATE,
+          this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS,
+          this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE,
+          this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE
+        ]
+      );
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.STORAGE).then(
-        result => {
-          this.file.externalDataDirectory + "files/videos/";
-        },
+        result => console.log('CAMERA Has permission?', result.hasPermission),
         err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.STORAGE)
       );
-
-      this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.STORAGE, this.androidPermissions.PERMISSION.CAMERA, this.androidPermissions.PERMISSION.RECORD_AUDIO, this.androidPermissions.PERMISSION.RECORD_VIDEO, this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS, this.androidPermissions.PERMISSION.MODIFY_VIDEO_SETTINGS]);
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
+        result => console.log('CAMERA Has permission?', result.hasPermission),
+        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
+      );
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE).then(
+        result => console.log('READ_PHONE_STATE Has permission?', result.hasPermission),
+        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE)
+      );
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS).then(
+        result => console.log('MODIFY_AUDIO_SETTINGS Has permission?', result.hasPermission),
+        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS)
+      );
     });
   }
 
   changeLanguage(language) {
-    console.log(language);
     if (language == {}) {
       this.translate.setDefaultLang('en');
       this.translate.use('en');
@@ -73,3 +83,7 @@ export class AppComponent {
     }
   }
 }
+
+// <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+// <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+// <uses-permission android:name="android.permission.CAMERA" />

@@ -27,7 +27,7 @@ export class BugreportPage implements OnInit {
       inputtype: 'BugReportInputType',
       data: messageData
     }
-    this.loading.present();
+    this.loading.showLoader();
     this.userService.CloseApi(mutation).subscribe(result => {
       const res = result['data'].bug_report;
       if (!res.hasError) {
@@ -36,9 +36,9 @@ export class BugreportPage implements OnInit {
       } else {
         this.configService.sendToast("danger", res.message, "bottom");
       }
-      this.loading.dismiss();
+      this.loading.hideLoader();
     }, err => {
-      this.loading.dismiss();
+      this.loading.hideLoader();
       this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
     });
   }

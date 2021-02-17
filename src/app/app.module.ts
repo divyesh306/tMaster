@@ -10,9 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
-import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { VideoEditor } from '@ionic-native/video-editor/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { File } from '@ionic-native/file/ngx';
@@ -27,11 +25,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthenticationService } from './Service/authentication-service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
-import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 // import { FCM } from '@ionic-native/fcm/ngx';
 
@@ -49,7 +46,6 @@ export function createTranslateLoader(http: HttpClient) {
     AppRoutingModule,
     AngularFireModule,
     AngularFireDatabaseModule,
-    AngularFireAuthModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -61,9 +57,7 @@ export function createTranslateLoader(http: HttpClient) {
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    SmsRetriever,
     MediaCapture,
-    VideoPlayer,
     S3Controller,
     VideoEditor,
     AndroidPermissions,
@@ -76,7 +70,6 @@ export function createTranslateLoader(http: HttpClient) {
     AngularFireAuth,
     AngularFirestore,
     AuthenticationService,
-    Diagnostic,
     InAppBrowser
     // FCM
   ],

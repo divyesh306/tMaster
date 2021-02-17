@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
-import { inject } from "@angular/core/testing";
 import firebase from 'firebase/app'
 import { ActivatedRoute, Router } from "@angular/router";
 import { NavController } from "@ionic/angular";
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 
 @Injectable({
     providedIn: 'root'
@@ -15,33 +14,39 @@ export class chats {
     roomkey: string;
     nickname: string;
     offStatus: boolean = false;
-    ref;
-    constructor(public router: Router, public firestore: AngularFirestore,
-        public route: ActivatedRoute, public navCtrl: NavController) {
-        // this.ref = ;
-        console.log('chat ref', this.ref);
+    chatRef: AngularFireList<any>;   // Reference to Student object, its an Observable too
+    constructor(public router: Router,
+        public route: ActivatedRoute, public navCtrl: NavController,
+        public db: AngularFireDatabase) {
+    }
+
+    setStatus(userId) {
+        var myStatusRef = firebase.database().ref("users/" + userId + '/status');
+        var connectedRef = firebase.database().ref(".info/connected");
+        connectedRef.on('value', function (snap) {
+            if (snap.val() == true) {
+                myStatusRef.onDisconnect().remove();
+                myStatusRef.set('online');
+                myStatusRef.onDisconnect().set('Offline');
+            }
+        });
+    }
+
+    getStatus(firebase_user_id) {
+        return firebase.database().ref('users/' + firebase_user_id + '/status')
+    }
+    getChatList(roomkey) {
+        return this.db.list('chatroom/' + roomkey + '/chats').valueChanges();
     }
     createRoom(data) {
-        let newData = firebase.database().ref('chatroom/').push();
-        newData.set({
+        var roomdata = {
             roomname: data.roomname
-        });
+        };
+        let newData = this.db.list('chatroom/').push(roomdata);
         return newData;
     }
-
-    getrooms(data) {
-        return snapshotToArray(data);
+    sendMessage(data, roomkey) {
+        this.chatRef = this.db.list('chatroom/' + roomkey + '/chats');
+        this.chatRef.push(data);
     }
 }
-
-export const snapshotToArray = snapshot => {
-    let returnArr = [];
-
-    snapshot.forEach(childSnapshot => {
-        let item = childSnapshot.val();
-        item.key = childSnapshot.key;
-        returnArr.push(item);
-    });
-
-    return returnArr;
-};
