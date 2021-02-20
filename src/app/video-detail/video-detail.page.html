@@ -19,7 +19,7 @@
       <p><small>{{userDetail.jobs}} C {{userDetail.rating}}/M</small></p>
       <p><small>{{userDetail.tags}}</small></p>
     </div>
-    <div class="like-icons">
+    <div class="like-icons" *ngIf="userDetail.id != userData.id">
       <ion-icon name="heart" class="white_text" (click)="createroom()"></ion-icon>
       <ion-label class="white_text">{{'videoDetail.hello' | translate}}</ion-label>
       <img src="../../assets/images/red-pin.svg" *ngIf="isuserFavorite" style="margin: 10px;" alt="" (click)="removeFavorite()">

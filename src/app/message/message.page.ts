@@ -14,7 +14,7 @@ import { userService } from '../Service/user.service';
 export class MessagePage implements OnInit {
   activeTab = 'know';
   openSelectOption = false;
-  sortOption = 'Sort by popular';
+  sortOption = 'Latest';
   addNewUser = false;
   data = { nickname: "", roomname: '' };
   rooms = [];
@@ -54,7 +54,7 @@ export class MessagePage implements OnInit {
       this.loading.hideLoader();
       this.ConfigService.sendToast('danger', "Something Went Wrong : " + err, 'bottom');
     })
-
+    this.optionSelected('Latest', this.rooms, 'created_at');
     this.data.nickname = this.loginUser.nick_name;
   }
 

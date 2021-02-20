@@ -38,6 +38,8 @@ export class VideoDetailPage implements OnInit {
     this.s3Url = this.configService.getS3();
     this.loginUserDetail = this.localStorage.get('userDetail');
     this.userDetail = this.localStorage.get('selectedUser');
+    this.video = this.s3Url + this.userDetail.video;
+    console.log("UserDetail : ",this.userDetail);
     this.checkuserFavourite(this.localStorage.get('selectedUser'));
     this.usersList = this.localStorage.get('categoryUser');
     this.userData = this.localStorage.get('userDetail'); // User Detail

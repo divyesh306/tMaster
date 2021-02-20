@@ -42,33 +42,38 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.androidPermissions.requestPermissions(
-        [
-          this.androidPermissions.PERMISSION.CAMERA,
-          this.androidPermissions.PERMISSION.READ_PHONE_STATE,
-          this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS,
-          this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE,
-          this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE
-        ]
-      );
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.STORAGE).then(
-        result => console.log('CAMERA Has permission?', result.hasPermission),
-        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.STORAGE)
-      );
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
-        result => console.log('CAMERA Has permission?', result.hasPermission),
-        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
-      );
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE).then(
-        result => console.log('READ_PHONE_STATE Has permission?', result.hasPermission),
-        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE)
-      );
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS).then(
-        result => console.log('MODIFY_AUDIO_SETTINGS Has permission?', result.hasPermission),
-        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS)
-      );
+      if (this.platform.is('ios')) {
+
+      }
+      else {
+        this.androidPermissions.requestPermissions(
+          [
+            this.androidPermissions.PERMISSION.CAMERA,
+            this.androidPermissions.PERMISSION.READ_PHONE_STATE,
+            this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS,
+            this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE,
+            this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE
+          ]
+        );
+        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.STORAGE).then(
+          result => console.log('CAMERA Has permission?', result.hasPermission),
+          err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.STORAGE)
+        );
+        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
+          result => console.log('CAMERA Has permission?', result.hasPermission),
+          err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
+        );
+        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE).then(
+          result => console.log('READ_PHONE_STATE Has permission?', result.hasPermission),
+          err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE)
+        );
+        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS).then(
+          result => console.log('MODIFY_AUDIO_SETTINGS Has permission?', result.hasPermission),
+          err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS)
+        );
+      }
     });
   }
 
@@ -83,7 +88,3 @@ export class AppComponent {
     }
   }
 }
-
-// <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-// <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-// <uses-permission android:name="android.permission.CAMERA" />

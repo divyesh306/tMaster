@@ -59,7 +59,7 @@ export class ProfilePage implements OnInit {
 
   ionViewDidEnter() {
     const body = {
-      name: 'me{type date_of_birth phone gender rating tags jobs picture video coins firebase_user_id nick_name}'
+      name: 'me{type date_of_birth phone gender rating tags jobs picture video coins firebase_user_id nick_name id favorite_user_count}'
     }
     this.loading.showLoader();
     this.userService.closeQuery(body).subscribe(result => {

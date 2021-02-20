@@ -30,6 +30,7 @@ export class ChatWindowPage implements OnInit {
   chatUser;
   chatUser_id: string;
   userType: string;
+  interval: any;
   s3Url;
   userstatus;
   userDetail;
@@ -77,6 +78,9 @@ export class ChatWindowPage implements OnInit {
     this.chatService.getChatList(this.roomkey).subscribe(value => {
       this.chats = [];
       this.chats = value;
+    })
+
+    this.interval = setInterval(() => {
       if (this.chats) {
         if (!this.userType || this.userType == "know") {
           let nickname, otherUser;
@@ -89,8 +93,11 @@ export class ChatWindowPage implements OnInit {
             this.addFavorite('friend')
           }
         }
+        clearInterval(this.interval);
       }
-    })
+      else {
+      }
+    }, 2000);
   }
 
   sendCoins(coins) {

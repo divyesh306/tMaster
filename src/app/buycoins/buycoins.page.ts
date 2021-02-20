@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { InAppPurchase2, IAPProduct } from '@ionic-native/in-app-purchase-2/ngx'
 import { Platform } from '@ionic/angular';
+import { configService } from '../Service/config.service';
+import { LoadingService } from '../Service/loading.service';
+import { LocalstorageService } from '../Service/localstorage.service';
+import { userService } from '../Service/user.service';
 
 @Component({
   selector: 'app-buycoins',
@@ -9,13 +13,37 @@ import { Platform } from '@ionic/angular';
 })
 export class BuycoinsPage implements OnInit {
   product: any;
-  constructor(public platform: Platform, private iap2: InAppPurchase2) { }
+  userDetail;
+  productIDs = ['120', '720', '1600', '3700', '6800', '11400'];
+  constructor(public platform: Platform,
+    private iap2: InAppPurchase2,
+    private loading: LoadingService,
+    private userService: userService,
+    private localStorage: LocalstorageService,
+    private configService: configService,
+  ) {
+    this.userDetail = this.localStorage.get('userDetail');
+  }
 
   ngOnInit() {
   }
+
+  private refreshAppProducts() {
+    this.productIDs.forEach(productId => {
+      this.iap2.register({
+        id: productId,
+        type: this.iap2.CONSUMABLE,
+        alias: productId
+      });
+
+      this.registerHandlersForPurchase(productId);
+    });
+    this.iap2.refresh();
+  }
+
   ionViewDidEnter() {
     this.platform.ready().then(() => {
-      // this.setup();
+      this.refreshAppProducts();
     })
   }
 
@@ -32,12 +60,30 @@ export class BuycoinsPage implements OnInit {
   }
 
   checkout(coin) {
-    this.setup(coin);
     try {
       let product = this.iap2.get(coin);
       console.log('Product Info: ' + JSON.stringify(product));
       this.iap2.order(coin).then((p) => {
-        console.log('Purchase Succesful' + JSON.stringify(p));
+        const mutation = {
+          name: 'add_coin',
+          inputtype: 'AddCoinInputType',
+          data: { coins: parseFloat(coin) }
+        }
+        this.loading.showLoader();
+        this.userService.CloseApi(mutation).subscribe(result => {
+          const res = result['data'].add_coin;
+          this.loading.hideLoader();
+          if (!res.hasError) {
+            this.userDetail.coins = this.userDetail.coins + coin;
+            this.configService.sendToast("success", "Coin Succefully Added", "bottom");
+          } else {
+            this.configService.sendToast("danger", res.message, "bottom");
+          }
+        }, err => {
+          this.loading.hideLoader();
+          this.configService.sendToast("danger", "Something Went Wrong" + err, "bottom");
+        });
+
       }).catch((e) => {
         console.log('Error Ordering From Store' + e);
       });
