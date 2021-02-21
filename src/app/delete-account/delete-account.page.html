@@ -12,8 +12,8 @@
     <p class="grey_text"><small>{{'deleteAccount.neverExchangeText' | translate}}</small></p>
     <p class="grey_text"><small>{{'deleteAccount.dataDeleteText' | translate}}</small></p>
     <ion-row class="button-spacing">
-      <ion-button class="red_button" (click)="delete()">Delete</ion-button>
-      <ion-button class="green_border_button" [routerLink]="['/setting']">Cancel</ion-button>
+      <ion-button class="red_button" (click)="delete()">{{'common.delete' | translate}}</ion-button>
+      <ion-button class="green_border_button" [routerLink]="['/setting']">{{'common.cancel' | translate}}</ion-button>
     </ion-row>
   </div>
   <div *ngIf="deleteComplete" class="ion-text-center mt-20per column align-center">

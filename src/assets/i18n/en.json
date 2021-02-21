@@ -28,7 +28,12 @@
         "onlyNumeric": "Only Numeric Value is allowed.",
         "maxRate": "Set your rate below 400.",
         "appealTag": "Appeal tags",
-        "tagRequired": "Tags is required."
+        "tagRequired": "Tags is required.",
+        "delete":"Delete",
+        "cancel":"Cancel",
+        "start": "Start",
+        "close": "CLOSE",
+        "ok":"OK"
     },
     "welcompage": {
         "welcomeText": "Welcome to Tokmay",
@@ -59,13 +64,11 @@
         "recommendedTag": "Recommended to add many tags that you related"
     },
     "registerComplete": {
-        "completeReg": "Register Complete",
-        "start": "Start"
+        "completeReg": "Register Complete"
     },
     "hangout": {
         "popularTags": "Popular tags",
         "sort": "Sort",
-        "close": "CLOSE",
         "result": "RESULT",
         "keepUser": "Keep Users",
         "nowKeepUser": "Now you keep this users"
@@ -90,7 +93,9 @@
         "receiveCoins": "(As you can receive coins)",
         "currentlyCoins": "Currently Coins",
         "buycoins": "BUY COINS",
-        "exchange": "EXCHANGE"
+        "exchange": "EXCHANGE",
+        "update":"UPDATE",
+        "logout":"LOGOUT"
     },
     "setting": {
         "settingTitle": "Settings",
@@ -113,5 +118,51 @@
         "neverExchangeText": "If you delete account, you will never exchange your holding coins and recoever account.",
         "dataDeleteText":"All Datas immediately delete from database, if you sure delete account, tap \"Delete\" to delete your account.",
         "deleteComplete": "Delete Completely!"
+    },
+    "videoNotice":{
+        "notice":"Notice!",
+        "videoChatNotice":" (if your coins are over the video chat wil be suddenly disconnected and you wil have to buy new coins)",
+        "agree":"Do you agree and wish to start chatting?",
+        "closeChat":"Close chat?",
+        "receiveCall":"You wont to receive call?",
+        "decline":"Decline",
+        "receive":"Receive"
+    },
+    "warning":{
+        "warningTitle":"WARNING!",
+        "warningContent1":"You just captured your screen now! Your action is violating our term & policy agreement. Capturing the screen is prohibited on the TokMay app. If you further violate the rule by one more capture, you wil not be able to use the application and we wil close your account. In that case, your coins wil be deleted along with your account by contract.",
+        "warningContent2":"Please observe the rules and enjoy the application.",
+        "agreed":"AGREED"
+    },
+    "buyCoins":{
+        "purchaseCoins":"Purchase Coins",
+        "holdingCoins":" Holding Coins",
+        "coinAvailable":"This coins can be available to use for only for",
+        "coinsTied":"Coins are tied to phone numbers",
+        "coinsNotice":"(Coin can not be handed over by changing telephone number)",
+        "commercialTransactions":"Act on Specified Commercial Transactions"
+    },
+    "exchange":{
+        "exchange":"Exchange",
+        "currentlyCoins":"Currently your coins",
+        "method":"Method",
+        "bankTransfer":"Bank Transfer",
+        "bankName":"Bank name",
+        "bank":"Bank",
+        "branch":"Branch",
+        "accNumber":"Account number",
+        "yourName":"Your name",
+        "paypalEmail":"PayPal registered Email",
+        "apply":"APPLY",
+        "listItem1":"The fee wil be paid the next month cotton month end.",
+        "listItem2":"If there are multiple remittance requests per month, we wil send you the sum total fee.",
+        "listItem3":"This application is an application that 18 or more iron can use. We do not accept minors Abration or coins' reward (please see terms of use for details ).",
+        "listItem4":"Upon receipt of the second or subsequent journal, we wil send you the name of the account you specified for the first time on inquiry in order to prevent fraud.",
+        "listItem5":"After the second time, if you use this account separately from the first one, please make inquiries from this website and make a warranty.",
+        "listItem6":"In the case of bank transfer, we wil send you a remuneration receipt message etc. to SMS. Please check the SMS of the phone number at the time of registration and wait for notification of remittance.",
+        "listItem7":"The lower limit of the amount of payment is 5000 yen.",
+        "exchangeOrder":"Your exchange order completed",
+        "receiveNotification":"You will receive notification to Email or SMS that you selected Keep enjoying TokMay!",
+        "back":"BACK"
     }
 }

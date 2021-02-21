@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { BuycoinsPageRoutingModule } from './buycoins-routing.module';
 
 import { BuycoinsPage } from './buycoins.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BuycoinsPageRoutingModule
+    BuycoinsPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [BuycoinsPage]
 })

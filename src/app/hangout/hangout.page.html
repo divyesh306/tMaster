@@ -1,13 +1,13 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="dark_toolbar">
     <div class="row">
-      <ion-searchbar animated placeholder="Select Tag"  [(ngModel)]="search_term"
-      (ionChange)="onSearch($event.target.value)"></ion-searchbar>
+      <ion-searchbar animated placeholder="Select Tag" [(ngModel)]="search_term"
+        (ionChange)="onSearch($event.target.value)"></ion-searchbar>
       <img src="../../assets/images/menu-icon.svg" alt="" (click)="toggleMenu()" menuToggle class="menu-icon">
     </div>
     <div class="row">
-      <ion-list class="tags" *ngIf="isItemAvailable" >
-        <ion-item  *ngFor="let tag of filtertagList" (click)="selectItem(tag.tag)">
+      <ion-list class="tags" *ngIf="isItemAvailable">
+        <ion-item *ngFor="let tag of filtertagList" (click)="selectItem(tag.tag)">
           {{ tag.tag }}
         </ion-item>
       </ion-list>
@@ -37,7 +37,7 @@
         </ion-col>
       </ion-row>
       <ion-row class="row-spacing mt-10">
-        <ion-button class="green_border_button" (click)="close()">{{'hangout.close' | translate}}</ion-button>
+        <ion-button class="green_border_button" (click)="close()">{{'common.close' | translate}}</ion-button>
         <ion-button class="green_button" (click)='getUsers(search_term,gender, user_type)'>{{'hangout.result' |
           translate}}</ion-button>
       </ion-row>

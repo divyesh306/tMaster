@@ -1,25 +1,15 @@
 <ion-content class="ion-padding ion-text-center">
   <ion-row class="ion-padding-horizontal">
     <img src="../../../assets/images/tokmay-alert-icon.svg" alt="">
-    <h2 class="grow">WARNING!</h2>
+    <h2 class="grow">{{'warning.warningTitle' | translate}}</h2>
     <img src="../../../assets/images/tokmay-alert-icon.svg" alt="">
   </ion-row>
   <div class="width-220">
-    <p class="grey_text"><small>You just captured your screen now!
-        Your action is violating our term &
-        policy agreement. Capturing the
-        screen is prohibited on the TokMay
-        app. If you further viol a te the rule by
-        one more capture, you wil not be able
-        to use the application and we wil
-        close your account. In that case, your
-        coins wil be deleted along with your
-        account by contract. <br>
-        Ple ase observe the rules and enjoy
-        the applic ation.
+    <p class="grey_text"><small>{{'warning.warningContent1' | translate}} <br>
+      {{'warning.warningContent2' | translate}}
       </small></p>
     <ion-row class="ion-justify-content-center">
-      <ion-button class="red_button" (click)="start()">AGREED</ion-button>
+      <ion-button class="red_button" (click)="start()">{{'warning.warningTitle' | translate}}</ion-button>
     </ion-row>
   </div>
 </ion-content>

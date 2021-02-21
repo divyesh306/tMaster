@@ -102,10 +102,12 @@
       </span>
       <div class="border_div"></div>
       <div class="ion-margin">
-        <ion-label class="fs-11 grey_text float_left">Recommended to add many tags that you related</ion-label><br>
+        <ion-label class="fs-11 grey_text float_left">{{'registerpage.recommendedTag' | translate}}</ion-label><br>
         <ion-row class="ion-justify-content-center">
-          <ion-button type="submit" class="green_button m-30" (click)="next()">UPDATE</ion-button>
-          <ion-button type="submit" class="green_button m-30" (click)="logout()">LOGOUT</ion-button>
+          <ion-button type="submit" class="green_button m-30" (click)="next()">{{'profile.update' | translate}}
+          </ion-button>
+          <ion-button type="submit" class="green_button m-30" (click)="logout()">{{'profile.logout' | translate}}
+          </ion-button>
         </ion-row>
       </div>
     </ion-grid>

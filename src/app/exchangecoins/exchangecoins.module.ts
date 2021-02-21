@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ExchangecoinsPageRoutingModule } from './exchangecoins-routing.module';
 
 import { ExchangecoinsPage } from './exchangecoins.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ExchangecoinsPageRoutingModule
+    ExchangecoinsPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [ExchangecoinsPage]
 })
