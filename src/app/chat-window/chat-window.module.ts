@@ -9,6 +9,7 @@ import { ChatWindowPageRoutingModule } from './chat-window-routing.module';
 import { ChatWindowPage } from './chat-window.page';
 import { VideoNoticeComponent } from '../component/video-notice/video-notice.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { VideocallreceiveComponent } from '../component/videocallreceive/videocallreceive.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     ChatWindowPageRoutingModule,
     TranslateModule.forChild()
   ],
-  declarations: [ChatWindowPage,VideoNoticeComponent],
+  declarations: [ChatWindowPage,VideoNoticeComponent,VideocallreceiveComponent],
   entryComponents:[VideoNoticeComponent]
 })
 export class ChatWindowPageModule {}

@@ -1,6 +1,7 @@
 <ion-content appSwipe (swipeLeft)="onSwipeLeft($event)" (swipeRight)="onSwipeRight($event)">
     <video preload="auto" autoplay class="videoPlayer" [muted]="'muted'" loop id="myVideo">
       <source src="{{video}}" type="video/mp4" id="source">
+        <source src="{{video}}" type="video/mpeg4" id="source">
     </video>
     <!-- <video controls class="video" preload="metadata" autoplay="autoplay" webkit-playsinline="webkit-playsinline">
     <source src="{{s3Url}}{{userDetail.video}}">
