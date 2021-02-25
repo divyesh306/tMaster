@@ -1,7 +1,7 @@
 <div class="ion-text-center mt-13per scroll">
   <ion-label class="fs-25 green_text">{{'common.registration' | translate}}</ion-label>
   <ion-item-divider></ion-item-divider>
-  <form [formGroup]="registerForm" (ngSubmit)="next(userData)">
+  <form [formGroup]="registerForm" (ngSubmit)="next()">
     <ion-avatar class="p-relative">
       <img [src]="profileImg" alt="">
       <!-- <ion-input type="file" accept="image/*" class="browse_btn" (change)="changeListener($event)"></ion-input> -->

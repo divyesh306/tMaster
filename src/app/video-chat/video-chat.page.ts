@@ -166,7 +166,7 @@ export class VideoChatPage implements OnInit {
     let myVideo = this.elRef.nativeElement.querySelector('#myVideo');
     let time = this.elRef.nativeElement.querySelector('#time');
     this.connection = new RTCMultiConnection(); // this line is VERY_important 
-    this.connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'; // if you want text chat 
+    this.connection.socketURL = 'http://ec2-54-248-130-122.ap-northeast-1.compute.amazonaws.com:3008/'; // if you want text chat 
     this.connection.session = { data: true } // all below lines are optional; however recommended. 
     this.connection.session = { audio: false, video: true };
     this.connection.maxParticipantsAllowed = 2;

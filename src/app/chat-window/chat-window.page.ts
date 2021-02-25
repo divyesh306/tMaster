@@ -101,7 +101,7 @@ export class ChatWindowPage implements OnInit {
   }
 
   sendCoins(coins) {
-    if (this.userDetail.coins < this.chatUser.rating) {
+    if (parseInt(this.userDetail.coins) < this.chatUser.rating) {
       this.configService.sendToast('danger', "You Don't Have Enough Coin Please Buy Coin !", 'bottom');
     }
     else {
@@ -271,7 +271,7 @@ export class ChatWindowPage implements OnInit {
     if (this.userstatus == 'Offline') {
       this.configService.sendToast('danger', "You can't call this user, because user is offline", 'bottom');
     }
-    else if (this.userDetail.coins < this.chatUser.rating) {
+    else if (parseInt(this.userDetail.coins) < this.chatUser.rating) {
       this.configService.sendToast('danger', "You Don't Have Enough Coin Please Buy Coin !", 'bottom');
     } else {
       this.localStorage.removesingel('callerType');
