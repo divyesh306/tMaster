@@ -28,7 +28,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthenticationService } from './Service/authentication-service';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { environment } from '../environments/environment';
+import { Globalconst } from './Service/enviroment';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 // import { FCM } from '@ionic-native/fcm/ngx';
 
@@ -42,7 +42,7 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebase_config),
+    AngularFireModule.initializeApp(Globalconst.firebase_config),
     AppRoutingModule,
     AngularFireModule,
     AngularFireDatabaseModule,
@@ -54,6 +54,7 @@ export function createTranslateLoader(http: HttpClient) {
       }
     })],
   providers: [
+    Globalconst,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

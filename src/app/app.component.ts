@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { File } from '@ionic-native/file/ngx';
-import { environment } from '../environments/environment';
+import { Globalconst } from './Service/enviroment';
 import { AngularFireModule } from '@angular/fire';
 // import { FCM } from '@ionic-native/fcm/ngx';
 
@@ -31,13 +31,14 @@ export class AppComponent {
     else {
       this.router.navigate(['']);
     }
+    console.log("Fire Base : ",Globalconst.accessKeyId),
     this.translate.addLangs(['en', 'jst']);
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.selectedLanguage = localStorage.get('selectedLanguage');
     this.initializeApp();
     this.changeLanguage(this.selectedLanguage);
-    AngularFireModule.initializeApp(environment.firebase_config);
+    // AngularFireModule.initializeApp(Globalconst.firebase_config);
   }
 
   initializeApp() {
