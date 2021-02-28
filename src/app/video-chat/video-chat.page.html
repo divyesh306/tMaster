@@ -1,186 +1,165 @@
 <ion-content id="myContent">
-  <div id="errorMsg"></div>
+    <div id="errorMsg"></div>
 
-  <video id="partnerVideo" class="video-height" autoplay playsinline muted="true" >
+    <video id="partnerVideo" class="video-height" autoplay playsinline muted="true" [ngStyle]="{'display':callerType === 'receiver' ? 'none' : 'block' }">
   </video>
-  <video id="myVideo" class="video-height" autoplay playsinline muted="true" style="display: none;">
+    <video id="myVideo" class="video-height" autoplay playsinline muted="true" [ngStyle]="{'display':callerType === 'sender' ? 'none' : 'block' }">
   </video>
-  <ion-row class="user_details">
-    <ion-col class="ion-text-left column">
-      <small class="white_text fs-11">{{chatUser.nick_name}}</small>
-      <small class="white_text" id="time"></small>
-    </ion-col>
-    <ion-col class="ion-text-right column">
-      <small class="white_text fs-11">{{chatUser.coins}} coins</small>
-      <small class="white_text">BUY COINS</small>
-    </ion-col>
-  </ion-row>
-
-  <ion-row class="end_call">
-    <ion-col>
-      <img [src]="changeEyeIcon ? '../../assets/images/hide-icon.svg':'../../assets/images/white-eye.svg'" alt=""
-        (click)="changeBeautifyOption()">
-    </ion-col>
-    <ion-col class="ion-text-right">
-      <img src="../../assets/images/end-call.svg" alt="" (click)="close()">
-    </ion-col>
-  </ion-row>
-
-  <section class="with-chat-info chat-screen" style="overflow: scroll;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
-    <div class="conversation">
-      <ul *ngFor="let chat of chats">
-        <li *ngIf="chat.user == nickname">
-          <div class="chat-details">
-            <div class="chat-msg" *ngIf="chat.type== 'message'">
-              <p class="ion-no-margin">{{chat.message}}</p>
-            </div>
-            <div class="chat-msg" *ngIf="chat.type== 'SendCoin'">
-              <img src="../../assets/images/1.svg" height="100px" width="100px" *ngIf="chat.message== '50'"
-                  alt="File">
-                <img src="../../assets/images/2.svg" height="100px" width="100px" *ngIf="chat.message== '100'"
-                  alt="File">
-                <img src="../../assets/images/3.svg" height="100px" width="100px" *ngIf="chat.message== '300'"
-                  alt="File">
-                <img src="../../assets/images/4.svg" height="100px" width="100px" *ngIf="chat.message== '500'"
-                  alt="File">
-                <img src="../../assets/images/5.svg" height="100px" width="100px" *ngIf="chat.message== '1000'"
-                  alt="File">
-                <img src="../../assets/images/6.svg" height="100px" width="100px" *ngIf="chat.message== '3000'"
-                  alt="File">
-                <img src="../../assets/images/7.svg" height="100px" width="100px" *ngIf="chat.message== '5000'"
-                  alt="File">
-                <img src="../../assets/images/8.svg" height="100px" width="100px" *ngIf="chat.message== '10000'"
-                  alt="File">
-              <p>{{chat.message}} Coins</p>
-            </div>
-            <div class="chat-msg" *ngIf="chat.type == 'Image'">
-              <img src="{{chat.message}}" height="100px" width="100px" alt="File">
-            </div>
-            <div class="chat-msg" *ngIf="chat.type == 'Audio'">
-              <img src="../../assets/audio.jpg" height="100px" width="100px"
-                alt="File">
-            </div>
-            <div class="chat-msg" *ngIf="chat.type== 'File'">
-              <img src="../../assets/file.png" height="100px" width="100px"  alt="File">
-            </div>
-            <div class="chat-msg" *ngIf="chat.type == 'Video'">
-              <img src="../../assets/video.png" height="100px" width="100px" 
-                alt="File">
-            </div>
-          </div>
-        </li>
-        <li *ngIf="chat.user != nickname">
-          <div class="white-chat-details">
-            <div class="white-chat-msg" *ngIf="chat.type == 'message'  || chat.type == 'join'">
-              <p class="ion-no-margin">{{chat.message}}</p>
-            </div>
-
-            <div class="white-chat-msg" *ngIf="chat.type== 'SendCoin'">
-              <img src="../../assets/images/1.svg" height="100px" width="100px" *ngIf="chat.message== '50'"
-                  alt="File">
-                <img src="../../assets/images/2.svg" height="100px" width="100px" *ngIf="chat.message== '100'"
-                  alt="File">
-                <img src="../../assets/images/3.svg" height="100px" width="100px" *ngIf="chat.message== '300'"
-                  alt="File">
-                <img src="../../assets/images/4.svg" height="100px" width="100px" *ngIf="chat.message== '500'"
-                  alt="File">
-                <img src="../../assets/images/5.svg" height="100px" width="100px" *ngIf="chat.message== '1000'"
-                  alt="File">
-                <img src="../../assets/images/6.svg" height="100px" width="100px" *ngIf="chat.message== '3000'"
-                  alt="File">
-                <img src="../../assets/images/7.svg" height="100px" width="100px" *ngIf="chat.message== '5000'"
-                  alt="File">
-                <img src="../../assets/images/8.svg" height="100px" width="100px" *ngIf="chat.message== '10000'"
-                  alt="File">
-              <p>{{chat.message}} Coins</p>
-            </div>
-            <div class="white-chat-msg" *ngIf="chat.type == 'Image'">
-              <img src="{{chat.message}}" height="100px" width="100px" alt="File">
-            </div>
-            <div class="white-chat-msg" *ngIf="chat.type == 'Audio'">
-              <img src="../../assets/audio.jpg" height="100px" width="100px" 
-                alt="File">
-            </div>
-            <div class="white-chat-msg" *ngIf="chat.type== 'File'">
-              <img src="../../assets/file.png" height="100px" width="100px" alt="File">
-            </div>
-            <div class="white-chat-msg" *ngIf="chat.type == 'Video'">
-              <img src="../../assets/video.jpg" height="100px" width="100px"
-                alt="File">
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="extra-service h-0" *ngIf="changeEyeIcon">
-      <div class="service-list h-0">
-        <img src="images/gift-logo.png" alt="">
-      </div>
-      <div class="service-list h-0">
-        <img src="images/gift-icon.svg" alt="">
-      </div>
-      <div class="service-list h-0">
-        <img src="images/say-frnd.svg" alt="">
-      </div>
-    </div>
-  </section>
-  <div class="gift-icons" *ngIf="changeEyeIcon">
-    <img src="../../assets/images/gift-logo.png" alt="" (click)="openCoinModal()">
-    <img src="../../assets/images/gift-icon.svg" alt="" (click)="sendCoins(50)">
-    <img src="../../assets/images/say-frnd.svg" alt="">
-  </div>
-
-  <div class="gift-icons" *ngIf="!changeEyeIcon">
-    <img src="../../assets/images/beautify/icon.svg" alt="">
-    <img src="../../assets/images/beautify/Group 902.svg" alt="">
-    <img src="../../assets/images/beautify/Group 904.svg" alt="" (click)="openCoinModal()">
-  </div>
-  <div *ngIf="openModal" class="coin-box">
-    <ion-icon name="close-outline" class="row back-arrow" (click)="closeCoinModal()"></ion-icon>
-    <ion-row>
-      <ion-col class="column">
-        <img src="../../assets/images/1.svg" alt="" (click)="sendCoins(50)">
-        <p><small>50 {{'common.coins' | translate}}</small></p>
-      </ion-col>
-      <ion-col class="column">
-        <img src="../../assets/images/2.svg" alt="" (click)="sendCoins(100)">
-        <p><small>100 {{'common.coins' | translate}}</small></p>
-      </ion-col>
-      <ion-col class="column">
-        <img src="../../assets/images/3.svg" alt="" (click)="sendCoins(300)">
-        <p><small>300 {{'common.coins' | translate}}</small></p>
-      </ion-col>
-      <ion-col class="column">
-        <img src="../../assets/images/4.svg" alt="" (click)="sendCoins(500)">
-        <p><small>500 {{'common.coins' | translate}}</small></p>
-      </ion-col>
+    <ion-row class="user_details">
+        <ion-col class="ion-text-left column">
+            <small class="white_text fs-11">{{chatUser.nick_name}}</small>
+            <small class="white_text" id="time"></small>
+        </ion-col>
+        <ion-col class="ion-text-right column">
+            <small class="white_text fs-11">{{chatUser.coins}} coins</small>
+            <small class="white_text">BUY COINS</small>
+        </ion-col>
     </ion-row>
-    <ion-row class="coin-padding">
-      <ion-col class="column">
-        <img src="../../assets/images/5.svg" alt="" (click)="sendCoins(1000)">
-        <p><small>1,000 {{'common.coins' | translate}}</small></p>
-      </ion-col>
-      <ion-col class="column">
-        <img src="../../assets/images/6.svg" alt="" (click)="sendCoins(3000)">
-        <p><small>3,000 {{'common.coins' | translate}}</small></p>
-      </ion-col>
-      <ion-col class="column">
-        <img src="../../assets/images/7.svg" alt="" (click)="sendCoins(5000)">
-        <p><small>5,000 {{'common.coins' | translate}}</small></p>
-      </ion-col>
-      <ion-col class="column">
-        <img src="../../assets/images/8.svg" alt="" (click)="sendCoins(10000)">
-        <p><small>10.000 {{'common.coins' | translate}}</small></p>
-      </ion-col>
+
+    <ion-row class="end_call">
+        <ion-col>
+            <img [src]="changeEyeIcon ? '../../assets/images/hide-icon.svg':'../../assets/images/white-eye.svg'" alt="" (click)="changeBeautifyOption()">
+        </ion-col>
+        <ion-col class="ion-text-right">
+            <img src="../../assets/images/end-call.svg" alt="" (click)="close()">
+        </ion-col>
     </ion-row>
-  </div>
-  <ion-row class="footer">
-    <ion-col size="10" class="input_column">
-      <ion-textarea type="text" placeholder="Type a Message" rows="2" [(ngModel)]="MessageData.message" name="message">
-      </ion-textarea>
-    </ion-col>
-    <ion-col size="2" class="ion-text-right">
-      <img src="../../assets/images/enter-icon.svg" alt="" class="send-icon" (click)="sendMessage(MessageData)">
-    </ion-col>
-  </ion-row>
+
+    <section class="with-chat-info chat-screen" style="overflow: scroll;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+        <div class="conversation">
+            <ul *ngFor="let chat of chats">
+                <li *ngIf="chat.user == nickname">
+                    <div class="chat-details">
+                        <div class="chat-msg" *ngIf="chat.type== 'message'">
+                            <p class="ion-no-margin">{{chat.message}}</p>
+                        </div>
+                        <div class="chat-msg" *ngIf="chat.type== 'SendCoin'">
+                            <img src="../../assets/images/1.svg" height="100px" width="100px" *ngIf="chat.message== '50'" alt="File">
+                            <img src="../../assets/images/2.svg" height="100px" width="100px" *ngIf="chat.message== '100'" alt="File">
+                            <img src="../../assets/images/3.svg" height="100px" width="100px" *ngIf="chat.message== '300'" alt="File">
+                            <img src="../../assets/images/4.svg" height="100px" width="100px" *ngIf="chat.message== '500'" alt="File">
+                            <img src="../../assets/images/5.svg" height="100px" width="100px" *ngIf="chat.message== '1000'" alt="File">
+                            <img src="../../assets/images/6.svg" height="100px" width="100px" *ngIf="chat.message== '3000'" alt="File">
+                            <img src="../../assets/images/7.svg" height="100px" width="100px" *ngIf="chat.message== '5000'" alt="File">
+                            <img src="../../assets/images/8.svg" height="100px" width="100px" *ngIf="chat.message== '10000'" alt="File">
+                            <p>{{chat.message}} Coins</p>
+                        </div>
+                        <div class="chat-msg" *ngIf="chat.type == 'Image'">
+                            <img src="{{chat.message}}" height="100px" width="100px" alt="File">
+                        </div>
+                        <div class="chat-msg" *ngIf="chat.type == 'Audio'">
+                            <img src="../../assets/audio.jpg" height="100px" width="100px" alt="File">
+                        </div>
+                        <div class="chat-msg" *ngIf="chat.type== 'File'">
+                            <img src="../../assets/file.png" height="100px" width="100px" alt="File">
+                        </div>
+                        <div class="chat-msg" *ngIf="chat.type == 'Video'">
+                            <img src="../../assets/video.png" height="100px" width="100px" alt="File">
+                        </div>
+                    </div>
+                </li>
+                <li *ngIf="chat.user != nickname">
+                    <div class="white-chat-details">
+                        <div class="white-chat-msg" *ngIf="chat.type == 'message'  || chat.type == 'join'">
+                            <p class="ion-no-margin">{{chat.message}}</p>
+                        </div>
+
+                        <div class="white-chat-msg" *ngIf="chat.type== 'SendCoin'">
+                            <img src="../../assets/images/1.svg" height="100px" width="100px" *ngIf="chat.message== '50'" alt="File">
+                            <img src="../../assets/images/2.svg" height="100px" width="100px" *ngIf="chat.message== '100'" alt="File">
+                            <img src="../../assets/images/3.svg" height="100px" width="100px" *ngIf="chat.message== '300'" alt="File">
+                            <img src="../../assets/images/4.svg" height="100px" width="100px" *ngIf="chat.message== '500'" alt="File">
+                            <img src="../../assets/images/5.svg" height="100px" width="100px" *ngIf="chat.message== '1000'" alt="File">
+                            <img src="../../assets/images/6.svg" height="100px" width="100px" *ngIf="chat.message== '3000'" alt="File">
+                            <img src="../../assets/images/7.svg" height="100px" width="100px" *ngIf="chat.message== '5000'" alt="File">
+                            <img src="../../assets/images/8.svg" height="100px" width="100px" *ngIf="chat.message== '10000'" alt="File">
+                            <p>{{chat.message}} Coins</p>
+                        </div>
+                        <div class="white-chat-msg" *ngIf="chat.type == 'Image'">
+                            <img src="{{chat.message}}" height="100px" width="100px" alt="File">
+                        </div>
+                        <div class="white-chat-msg" *ngIf="chat.type == 'Audio'">
+                            <img src="../../assets/audio.jpg" height="100px" width="100px" alt="File">
+                        </div>
+                        <div class="white-chat-msg" *ngIf="chat.type== 'File'">
+                            <img src="../../assets/file.png" height="100px" width="100px" alt="File">
+                        </div>
+                        <div class="white-chat-msg" *ngIf="chat.type == 'Video'">
+                            <img src="../../assets/video.jpg" height="100px" width="100px" alt="File">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="extra-service h-0" *ngIf="changeEyeIcon">
+            <div class="service-list h-0">
+                <img src="images/gift-logo.png" alt="">
+            </div>
+            <div class="service-list h-0">
+                <img src="images/gift-icon.svg" alt="">
+            </div>
+            <div class="service-list h-0">
+                <img src="images/say-frnd.svg" alt="">
+            </div>
+        </div>
+    </section>
+    <div class="gift-icons" *ngIf="changeEyeIcon">
+        <img src="../../assets/images/gift-logo.png" alt="" (click)="openCoinModal()">
+        <img src="../../assets/images/gift-icon.svg" alt="" (click)="sendCoins(50)">
+        <img src="../../assets/images/say-frnd.svg" alt="">
+    </div>
+
+    <div class="gift-icons" *ngIf="!changeEyeIcon">
+        <img src="../../assets/images/beautify/icon.svg" alt="">
+        <img src="../../assets/images/beautify/Group 902.svg" alt="">
+        <img src="../../assets/images/beautify/Group 904.svg" alt="" (click)="openCoinModal()">
+    </div>
+    <div *ngIf="openModal" class="coin-box">
+        <ion-icon name="close-outline" class="row back-arrow" (click)="closeCoinModal()"></ion-icon>
+        <ion-row>
+            <ion-col class="column">
+                <img src="../../assets/images/1.svg" alt="" (click)="sendCoins(50)">
+                <p><small>50 {{'common.coins' | translate}}</small></p>
+            </ion-col>
+            <ion-col class="column">
+                <img src="../../assets/images/2.svg" alt="" (click)="sendCoins(100)">
+                <p><small>100 {{'common.coins' | translate}}</small></p>
+            </ion-col>
+            <ion-col class="column">
+                <img src="../../assets/images/3.svg" alt="" (click)="sendCoins(300)">
+                <p><small>300 {{'common.coins' | translate}}</small></p>
+            </ion-col>
+            <ion-col class="column">
+                <img src="../../assets/images/4.svg" alt="" (click)="sendCoins(500)">
+                <p><small>500 {{'common.coins' | translate}}</small></p>
+            </ion-col>
+        </ion-row>
+        <ion-row class="coin-padding">
+            <ion-col class="column">
+                <img src="../../assets/images/5.svg" alt="" (click)="sendCoins(1000)">
+                <p><small>1,000 {{'common.coins' | translate}}</small></p>
+            </ion-col>
+            <ion-col class="column">
+                <img src="../../assets/images/6.svg" alt="" (click)="sendCoins(3000)">
+                <p><small>3,000 {{'common.coins' | translate}}</small></p>
+            </ion-col>
+            <ion-col class="column">
+                <img src="../../assets/images/7.svg" alt="" (click)="sendCoins(5000)">
+                <p><small>5,000 {{'common.coins' | translate}}</small></p>
+            </ion-col>
+            <ion-col class="column">
+                <img src="../../assets/images/8.svg" alt="" (click)="sendCoins(10000)">
+                <p><small>10.000 {{'common.coins' | translate}}</small></p>
+            </ion-col>
+        </ion-row>
+    </div>
+    <ion-row class="footer">
+        <ion-col size="10" class="input_column">
+            <ion-textarea type="text" placeholder="Type a Message" rows="2" [(ngModel)]="MessageData.message" name="message">
+            </ion-textarea>
+        </ion-col>
+        <ion-col size="2" class="ion-text-right">
+            <img src="../../assets/images/enter-icon.svg" alt="" class="send-icon" (click)="sendMessage(MessageData)">
+        </ion-col>
+    </ion-row>
 </ion-content>

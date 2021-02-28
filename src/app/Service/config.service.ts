@@ -11,8 +11,8 @@ export class configService {
     s3;
     socket;
     constructor(public toastController: ToastController) {
-        this.socket = io("http://ec2-54-248-130-122.ap-northeast-1.compute.amazonaws.com:3008/");
-        this.SERVER_URL = "http://ec2-54-248-130-122.ap-northeast-1.compute.amazonaws.com:3008/api/"; //live 
+        this.socket = io("http://54.248.130.122:3008/");
+        this.SERVER_URL = "http://54.248.130.122:3008/api/"; //live 
         // this.SERVER_URL = "http://192.168.1.69:3008/api/";
         this.s3 = "https://matukitestimg.s3.ap-south-1.amazonaws.com/" //https://matukitestimg.s3.ap-south-1.amazonaws.com/Profilevideo/20201231_171245.jpg
     }

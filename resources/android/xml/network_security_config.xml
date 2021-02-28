@@ -3,5 +3,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
         <domain includeSubdomains="true">54.248.130.122</domain>
+        <domain includeSubdomains="true">ec2-54-248-130-122.ap-northeast-1.compute.amazonaws.com</domain>
     </domain-config>
+    <base-config cleartextTrafficPermitted="false" />
 </network-security-config>

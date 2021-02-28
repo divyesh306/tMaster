@@ -38,7 +38,7 @@ export class VideoChatPage implements OnInit {
   interval: any;
   connection: any;
   socket: any;
-
+  callerType;
   constructor(public popoverController: PopoverController,
     public navCtrl: NavController,
     public localStorage: LocalstorageService,
@@ -66,6 +66,7 @@ export class VideoChatPage implements OnInit {
         this.userType = params.userType;
       }
     });
+    this.callerType = this.localStorage.getsingel('callerType');
     this.loginUser = this.localStorage.get('userDetail');
     this.webrtc();
     this.join(this.roomkey);
