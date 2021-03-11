@@ -13,120 +13,148 @@
         <ion-label class="grey_text">{{'exchange.currentlyCoins' | translate}}</ion-label>
       </ion-col>
       <ion-col size="3.5" class="ion-text-right">
-        <h2 class="m-0">10.000</h2>
+        <h2 class="m-0">{{userCoins}}</h2>
       </ion-col>
       <ion-col size="1.5">
         <img src="../../assets/images/earning-coins-icon.svg" class="coin_img" />
       </ion-col>
     </ion-item>
     <ion-item-divider></ion-item-divider>
-    <ion-item class="border_none">
-      <ion-col size="1.5">
-        <img src="../../assets/images/earning-coins-icon.svg" class="coin_img" />
-      </ion-col>
-      <ion-col size="4">
-        <ion-input class='border' placeholder="Add Coins"></ion-input>
-      </ion-col>
-      <ion-col size="1" class="green_text ion-text-center">=</ion-col>
-      <ion-col size="4">
-        <ion-input class='border' placeholder="Enter Input"></ion-input>
-      </ion-col>
-      <ion-col size="2">
-        <b class="green_text"><small>JPY</small></b>
-      </ion-col>
-    </ion-item>
-
-    <ion-item class="border_none">
-      <ion-col size="5">
-        <ion-item-divider></ion-item-divider>
-      </ion-col>
-      <ion-col size="2" class="ion-text-center">
-        <img src="../../assets/images/earning-coins-icon.svg" class="h-40" />
-      </ion-col>
-      <ion-col size="5">
-        <ion-item-divider></ion-item-divider>
-      </ion-col>
-    </ion-item>
-
-    <ion-item class="border_none row ml-6">
-      <ion-label class="grey_text"><small>{{'exchange.bank' | translate}}</small></ion-label>
-      <ion-radio-group class="row ion-text-right" (ionChange)="changeBankOption($event)">
-        <ion-item lines="none">
-          <ion-radio color="success" value="bank_transfer"></ion-radio>
-          <ion-label class="grey_text fs-12">{{'exchange.bankTransfer' | translate}}</ion-label>
-        </ion-item>
-
-        <ion-item lines="none">
-          <ion-radio color="success" value="paypal"></ion-radio>
-          <img src="../../assets/images/paypal.svg" alt="">
-        </ion-item>
-      </ion-radio-group>
-    </ion-item>
-    <div *ngIf="selectedMethod=='bank_transfer'">
-      <ion-item class="border_none">
-        <ion-col size="4">
-          <ion-label class="grey_text"><small>{{'bankName.exchange' | translate}}</small></ion-label>
-        </ion-col>
-        <ion-col size="4">
-          <ion-input class='border' placeholder=""></ion-input>
-        </ion-col>
-        <ion-col size="4">
-          <ion-input class='border' placeholder=""></ion-input>
-        </ion-col>
-      </ion-item>
-
+    <form [formGroup]="coinForm">
       <ion-item class="border_none">
         <ion-col size="1.5">
-          <ion-label class="grey_text"><small>{{'exchange.bank' | translate}}</small></ion-label>
+          <img src="../../assets/images/earning-coins-icon.svg" class="coin_img" />
         </ion-col>
-        <ion-col size="4" class="ion-text-left">
-          <ion-input class='border' placeholder=""></ion-input>
+        <ion-col size="4">
+          <ion-input class='border' type="number" placeholder="Add Coins" formControlName="coin"></ion-input>
         </ion-col>
-        <ion-col size="2" class="ion-text-right">
-          <ion-label class="grey_text"><small>{{'exchange.branch' | translate}}</small></ion-label>
+        <ion-col size="1" class="green_text ion-text-center">=</ion-col>
+        <ion-col size="4">
+          <ion-input class='border' type="number" placeholder="Enter Amount" formControlName="amount"></ion-input>
         </ion-col>
-        <ion-col size="4.5">
-          <ion-input class='border' placeholder=""></ion-input>
+        <ion-col size="2">
+          <b class="green_text"><small>JPY</small></b>
         </ion-col>
       </ion-item>
-
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.coin.errors?.max">
+        {{'exchange.errCoins' | translate}} <br>
+      </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.amount.errors?.required">
+        {{'exchange.errAmount' | translate}}
+      </span>
       <ion-item class="border_none">
-        <ion-col size="4">
-          <ion-label class="grey_text"><small>{{'exchange.accNumber' | translate}}</small></ion-label>
+        <ion-col size="5">
+          <ion-item-divider></ion-item-divider>
         </ion-col>
-        <ion-col size="8" class="ion-text-left">
-          <ion-input class='border' placeholder=""></ion-input>
+        <ion-col size="2" class="ion-text-center">
+          <img src="../../assets/images/earning-coins-icon.svg" class="h-40" />
         </ion-col>
-      </ion-item>
-    </div>
-
-    <div *ngIf="selectedMethod=='paypal'">
-      <ion-item class="border_none">
-        <ion-col size="4">
-          <ion-label class="grey_text"><small>{{'exchange.yourName' | translate}}</small></ion-label>
-        </ion-col>
-        <ion-col size="4">
-          <ion-input class='border' placeholder=""></ion-input>
-        </ion-col>
-        <ion-col size="4">
-          <ion-input class='border' placeholder=""></ion-input>
+        <ion-col size="5">
+          <ion-item-divider></ion-item-divider>
         </ion-col>
       </ion-item>
+      <ion-item class="border_none row ml-6">
+        <ion-label class="grey_text"><small>{{'exchange.bank' | translate}}</small></ion-label>
+        <ion-radio-group class="row ion-text-right" (ionChange)="changeBankOption($event)" formControlName="method">
+          <ion-item lines="none">
+            <ion-radio color="success" value="bank_transfer"></ion-radio>
+            <ion-label class="grey_text fs-12">{{'exchange.bankTransfer' | translate}}</ion-label>
+          </ion-item>
 
-      <ion-item class="border_none">
-        <ion-col size="4">
-          <ion-label class="grey_text"><small class="nowrap">{{'exchange.paypalEmail' | translate}}</small></ion-label>
-        </ion-col>
-        <ion-col size="8" class="ion-text-left">
-          <ion-input class='border' placeholder=""></ion-input>
-        </ion-col>
+          <ion-item lines="none">
+            <ion-radio color="success" value="paypal"></ion-radio>
+            <img src="../../assets/images/paypal.svg" alt="">
+          </ion-item>
+        </ion-radio-group>
       </ion-item>
-    </div>
 
-    <ion-item class="border_none m-auto">
-      <ion-button class="green_button" (click)="apply()">{{'exchange.apply' | translate}}</ion-button>
-    </ion-item>
+      <div *ngIf="method=='bank_transfer'">
+        <ion-item class="border_none">
+          <ion-col size="4">
+            <ion-label class="grey_text"><small>{{'exchange.bankName' | translate}}</small></ion-label>
+          </ion-col>
+          <ion-col size="8">
+            <ion-input class='border' placeholder="" formControlName="bank_name"></ion-input>
+          </ion-col>
+        </ion-item>
+        <span class="error ion-padding"
+          *ngIf="method=='bank_transfer' && isSubmitted && errorControl.bank_name.errors?.required">
+          {{'exchange.errBankName' | translate}}
+        </span>
+        <ion-item class="border_none">
+          <ion-col size="1.5">
+            <ion-label class="grey_text"><small>{{'exchange.bank' | translate}}</small></ion-label>
+          </ion-col>
+          <ion-col size="4" class="ion-text-left">
+            <ion-input class='border' placeholder="" formControlName="bank"></ion-input>
+          </ion-col>
+          <ion-col size="2" class="ion-text-right">
+            <ion-label class="grey_text"><small>{{'exchange.branch' | translate}}</small></ion-label>
+          </ion-col>
+          <ion-col size="4.5">
+            <ion-input class='border' placeholder="" formControlName="branch"></ion-input>
+          </ion-col>
+        </ion-item>
+        <span class="error ion-padding"
+          *ngIf="method=='bank_transfer' && isSubmitted && errorControl.bank.errors?.required">
+          {{'exchange.errBankName' | translate}}
+        </span>
+        <span class="error ion-padding"
+          *ngIf="method=='bank_transfer' && isSubmitted && errorControl.branch.errors?.required">
+          {{'exchange.errBranch' | translate}}
+        </span>
 
+        <ion-item class="border_none">
+          <ion-col size="4">
+            <ion-label class="grey_text"><small>{{'exchange.accNumber' | translate}}</small></ion-label>
+          </ion-col>
+          <ion-col size="8" class="ion-text-left">
+            <ion-input class='border' type="number" placeholder="" formControlName="account_number"></ion-input>
+          </ion-col>
+        </ion-item>
+        <span class="error ion-padding"
+          *ngIf="method=='bank_transfer' && isSubmitted && errorControl.account_number.errors?.required">
+          {{'exchange.errAccountNumber' | translate}}
+        </span>
+        <!-- <span class="error ion-padding"
+          *ngIf="method=='bank_transfer' && isSubmitted && errorControl.account_number.errors?.pattern">
+          {{'exchange.errAccountNumber' | translate}}
+        </span> -->
+      </div>
+
+      <div *ngIf="method=='paypal'">
+        <ion-item class="border_none">
+          <ion-col size="4">
+            <ion-label class="grey_text"><small>{{'exchange.yourName' | translate}}</small></ion-label>
+          </ion-col>
+          <ion-col size="8">
+            <ion-input class='border' placeholder="" formControlName="paypal_name"></ion-input>
+          </ion-col>
+        </ion-item>
+        <span class="error ion-padding"
+          *ngIf="method=='paypal' && isSubmitted && errorControl.paypal_name.errors?.required">
+          {{'exchange.errPaypalName' | translate}}
+        </span>
+
+        <ion-item class="border_none">
+          <ion-col size="4">
+            <ion-label class="grey_text"><small class="nowrap">{{'exchange.paypalEmail' | translate}}</small>
+            </ion-label>
+          </ion-col>
+          <ion-col size="8" class="ion-text-left">
+            <ion-input class='border' placeholder="" formControlName="paypal_email"></ion-input>
+          </ion-col>
+        </ion-item>
+        <span class="error ion-padding"
+          *ngIf="method=='paypal' && isSubmitted && errorControl.paypal_email.errors?.pattern">
+          {{'exchange.errPaypalEmail' | translate}}
+        </span>
+      </div>
+
+      <ion-item class="border_none m-auto">
+        <ion-button class="green_button" (click)="apply()">{{'exchange.apply' | translate}}</ion-button>
+      </ion-item>
+    </form>
     <ion-item class="border_none">
       <ul class="grey_text fs-11 pl-12">
         <li> {{'exchange.listItem1' | translate}}</li>

@@ -30,100 +30,129 @@ ion-content {
     font-family: "Source Sans Pro", sans-serif;
     // color: #636363;
 }
+
 ion-toolbar.dark_toolbar {
     --background: #253447;
     padding: 16px !important;
 }
+
 ion-title {
     text-align: center;
     flex-grow: 1;
     margin-right: 30px !important;
 }
+
 .logo {
     height: 200px;
     width: 200px;
     margin: 60px auto 20px;
 }
+
 ion-title {
     color: white;
     font-size: 22px;
 }
+
 .pl-10 {
     padding-left: 10px;
 }
+
 .m-0 {
     margin: 0 !important;
 }
+
 .m-auto {
     margin: auto !important;
 }
+
 .mt-5 {
     margin-top: 5px;
 }
+
 .mt-10 {
     margin-top: 10px;
 }
+
 .mt-10per {
     margin-top: 10%;
 }
+
 .mt-20per {
     margin-top: 20% !important;
 }
+
 .m-30 {
     margin: 30px;
 }
+
 .font-bold {
     font-weight: bold;
 }
+
 .fs-11 {
     font-size: 11px;
 }
+
 .fs-12 {
     font-size: 12px !important;
 }
+
 .fs-22 {
     font-size: 22px !important;
 }
+
 .fs-25 {
     font-size: 25px;
 }
+
 .float_left {
     float: left;
 }
+
 .float_right {
     float: right;
 }
+
 .white_text {
     color: white;
 }
+
 .green_text {
     color: #72ca2f;
 }
+
 .grey_text {
     color: #636363 !important;
 }
+
 .row {
     display: flex;
     align-items: center;
 }
+
 .column {
     display: flex;
     flex-direction: column;
 }
+
 .align-center {
     align-items: center;
 }
+
 .grow {
     flex-grow: 1;
 }
+
 .scroll {
     overflow: scroll !important;
 }
+
 ion-radio {
     height: 25px;
     width: 25px;
     margin-right: 10px;
 }
+
 ion-item-divider {
     height: 1px !important;
     min-height: 1px !important;
@@ -131,15 +160,18 @@ ion-item-divider {
     margin: 20px auto;
     --background: #707070;
 }
+
 ion-avatar {
     height: 110px;
     width: 110px;
     margin: -6px auto 10px;
+
     img {
         height: 100%;
         width: 100%;
     }
 }
+
 .custom-popover {
     --background: transparent !important;
     --box-shadow: none !important;
@@ -158,6 +190,7 @@ ion-avatar {
     font-size: 14px;
     letter-spacing: 0;
 }
+
 .grey_button {
     --background: #979797;
     color: white;
@@ -166,6 +199,7 @@ ion-avatar {
     font-size: 14px;
     letter-spacing: 0;
 }
+
 .red_button {
     --background: #ca2f2f;
     color: white;
@@ -175,6 +209,7 @@ ion-avatar {
     font-size: 14px;
     letter-spacing: 0;
 }
+
 .select_box {
     height: 42px;
     width: 86%;
@@ -187,6 +222,7 @@ ion-avatar {
     align-items: center;
     margin: auto;
 }
+
 .select_option {
     position: absolute;
     text-align: left;
@@ -197,6 +233,7 @@ ion-avatar {
     overflow: scroll;
     z-index: 100;
 }
+
 .cross_icon {
     height: 40px;
     width: 40px;
@@ -206,11 +243,24 @@ ion-input.red_border {
     border: 1px solid #ca2f2f;
     height: 36px !important;
 }
+
 ion-input.p0 {
     .native-input.sc-ion-input-md {
         padding: 0 !important;
     }
 }
+
+.item-has-focus {
+    --highlight-background: none !important;
+}
+
+.item-highlight,
+.item-inner-highlight {
+    background: none !important;
+    height: 0 !important;
+    border: 0 transparent;
+}
+
 // ion-item.item-has-focus > ion-label {
 //     color: green !important;
 // }
@@ -219,14 +269,17 @@ ion-input.p0 {
 .picker-opt.picker-opt-selected {
     color: #72ca2f;
 }
+
 .picker-button.sc-ion-picker-md,
 .picker-button.ion-activated.sc-ion-picker-md {
     color: #72ca2f;
 }
+
 ion-picker.select_country {
     .picker-wrapper.sc-ion-picker-md {
         height: 370px !important;
     }
+
     .picker-columns.sc-ion-picker-md {
         height: 370px !important;
     }
@@ -240,13 +293,16 @@ ion-picker.select_country {
     right: 0 !important;
     border-radius: 8px !important;
 }
+
 .alert-radio-icon.sc-ion-alert-md,
 .alert-radio-icon.sc-ion-alert-ios {
     display: none !important;
 }
+
 [aria-checked="true"].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
     color: #72ca2f !important;
 }
+
 .alert-button.sc-ion-alert-md,
 .alert-button.sc-ion-alert-ios {
     color: #72ca2f !important;
@@ -257,6 +313,7 @@ ion-picker.select_country {
     // height: 70% !important;
     max-height: 70% !important;
 }
+
 .alert-radio-group.sc-ion-alert-md,
 .alert-checkbox-group.sc-ion-alert-md,
 .alert-radio-group.sc-ion-alert-ios,
@@ -272,20 +329,22 @@ ion-picker.select_country {
 }
 
 
-.counsler_minut_rating{
-    background:deeppink  !important;
+.counsler_minut_rating {
+    background: deeppink !important;
 }
-.userProfilepic{
+
+.userProfilepic {
     width: 100% !important;
     height: 100% !important;
 }
-.age-label{
+
+.age-label {
     position: relative;
     right: -30px;
 }
 
 
-.user_profilepic{
+.user_profilepic {
     border-radius: 100%;
     height: 50px;
     width: 50px;
@@ -297,22 +356,27 @@ ion-picker.select_country {
 .chat-screen .conversation ul {
     padding: 0;
 }
+
 .chat-screen .conversation ul li {
     list-style: none;
     margin-bottom: 30px;
 }
+
 .chat-screen .conversation ul li {
     position: relative;
 }
+
 .chat-screen .conversation ul li .chat-details {
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
 }
+
 .chat-screen .conversation ul li .chat-details .read {
-    margin:0 6px 2px 0;
+    margin: 0 6px 2px 0;
     min-width: 45px;
 }
+
 .chat-screen .conversation ul li .chat-details .read p {
     margin-bottom: 0;
     font-size: 9px;
@@ -320,16 +384,19 @@ ion-picker.select_country {
     color: #fff;
     text-align: right;
 }
+
 .chat-screen .conversation ul li .chat-details .chat-msg {
     background-color: #72ca2f;
     padding: 5px;
     border-radius: 8px;
 }
+
 .chat-screen .conversation ul li .chat-details .chat-msg p {
     margin: 0;
     font-size: 13px;
     color: #fff;
 }
+
 .chat-screen .conversation ul li .chat-msg:after {
     content: "";
     background-image: url("./assets/images/chat-arrow-green.svg");
@@ -340,13 +407,16 @@ ion-picker.select_country {
     right: -10px;
     top: 0;
 }
+
 .chat-screen .conversation ul li {
     position: relative;
 }
+
 .chat-screen .conversation ul li .chat-details {
     display: flex;
     align-items: flex-end;
 }
+
 .user-img {
     min-width: 48px;
     min-height: 48px;
@@ -354,6 +424,7 @@ ion-picker.select_country {
     border-radius: 50%;
     background-color: #fff;
 }
+
 .user-img img {
     position: absolute;
     top: 50%;
@@ -362,6 +433,7 @@ ion-picker.select_country {
     width: 100%;
     border-radius: 50px;
 }
+
 .chat-screen .conversation ul li .white-chat-details {
     display: flex;
     justify-content: flex-start;
@@ -369,9 +441,10 @@ ion-picker.select_country {
 }
 
 .chat-screen .conversation ul li .white-chat-details .read {
-    margin:0 0 2px 5px;
+    margin: 0 0 2px 5px;
     min-width: 45px;
 }
+
 .chat-screen .conversation ul li .white-chat-details .read p {
     margin: 0;
     font-size: 9px;
@@ -379,6 +452,7 @@ ion-picker.select_country {
     color: #fff;
     text-align: left;
 }
+
 .chat-screen .conversation ul li .white-chat-details .white-chat-msg {
     background-color: #fff;
     padding: 5px;
@@ -386,11 +460,13 @@ ion-picker.select_country {
     border-radius: 8px;
     position: relative;
 }
+
 .chat-screen .conversation ul li .white-chat-details .white-chat-msg p {
     margin-bottom: 0;
     font-size: 13px;
     color: #253447;
 }
+
 .chat-screen .conversation ul li .white-chat-msg:after {
     content: "";
     background-image: url("./assets/images/chat-arrow-white.svg");

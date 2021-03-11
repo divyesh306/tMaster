@@ -163,6 +163,13 @@
         "listItem7":"The lower limit of the amount of payment is 5000 yen.",
         "exchangeOrder":"Your exchange order completed",
         "receiveNotification":"You will receive notification to Email or SMS that you selected Keep enjoying TokMay!",
-        "back":"BACK"
+        "back":"BACK",
+        "errCoins":"Please check your current coins",
+        "errAmount":"Amount is required",
+        "errBankName":"Bank name is required",
+        "errBranch":"Branch is required",
+        "errAccountNumber":"Account Number is required",
+        "errPaypalName":"Paypal name is required",
+        "errPaypalEmail":"Enter valid email address"
     }
 }
